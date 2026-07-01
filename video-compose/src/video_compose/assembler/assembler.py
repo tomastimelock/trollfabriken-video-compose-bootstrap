@@ -98,8 +98,7 @@ class Assembler:
             # ── Phase 3: Concatenate ─────────────────────────────────────────
             self._progress_cb("Concatenating", 0.75)
             from video_compose.assembler.concat import concat_clips
-            silent_video = work_dir / "assembled_silent.mp4"
-            concat_clips(clips_with_transitions, silent_video)
+            silent_video = concat_clips(clips_with_transitions, work_dir / "assembled_silent.mp4")
 
             # ── Phase 4: Audio ───────────────────────────────────────────────
             self._progress_cb("Mixing audio", 0.85)
