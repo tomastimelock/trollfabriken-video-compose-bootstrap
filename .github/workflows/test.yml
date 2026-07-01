@@ -1,0 +1,28 @@
+name: Test
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: |
+          cd video-compose
+          pip install -e ".[data]"
+
+      - name: Validate example specs
+        run: |
+          video-compose validate video-compose/examples/minimal.json
+          video-compose validate video-compose/examples/sales_report.json
+          video-compose validate video-compose/examples/demo_all_fx.json

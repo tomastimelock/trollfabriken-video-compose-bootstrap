@@ -1,0 +1,51 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "video-compose"
+version = "0.1.0"
+description = "JSON-driven video composition engine for the Trollfabriken FX ecosystem"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Trollfabriken" }]
+keywords = ["video", "composition", "json2video", "ffmpeg", "presentation"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Multimedia :: Video",
+]
+
+dependencies = [
+    "numpy>=1.24",
+    "pillow>=10.0",
+    "click>=8.1",
+    "pydantic>=2.0",
+    "ffmpeg-python>=0.2",
+]
+
+[project.optional-dependencies]
+mathviz  = ["mathviz-fx"]
+chart    = ["chart-fx"]
+geomap   = ["geo-map-fx"]
+shape    = ["shape-fx"]
+fractal  = ["fractal-fx"]
+audio    = ["talk-cast", "audio-arrange"]
+web      = ["web-overlay", "playwright"]
+data     = ["pandas>=2.0", "openpyxl>=3.1", "requests>=2.28", "sqlalchemy>=2.0", "jmespath>=1.0"]
+all      = [
+    "video-compose[mathviz,chart,geomap,shape,fractal,audio,web,data]",
+]
+
+[project.scripts]
+video-compose = "video_compose.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/video_compose"]
+
+[tool.hatch.version]
+path = "src/video_compose/__init__.py"

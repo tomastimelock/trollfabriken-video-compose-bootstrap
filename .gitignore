@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+*.mp4
+*.png
+*.wav
+*.mp3
+examples/data/*.csv
+examples/data/*.xlsx
+examples/data/*.db
+.env
