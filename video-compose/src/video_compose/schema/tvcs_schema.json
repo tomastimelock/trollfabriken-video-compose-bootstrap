@@ -1,0 +1,2166 @@
+{
+  "$defs": {
+    "APIDataSource": {
+      "properties": {
+        "type": {
+          "const": "api",
+          "title": "Type",
+          "type": "string"
+        },
+        "url": {
+          "title": "Url",
+          "type": "string"
+        },
+        "method": {
+          "default": "GET",
+          "enum": [
+            "GET",
+            "POST"
+          ],
+          "title": "Method",
+          "type": "string"
+        },
+        "headers": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Headers",
+          "type": "object"
+        },
+        "body": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Body"
+        },
+        "auth": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Auth config, e.g. {'type': 'bearer', 'token': '...'}",
+          "title": "Auth"
+        },
+        "jmespath": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "JMESPath selector applied to response JSON",
+          "title": "Jmespath"
+        },
+        "timeout": {
+          "default": 30,
+          "title": "Timeout",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "type",
+        "url"
+      ],
+      "title": "APIDataSource",
+      "type": "object"
+    },
+    "AudioConfig": {
+      "properties": {
+        "voiceover": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/VoiceoverConfig"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "tracks": {
+          "items": {
+            "$ref": "#/$defs/AudioTrack"
+          },
+          "title": "Tracks",
+          "type": "array"
+        }
+      },
+      "title": "AudioConfig",
+      "type": "object"
+    },
+    "AudioTrack": {
+      "properties": {
+        "source": {
+          "description": "Path or URL to audio file",
+          "title": "Source",
+          "type": "string"
+        },
+        "volume": {
+          "default": 0.15,
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Volume",
+          "type": "number"
+        },
+        "timing": {
+          "default": "throughout",
+          "description": "'throughout', 'intro', 'outro', or a segment ID",
+          "title": "Timing",
+          "type": "string"
+        },
+        "loop": {
+          "default": true,
+          "title": "Loop",
+          "type": "boolean"
+        },
+        "fade_in": {
+          "default": 1.0,
+          "minimum": 0.0,
+          "title": "Fade In",
+          "type": "number"
+        },
+        "fade_out": {
+          "default": 1.0,
+          "minimum": 0.0,
+          "title": "Fade Out",
+          "type": "number"
+        }
+      },
+      "required": [
+        "source"
+      ],
+      "title": "AudioTrack",
+      "type": "object"
+    },
+    "BlankSegment": {
+      "additionalProperties": false,
+      "description": "Solid colour segment.",
+      "properties": {
+        "id": {
+          "description": "Unique segment identifier",
+          "title": "Id",
+          "type": "string"
+        },
+        "duration": {
+          "description": "Segment duration in seconds",
+          "exclusiveMinimum": 0.0,
+          "title": "Duration",
+          "type": "number"
+        },
+        "label": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Label"
+        },
+        "narration": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Narration text for this segment; fed to talk-cast voiceover",
+          "title": "Narration"
+        },
+        "overlays": {
+          "items": {
+            "discriminator": {
+              "mapping": {
+                "text": "#/$defs/TextOverlay",
+                "web": "#/$defs/WebOverlay"
+              },
+              "propertyName": "type"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/$defs/TextOverlay"
+              },
+              {
+                "$ref": "#/$defs/WebOverlay"
+              }
+            ]
+          },
+          "title": "Overlays",
+          "type": "array"
+        },
+        "grade": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "color-fx grade slug; overrides theme.grade for this segment",
+          "title": "Grade"
+        },
+        "transition_in": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TransitionRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "transition_out": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TransitionRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "type": {
+          "const": "blank",
+          "title": "Type",
+          "type": "string"
+        },
+        "color": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Hex colour; falls back to theme.background",
+          "title": "Color"
+        }
+      },
+      "required": [
+        "id",
+        "duration",
+        "type"
+      ],
+      "title": "BlankSegment",
+      "type": "object"
+    },
+    "CSVDataSource": {
+      "properties": {
+        "type": {
+          "const": "csv",
+          "title": "Type",
+          "type": "string"
+        },
+        "path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Path"
+        },
+        "url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Url"
+        },
+        "delimiter": {
+          "default": ",",
+          "title": "Delimiter",
+          "type": "string"
+        },
+        "encoding": {
+          "default": "utf-8",
+          "title": "Encoding",
+          "type": "string"
+        },
+        "header": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "title": "Header"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "CSVDataSource",
+      "type": "object"
+    },
+    "ChartSegment": {
+      "additionalProperties": false,
+      "description": "Animated chart from chart-fx.",
+      "properties": {
+        "id": {
+          "description": "Unique segment identifier",
+          "title": "Id",
+          "type": "string"
+        },
+        "duration": {
+          "description": "Segment duration in seconds",
+          "exclusiveMinimum": 0.0,
+          "title": "Duration",
+          "type": "number"
+        },
+        "label": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Label"
+        },
+        "narration": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Narration text for this segment; fed to talk-cast voiceover",
+          "title": "Narration"
+        },
+        "overlays": {
+          "items": {
+            "discriminator": {
+              "mapping": {
+                "text": "#/$defs/TextOverlay",
+                "web": "#/$defs/WebOverlay"
+              },
+              "propertyName": "type"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/$defs/TextOverlay"
+              },
+              {
+                "$ref": "#/$defs/WebOverlay"
+              }
+            ]
+          },
+          "title": "Overlays",
+          "type": "array"
+        },
+        "grade": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "color-fx grade slug; overrides theme.grade for this segment",
+          "title": "Grade"
+        },
+        "transition_in": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TransitionRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "transition_out": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TransitionRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "type": {
+          "const": "chart",
+          "title": "Type",
+          "type": "string"
+        },
+        "chart_type": {
+          "default": "bar",
+          "enum": [
+            "bar",
+            "line",
+            "scatter",
+            "pie",
+            "heatmap",
+            "treemap",
+            "sankey",
+            "area",
+            "radar",
+            "bubble",
+            "waterfall",
+            "funnel",
+            "gantt",
+            "histogram"
+          ],
+          "title": "Chart Type",
+          "type": "string"
+        },
+        "data": {
+          "description": "Inline ChartData dict OR '$sources.<id>' reference. Dict format: {title, x_categories, series: [{name, values, labels}], y_label}",
+          "title": "Data"
+        },
+        "config": {
+          "additionalProperties": true,
+          "description": "ChartParams overrides: palette, background_color, enter_duration, hold_duration, ...",
+          "title": "Config",
+          "type": "object"
+        }
+      },
+      "required": [
+        "id",
+        "duration",
+        "type",
+        "data"
+      ],
+      "title": "ChartSegment",
+      "type": "object"
+    },
+    "ExcelDataSource": {
+      "properties": {
+        "type": {
+          "const": "excel",
+          "title": "Type",
+          "type": "string"
+        },
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "sheet": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "default": 0,
+          "title": "Sheet"
+        },
+        "range": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Range"
+        }
+      },
+      "required": [
+        "type",
+        "path"
+      ],
+      "title": "ExcelDataSource",
+      "type": "object"
+    },
+    "FractalSegment": {
+      "additionalProperties": false,
+      "description": "Fractal generator from fractal-fx.",
+      "properties": {
+        "id": {
+          "description": "Unique segment identifier",
+          "title": "Id",
+          "type": "string"
+        },
+        "duration": {
+          "description": "Segment duration in seconds",
+          "exclusiveMinimum": 0.0,
+          "title": "Duration",
+          "type": "number"
+        },
+        "label": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Label"
+        },
+        "narration": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Narration text for this segment; fed to talk-cast voiceover",
+          "title": "Narration"
+        },
+        "overlays": {
+          "items": {
+            "discriminator": {
+              "mapping": {
+                "text": "#/$defs/TextOverlay",
+                "web": "#/$defs/WebOverlay"
+              },
+              "propertyName": "type"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/$defs/TextOverlay"
+              },
+              {
+                "$ref": "#/$defs/WebOverlay"
+              }
+            ]
+          },
+          "title": "Overlays",
+          "type": "array"
+        },
+        "grade": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "color-fx grade slug; overrides theme.grade for this segment",
+          "title": "Grade"
+        },
+        "transition_in": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TransitionRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "transition_out": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TransitionRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "type": {
+          "const": "fractal",
+          "title": "Type",
+          "type": "string"
+        },
+        "effect": {
+          "default": "mandelbrot",
+          "title": "Effect",
+          "type": "string"
+        },
+        "config": {
+          "additionalProperties": true,
+          "title": "Config",
+          "type": "object"
+        }
+      },
+      "required": [
+        "id",
+        "duration",
+        "type"
+      ],
+      "title": "FractalSegment",
+      "type": "object"
+    },
+    "GeomapSegment": {
+      "additionalProperties": false,
+      "description": "Choropleth map from geo-map-fx.",
+      "properties": {
+        "id": {
+          "description": "Unique segment identifier",
+          "title": "Id",
+          "type": "string"
+        },
+        "duration": {
+          "description": "Segment duration in seconds",
+          "exclusiveMinimum": 0.0,
+          "title": "Duration",
+          "type": "number"
+        },
+        "label": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Label"
+        },
+        "narration": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Narration text for this segment; fed to talk-cast voiceover",
+          "title": "Narration"
+        },
+        "overlays": {
+          "items": {
+            "discriminator": {
+              "mapping": {
+                "text": "#/$defs/TextOverlay",
+                "web": "#/$defs/WebOverlay"
+              },
+              "propertyName": "type"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/$defs/TextOverlay"
+              },
+              {
+                "$ref": "#/$defs/WebOverlay"
+              }
+            ]
+          },
+          "title": "Overlays",
+          "type": "array"
+        },
+        "grade": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "color-fx grade slug; overrides theme.grade for this segment",
+          "title": "Grade"
+        },
+        "transition_in": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TransitionRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "transition_out": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TransitionRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "type": {
+          "const": "geomap",
+          "title": "Type",
+          "type": "string"
+        },
+        "view": {
+          "default": "municipalities",
+          "enum": [
+            "regions",
+            "municipalities",
+            "region_municipalities",
+            "region_valdistrikt",
+            "municipality_valdistrikt"
+          ],
+          "title": "View",
+          "type": "string"
+        },
+        "scope": {
+          "default": "sweden",
+          "description": "'sweden' for national, 2-char lan_kod for county, 4-char for municipality",
+          "title": "Scope",
+          "type": "string"
+        },
+        "data": {
+          "description": "Dict of area_code -> float OR '$sources.<id>' reference",
+          "title": "Data"
+        },
+        "palette": {
+          "default": "YlOrRd",
+          "title": "Palette",
+          "type": "string"
+        },
+        "reverse_palette": {
+          "default": false,
+          "title": "Reverse Palette",
+          "type": "boolean"
+        },
+        "title": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Title"
+        },
+        "animation": {
+          "default": "ken_burns_zoom",
+          "enum": [
+            "ken_burns_zoom",
+            "static"
+          ],
+          "title": "Animation",
+          "type": "string"
+        },
+        "zoom_factor": {
+          "default": 0.4,
+          "maximum": 2.0,
+          "minimum": 0.0,
+          "title": "Zoom Factor",
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "duration",
+        "type",
+        "data"
+      ],
+      "title": "GeomapSegment",
+      "type": "object"
+    },
+    "ImageSegment": {
+      "additionalProperties": false,
+      "description": "Static or lightly animated image.",
+      "properties": {
+        "id": {
+          "description": "Unique segment identifier",
+          "title": "Id",
+          "type": "string"
+        },
+        "duration": {
+          "description": "Segment duration in seconds",
+          "exclusiveMinimum": 0.0,
+          "title": "Duration",
+          "type": "number"
+        },
+        "label": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Label"
+        },
+        "narration": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Narration text for this segment; fed to talk-cast voiceover",
+          "title": "Narration"
+        },
+        "overlays": {
+          "items": {
+            "discriminator": {
+              "mapping": {
+                "text": "#/$defs/TextOverlay",
+                "web": "#/$defs/WebOverlay"
+              },
+              "propertyName": "type"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/$defs/TextOverlay"
+              },
+              {
+                "$ref": "#/$defs/WebOverlay"
+              }
+            ]
+          },
+          "title": "Overlays",
+          "type": "array"
+        },
+        "grade": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "color-fx grade slug; overrides theme.grade for this segment",
+          "title": "Grade"
+        },
+        "transition_in": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TransitionRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "transition_out": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TransitionRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "type": {
+          "const": "image",
+          "title": "Type",
+          "type": "string"
+        },
+        "source": {
+          "description": "Path or URL to image file",
+          "title": "Source",
+          "type": "string"
+        },
+        "fit": {
+          "default": "cover",
+          "enum": [
+            "cover",
+            "contain",
+            "stretch"
+          ],
+          "title": "Fit",
+          "type": "string"
+        },
+        "motion": {
+          "default": "static",
+          "enum": [
+            "ken_burns",
+            "zoom_in",
+            "zoom_out",
+            "pan_left",
+            "pan_right",
+            "static"
+          ],
+          "title": "Motion",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "duration",
+        "type",
+        "source"
+      ],
+      "title": "ImageSegment",
+      "type": "object"
+    },
+    "JSONDataSource": {
+      "properties": {
+        "type": {
+          "const": "json",
+          "title": "Type",
+          "type": "string"
+        },
+        "path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Path"
+        },
+        "url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Url"
+        },
+        "jmespath": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Jmespath"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "JSONDataSource",
+      "type": "object"
+    },
+    "MathvizSegment": {
+      "additionalProperties": false,
+      "description": "Background generator from mathviz-fx.",
+      "properties": {
+        "id": {
+          "description": "Unique segment identifier",
+          "title": "Id",
+          "type": "string"
+        },
+        "duration": {
+          "description": "Segment duration in seconds",
+          "exclusiveMinimum": 0.0,
+          "title": "Duration",
+          "type": "number"
+        },
+        "label": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Label"
+        },
+        "narration": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Narration text for this segment; fed to talk-cast voiceover",
+          "title": "Narration"
+        },
+        "overlays": {
+          "items": {
+            "discriminator": {
+              "mapping": {
+                "text": "#/$defs/TextOverlay",
+                "web": "#/$defs/WebOverlay"
+              },
+              "propertyName": "type"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/$defs/TextOverlay"
+              },
+              {
+                "$ref": "#/$defs/WebOverlay"
+              }
+            ]
+          },
+          "title": "Overlays",
+          "type": "array"
+        },
+        "grade": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "color-fx grade slug; overrides theme.grade for this segment",
+          "title": "Grade"
+        },
+        "transition_in": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TransitionRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "transition_out": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TransitionRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "type": {
+          "const": "mathviz",
+          "title": "Type",
+          "type": "string"
+        },
+        "effect": {
+          "default": "matrix_rain",
+          "description": "Generator name: matrix_rain, kaleidoscope, plasma, voronoi, tunnel, spirograph, ...",
+          "title": "Effect",
+          "type": "string"
+        },
+        "config": {
+          "additionalProperties": true,
+          "description": "Passed directly to BackgroundGeneratorFactory.create(effect, config)",
+          "title": "Config",
+          "type": "object"
+        }
+      },
+      "required": [
+        "id",
+        "duration",
+        "type"
+      ],
+      "title": "MathvizSegment",
+      "type": "object"
+    },
+    "MetaConfig": {
+      "properties": {
+        "title": {
+          "default": "Untitled",
+          "title": "Title",
+          "type": "string"
+        },
+        "description": {
+          "default": "",
+          "title": "Description",
+          "type": "string"
+        },
+        "author": {
+          "default": "",
+          "title": "Author",
+          "type": "string"
+        },
+        "tags": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        },
+        "created": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Created"
+        }
+      },
+      "title": "MetaConfig",
+      "type": "object"
+    },
+    "OutputConfig": {
+      "properties": {
+        "width": {
+          "default": 1280,
+          "exclusiveMinimum": 0,
+          "title": "Width",
+          "type": "integer"
+        },
+        "height": {
+          "default": 720,
+          "exclusiveMinimum": 0,
+          "title": "Height",
+          "type": "integer"
+        },
+        "fps": {
+          "default": 30,
+          "exclusiveMinimum": 0,
+          "title": "Fps",
+          "type": "integer"
+        },
+        "formats": {
+          "items": {
+            "enum": [
+              "mp4",
+              "png"
+            ],
+            "type": "string"
+          },
+          "title": "Formats",
+          "type": "array"
+        },
+        "path": {
+          "default": "./output/video.mp4",
+          "title": "Path",
+          "type": "string"
+        },
+        "quality": {
+          "default": 22,
+          "description": "CRF value for x264/x265 (lower = better)",
+          "maximum": 51,
+          "minimum": 0,
+          "title": "Quality",
+          "type": "integer"
+        }
+      },
+      "title": "OutputConfig",
+      "type": "object"
+    },
+    "OverlayTiming": {
+      "properties": {
+        "start": {
+          "default": 0.0,
+          "description": "Seconds from segment start",
+          "minimum": 0.0,
+          "title": "Start",
+          "type": "number"
+        },
+        "end": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Seconds from segment start; None = until segment end",
+          "title": "End"
+        }
+      },
+      "title": "OverlayTiming",
+      "type": "object"
+    },
+    "SQLDataSource": {
+      "properties": {
+        "type": {
+          "const": "sql",
+          "title": "Type",
+          "type": "string"
+        },
+        "connection": {
+          "description": "SQLAlchemy connection string, e.g. sqlite:///data.db",
+          "title": "Connection",
+          "type": "string"
+        },
+        "query": {
+          "description": "SQL SELECT statement or table name",
+          "title": "Query",
+          "type": "string"
+        },
+        "params": {
+          "additionalProperties": true,
+          "title": "Params",
+          "type": "object"
+        }
+      },
+      "required": [
+        "type",
+        "connection",
+        "query"
+      ],
+      "title": "SQLDataSource",
+      "type": "object"
+    },
+    "ShapeSegment": {
+      "additionalProperties": false,
+      "description": "Particle/geometric effect from shape-fx.",
+      "properties": {
+        "id": {
+          "description": "Unique segment identifier",
+          "title": "Id",
+          "type": "string"
+        },
+        "duration": {
+          "description": "Segment duration in seconds",
+          "exclusiveMinimum": 0.0,
+          "title": "Duration",
+          "type": "number"
+        },
+        "label": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Label"
+        },
+        "narration": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Narration text for this segment; fed to talk-cast voiceover",
+          "title": "Narration"
+        },
+        "overlays": {
+          "items": {
+            "discriminator": {
+              "mapping": {
+                "text": "#/$defs/TextOverlay",
+                "web": "#/$defs/WebOverlay"
+              },
+              "propertyName": "type"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/$defs/TextOverlay"
+              },
+              {
+                "$ref": "#/$defs/WebOverlay"
+              }
+            ]
+          },
+          "title": "Overlays",
+          "type": "array"
+        },
+        "grade": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "color-fx grade slug; overrides theme.grade for this segment",
+          "title": "Grade"
+        },
+        "transition_in": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TransitionRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "transition_out": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TransitionRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "type": {
+          "const": "shape",
+          "title": "Type",
+          "type": "string"
+        },
+        "effect": {
+          "default": "constellation",
+          "description": "Effect type: constellation, geometric, kinetic, reveal, ambient, ...",
+          "title": "Effect",
+          "type": "string"
+        },
+        "config": {
+          "additionalProperties": true,
+          "title": "Config",
+          "type": "object"
+        }
+      },
+      "required": [
+        "id",
+        "duration",
+        "type"
+      ],
+      "title": "ShapeSegment",
+      "type": "object"
+    },
+    "SlideSegment": {
+      "additionalProperties": false,
+      "description": "Rendered slide from slide-render / deck-spec.",
+      "properties": {
+        "id": {
+          "description": "Unique segment identifier",
+          "title": "Id",
+          "type": "string"
+        },
+        "duration": {
+          "description": "Segment duration in seconds",
+          "exclusiveMinimum": 0.0,
+          "title": "Duration",
+          "type": "number"
+        },
+        "label": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Label"
+        },
+        "narration": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Narration text for this segment; fed to talk-cast voiceover",
+          "title": "Narration"
+        },
+        "overlays": {
+          "items": {
+            "discriminator": {
+              "mapping": {
+                "text": "#/$defs/TextOverlay",
+                "web": "#/$defs/WebOverlay"
+              },
+              "propertyName": "type"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/$defs/TextOverlay"
+              },
+              {
+                "$ref": "#/$defs/WebOverlay"
+              }
+            ]
+          },
+          "title": "Overlays",
+          "type": "array"
+        },
+        "grade": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "color-fx grade slug; overrides theme.grade for this segment",
+          "title": "Grade"
+        },
+        "transition_in": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TransitionRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "transition_out": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TransitionRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "type": {
+          "const": "slide",
+          "title": "Type",
+          "type": "string"
+        },
+        "slide_spec": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "description": "Inline deck-spec dict OR path to a .json deck-spec file",
+          "title": "Slide Spec"
+        },
+        "motion": {
+          "default": "static",
+          "enum": [
+            "ken_burns",
+            "zoom_in",
+            "zoom_out",
+            "static"
+          ],
+          "title": "Motion",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "duration",
+        "type",
+        "slide_spec"
+      ],
+      "title": "SlideSegment",
+      "type": "object"
+    },
+    "StillSegment": {
+      "additionalProperties": false,
+      "description": "Animated still image via still-motion.",
+      "properties": {
+        "id": {
+          "description": "Unique segment identifier",
+          "title": "Id",
+          "type": "string"
+        },
+        "duration": {
+          "description": "Segment duration in seconds",
+          "exclusiveMinimum": 0.0,
+          "title": "Duration",
+          "type": "number"
+        },
+        "label": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Label"
+        },
+        "narration": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Narration text for this segment; fed to talk-cast voiceover",
+          "title": "Narration"
+        },
+        "overlays": {
+          "items": {
+            "discriminator": {
+              "mapping": {
+                "text": "#/$defs/TextOverlay",
+                "web": "#/$defs/WebOverlay"
+              },
+              "propertyName": "type"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/$defs/TextOverlay"
+              },
+              {
+                "$ref": "#/$defs/WebOverlay"
+              }
+            ]
+          },
+          "title": "Overlays",
+          "type": "array"
+        },
+        "grade": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "color-fx grade slug; overrides theme.grade for this segment",
+          "title": "Grade"
+        },
+        "transition_in": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TransitionRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "transition_out": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TransitionRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "type": {
+          "const": "still",
+          "title": "Type",
+          "type": "string"
+        },
+        "source": {
+          "description": "Path or URL to source image",
+          "title": "Source",
+          "type": "string"
+        },
+        "motion": {
+          "default": "ken_burns",
+          "enum": [
+            "ken_burns",
+            "zoom_in",
+            "zoom_out",
+            "pan_left",
+            "pan_right",
+            "static"
+          ],
+          "title": "Motion",
+          "type": "string"
+        },
+        "motion_config": {
+          "additionalProperties": true,
+          "title": "Motion Config",
+          "type": "object"
+        }
+      },
+      "required": [
+        "id",
+        "duration",
+        "type",
+        "source"
+      ],
+      "title": "StillSegment",
+      "type": "object"
+    },
+    "TextOverlay": {
+      "properties": {
+        "type": {
+          "const": "text",
+          "title": "Type",
+          "type": "string"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "effect": {
+          "default": "fade_in",
+          "title": "Effect",
+          "type": "string"
+        },
+        "position": {
+          "default": "center",
+          "enum": [
+            "center",
+            "top",
+            "bottom",
+            "top-left",
+            "top-right",
+            "bottom-left",
+            "bottom-right"
+          ],
+          "title": "Position",
+          "type": "string"
+        },
+        "timing": {
+          "$ref": "#/$defs/OverlayTiming"
+        },
+        "font_size": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Font Size"
+        },
+        "color": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Color"
+        },
+        "bold": {
+          "default": false,
+          "title": "Bold",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "type",
+        "text"
+      ],
+      "title": "TextOverlay",
+      "type": "object"
+    },
+    "ThemeConfig": {
+      "properties": {
+        "palette": {
+          "default": "neon",
+          "title": "Palette",
+          "type": "string"
+        },
+        "background": {
+          "default": "#0d0d1a",
+          "title": "Background",
+          "type": "string"
+        },
+        "grade": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Grade"
+        },
+        "font": {
+          "default": "default",
+          "title": "Font",
+          "type": "string"
+        },
+        "font_size": {
+          "default": 36,
+          "exclusiveMinimum": 0,
+          "title": "Font Size",
+          "type": "integer"
+        },
+        "text_color": {
+          "default": "#ffffff",
+          "title": "Text Color",
+          "type": "string"
+        }
+      },
+      "title": "ThemeConfig",
+      "type": "object"
+    },
+    "TransitionOverride": {
+      "properties": {
+        "from": {
+          "description": "Source segment ID",
+          "title": "From",
+          "type": "string"
+        },
+        "to": {
+          "description": "Target segment ID",
+          "title": "To",
+          "type": "string"
+        },
+        "type": {
+          "title": "Type",
+          "type": "string"
+        },
+        "duration": {
+          "default": 0.5,
+          "exclusiveMinimum": 0.0,
+          "title": "Duration",
+          "type": "number"
+        }
+      },
+      "required": [
+        "from",
+        "to",
+        "type"
+      ],
+      "title": "TransitionOverride",
+      "type": "object"
+    },
+    "TransitionRef": {
+      "properties": {
+        "type": {
+          "default": "dissolve",
+          "title": "Type",
+          "type": "string"
+        },
+        "duration": {
+          "default": 0.5,
+          "exclusiveMinimum": 0.0,
+          "title": "Duration",
+          "type": "number"
+        }
+      },
+      "title": "TransitionRef",
+      "type": "object"
+    },
+    "TransitionsBlock": {
+      "properties": {
+        "default": {
+          "$ref": "#/$defs/TransitionRef"
+        },
+        "overrides": {
+          "items": {
+            "$ref": "#/$defs/TransitionOverride"
+          },
+          "title": "Overrides",
+          "type": "array"
+        }
+      },
+      "title": "TransitionsBlock",
+      "type": "object"
+    },
+    "VideoSegment": {
+      "additionalProperties": false,
+      "description": "Passthrough video clip.",
+      "properties": {
+        "id": {
+          "description": "Unique segment identifier",
+          "title": "Id",
+          "type": "string"
+        },
+        "duration": {
+          "description": "Segment duration in seconds",
+          "exclusiveMinimum": 0.0,
+          "title": "Duration",
+          "type": "number"
+        },
+        "label": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Label"
+        },
+        "narration": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Narration text for this segment; fed to talk-cast voiceover",
+          "title": "Narration"
+        },
+        "overlays": {
+          "items": {
+            "discriminator": {
+              "mapping": {
+                "text": "#/$defs/TextOverlay",
+                "web": "#/$defs/WebOverlay"
+              },
+              "propertyName": "type"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/$defs/TextOverlay"
+              },
+              {
+                "$ref": "#/$defs/WebOverlay"
+              }
+            ]
+          },
+          "title": "Overlays",
+          "type": "array"
+        },
+        "grade": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "color-fx grade slug; overrides theme.grade for this segment",
+          "title": "Grade"
+        },
+        "transition_in": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TransitionRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "transition_out": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TransitionRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "type": {
+          "const": "video",
+          "title": "Type",
+          "type": "string"
+        },
+        "source": {
+          "description": "Path to MP4 or other video file",
+          "title": "Source",
+          "type": "string"
+        },
+        "start_time": {
+          "default": 0.0,
+          "minimum": 0.0,
+          "title": "Start Time",
+          "type": "number"
+        },
+        "loop": {
+          "default": false,
+          "title": "Loop",
+          "type": "boolean"
+        },
+        "mute": {
+          "default": false,
+          "title": "Mute",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "duration",
+        "type",
+        "source"
+      ],
+      "title": "VideoSegment",
+      "type": "object"
+    },
+    "VoiceoverConfig": {
+      "properties": {
+        "provider": {
+          "const": "talk-cast",
+          "default": "talk-cast",
+          "title": "Provider",
+          "type": "string"
+        },
+        "voice": {
+          "default": "default",
+          "title": "Voice",
+          "type": "string"
+        },
+        "script": {
+          "default": "auto",
+          "enum": [
+            "auto",
+            "manual"
+          ],
+          "title": "Script",
+          "type": "string"
+        },
+        "text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Used when script='manual'; ignored for 'auto' (narration taken from segments)",
+          "title": "Text"
+        },
+        "speed": {
+          "default": 1.0,
+          "exclusiveMinimum": 0.0,
+          "maximum": 4.0,
+          "title": "Speed",
+          "type": "number"
+        },
+        "pitch": {
+          "default": 0.0,
+          "maximum": 20.0,
+          "minimum": -20.0,
+          "title": "Pitch",
+          "type": "number"
+        }
+      },
+      "title": "VoiceoverConfig",
+      "type": "object"
+    },
+    "WebOverlay": {
+      "properties": {
+        "type": {
+          "const": "web",
+          "title": "Type",
+          "type": "string"
+        },
+        "template": {
+          "description": "Path to Jinja2 HTML template or web-overlay preset name",
+          "title": "Template",
+          "type": "string"
+        },
+        "css_vars": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Css Vars",
+          "type": "object"
+        },
+        "timing": {
+          "$ref": "#/$defs/OverlayTiming"
+        }
+      },
+      "required": [
+        "type",
+        "template"
+      ],
+      "title": "WebOverlay",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Trollfabriken Video Composition Spec (TVCS) v1.",
+  "properties": {
+    "tvcs": {
+      "default": "1.0",
+      "description": "Schema version; must be '1.0'",
+      "title": "Tvcs",
+      "type": "string"
+    },
+    "meta": {
+      "$ref": "#/$defs/MetaConfig"
+    },
+    "output": {
+      "$ref": "#/$defs/OutputConfig"
+    },
+    "theme": {
+      "$ref": "#/$defs/ThemeConfig"
+    },
+    "data_sources": {
+      "additionalProperties": {
+        "discriminator": {
+          "mapping": {
+            "api": "#/$defs/APIDataSource",
+            "csv": "#/$defs/CSVDataSource",
+            "excel": "#/$defs/ExcelDataSource",
+            "json": "#/$defs/JSONDataSource",
+            "sql": "#/$defs/SQLDataSource"
+          },
+          "propertyName": "type"
+        },
+        "oneOf": [
+          {
+            "$ref": "#/$defs/CSVDataSource"
+          },
+          {
+            "$ref": "#/$defs/JSONDataSource"
+          },
+          {
+            "$ref": "#/$defs/ExcelDataSource"
+          },
+          {
+            "$ref": "#/$defs/SQLDataSource"
+          },
+          {
+            "$ref": "#/$defs/APIDataSource"
+          }
+        ]
+      },
+      "title": "Data Sources",
+      "type": "object"
+    },
+    "audio": {
+      "$ref": "#/$defs/AudioConfig"
+    },
+    "segments": {
+      "items": {
+        "discriminator": {
+          "mapping": {
+            "blank": "#/$defs/BlankSegment",
+            "chart": "#/$defs/ChartSegment",
+            "fractal": "#/$defs/FractalSegment",
+            "geomap": "#/$defs/GeomapSegment",
+            "image": "#/$defs/ImageSegment",
+            "mathviz": "#/$defs/MathvizSegment",
+            "shape": "#/$defs/ShapeSegment",
+            "slide": "#/$defs/SlideSegment",
+            "still": "#/$defs/StillSegment",
+            "video": "#/$defs/VideoSegment"
+          },
+          "propertyName": "type"
+        },
+        "oneOf": [
+          {
+            "$ref": "#/$defs/MathvizSegment"
+          },
+          {
+            "$ref": "#/$defs/ChartSegment"
+          },
+          {
+            "$ref": "#/$defs/GeomapSegment"
+          },
+          {
+            "$ref": "#/$defs/ShapeSegment"
+          },
+          {
+            "$ref": "#/$defs/FractalSegment"
+          },
+          {
+            "$ref": "#/$defs/SlideSegment"
+          },
+          {
+            "$ref": "#/$defs/StillSegment"
+          },
+          {
+            "$ref": "#/$defs/ImageSegment"
+          },
+          {
+            "$ref": "#/$defs/VideoSegment"
+          },
+          {
+            "$ref": "#/$defs/BlankSegment"
+          }
+        ]
+      },
+      "minItems": 1,
+      "title": "Segments",
+      "type": "array"
+    },
+    "transitions": {
+      "$ref": "#/$defs/TransitionsBlock"
+    }
+  },
+  "title": "TVCSSpec",
+  "type": "object"
+}
