@@ -9,37 +9,66 @@ description = "JSON-driven video composition engine for the Trollfabriken FX eco
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
-authors = [{ name = "Trollfabriken" }]
-keywords = ["video", "composition", "json2video", "ffmpeg", "presentation"]
+authors = [{ name = "Trollfabriken", email = "tomasamlov@gmail.com" }]
+keywords = ["video", "composition", "json2video", "ffmpeg", "presentation", "tvcs"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Multimedia :: Video",
+    "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 
+# Core dependencies — only stdlib-equivalent; everything fx-related is optional
 dependencies = [
     "numpy>=1.24",
     "pillow>=10.0",
     "click>=8.1",
     "pydantic>=2.0",
-    "ffmpeg-python>=0.2",
 ]
 
 [project.optional-dependencies]
+# Individual FX packages
 mathviz  = ["mathviz-fx"]
 chart    = ["chart-fx"]
 geomap   = ["geo-map-fx"]
 shape    = ["shape-fx"]
 fractal  = ["fractal-fx"]
+grade    = ["color-fx"]
+cut      = ["cut-fx"]
+text     = ["text-fx"]
+still    = ["still-motion"]
+slide    = ["slide-render", "playwright"]
 audio    = ["talk-cast", "audio-arrange"]
 web      = ["web-overlay", "playwright"]
-data     = ["pandas>=2.0", "openpyxl>=3.1", "requests>=2.28", "sqlalchemy>=2.0", "jmespath>=1.0"]
-all      = [
-    "video-compose[mathviz,chart,geomap,shape,fractal,audio,web,data]",
+
+# Data source adapters
+data     = [
+    "pandas>=2.0",
+    "openpyxl>=3.1",
+    "sqlalchemy>=2.0",
+    "jmespath>=1.0",
 ]
+
+# Convenience bundles
+fx       = ["video-compose[mathviz,chart,geomap,shape,fractal,grade,cut,text,still]"]
+all      = ["video-compose[fx,slide,audio,web,data]"]
+
+# Development
+dev      = [
+    "pytest>=7.0",
+    "pytest-cov",
+    "ruff",
+    "hatch",
+]
+
+[project.urls]
+Homepage   = "https://github.com/tomastimelock/trollfabriken-video-compose-bootstrap"
+Repository = "https://github.com/tomastimelock/trollfabriken-video-compose-bootstrap"
+Issues     = "https://github.com/tomastimelock/trollfabriken-video-compose-bootstrap/issues"
 
 [project.scripts]
 video-compose = "video_compose.cli:main"
@@ -49,3 +78,14 @@ packages = ["src/video_compose"]
 
 [tool.hatch.version]
 path = "src/video_compose/__init__.py"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
