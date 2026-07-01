@@ -176,7 +176,7 @@ OverlayConfig = Annotated[
 # ---------------------------------------------------------------------------
 
 class TransitionRef(BaseModel):
-    type: str = "dissolve"
+    type: str = "dissolve_ii"
     duration: float = Field(default=0.5, gt=0.0)
 
 
