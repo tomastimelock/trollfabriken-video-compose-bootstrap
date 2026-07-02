@@ -24,7 +24,7 @@ class SlideRenderer(BaseRenderer):
     ) -> Path:
         try:
             from slide_render import render_html, RenderConfig
-            from slide_render.shared import Deck
+            from deck_spec.models import Deck
         except ImportError as exc:
             raise RuntimeError(
                 "slide-render is required for slide segments — pip install slide-render"
@@ -32,7 +32,16 @@ class SlideRenderer(BaseRenderer):
 
         slide_spec = segment.slide_spec
         if isinstance(slide_spec, str):
-            slide_spec = json.loads(Path(slide_spec).read_text(encoding="utf-8"))
+            p = Path(slide_spec)
+            if p.exists():
+                slide_spec = json.loads(p.read_text(encoding="utf-8"))
+            else:
+                # Try parsing as JSON or as a Python literal (e.g. from str(dict))
+                try:
+                    slide_spec = json.loads(slide_spec)
+                except json.JSONDecodeError:
+                    import ast
+                    slide_spec = ast.literal_eval(slide_spec)
 
         motion = getattr(segment, "motion", "static")
         output_path = Path(output_path)

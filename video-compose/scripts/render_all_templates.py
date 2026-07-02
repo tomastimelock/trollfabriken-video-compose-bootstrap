@@ -76,6 +76,16 @@ _FALLBACK_DATA: dict[str, object] = {
     },
 }
 
+# Inline deck-spec for presentation_corporate (default points to a non-existent file)
+_FALLBACK_SLIDE_SPEC = {
+    "title": "Acme Corporation",
+    "slides": [
+        {"layout": "title",   "title": "Acme Corporation",  "subtitle": "2025 Strategy Review"},
+        {"layout": "bullet",  "title": "Key Initiatives",   "bullets": ["Grow revenue 20%", "Expand to 3 new markets", "Launch product v2"]},
+        {"layout": "stat",    "title": "Q1 Results",        "stat_value": "127%", "stat_label": "Revenue Growth"},
+    ],
+}
+
 # ---------------------------------------------------------------------------
 # Template filling
 # ---------------------------------------------------------------------------
@@ -112,6 +122,9 @@ def fill_for_render(
                 variables[name] = _FALLBACK_DATA.get(
                     template_id, {"A": 0.6, "B": 0.4}
                 )
+            # Replace slide_spec file-path defaults with an inline deck-spec dict
+            elif name == "slide_spec" and isinstance(default, str) and default.endswith(".json"):
+                variables[name] = _FALLBACK_SLIDE_SPEC
             else:
                 variables[name] = default
         # Required vars with no default and non-media types: leave absent;
