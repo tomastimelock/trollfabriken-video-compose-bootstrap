@@ -1,0 +1,117 @@
+{
+  "tvcs": "1.0",
+  "meta": {
+    "title": "Full FX Demo",
+    "description": "Demonstrates all TVCS segment types and overlay options",
+    "author": "Trollfabriken"
+  },
+  "output": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "path": "./output/demo_all_fx.mp4"
+  },
+  "theme": {
+    "palette": "neon",
+    "background": "#0d0d1a",
+    "text_color": "#ffffff"
+  },
+  "segments": [
+    {
+      "id": "opener",
+      "type": "blank",
+      "duration": 2.0,
+      "color": "#0d0d1a",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "Trollfabriken FX Demo",
+          "effect": "fade_in",
+          "position": "center",
+          "timing": {"start": 0.3, "end": 1.8}
+        }
+      ]
+    },
+    {
+      "id": "mathviz_segment",
+      "type": "mathviz",
+      "duration": 4.0,
+      "effect": "matrix_rain",
+      "config": {}
+    },
+    {
+      "id": "chart_inline",
+      "type": "chart",
+      "duration": 5.0,
+      "chart_type": "bar",
+      "data": {
+        "title": "Monthly Revenue",
+        "x_categories": ["Jan", "Feb", "Mar", "Apr"],
+        "series": [
+          {"name": "Revenue", "values": [120, 145, 138, 162]}
+        ],
+        "y_label": "MSEK"
+      },
+      "config": {}
+    },
+    {
+      "id": "shape_segment",
+      "type": "shape",
+      "duration": 3.0,
+      "effect": "constellation",
+      "config": {}
+    },
+    {
+      "id": "fractal_segment",
+      "type": "fractal",
+      "duration": 3.0,
+      "effect": "mandelbrot",
+      "config": {}
+    },
+    {
+      "id": "still_segment",
+      "type": "still",
+      "duration": 4.0,
+      "source": "./assets/hero.jpg",
+      "motion": "ken_burns",
+      "motion_config": {}
+    },
+    {
+      "id": "image_segment",
+      "type": "image",
+      "duration": 3.0,
+      "source": "./assets/logo.png",
+      "fit": "contain",
+      "motion": "static"
+    },
+    {
+      "id": "video_segment",
+      "type": "video",
+      "duration": 5.0,
+      "source": "./assets/clip.mp4",
+      "mute": false,
+      "loop": false
+    },
+    {
+      "id": "credits",
+      "type": "blank",
+      "duration": 2.0,
+      "color": "#000000",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "Rendered with video-compose",
+          "effect": "fade_in",
+          "position": "bottom",
+          "timing": {"start": 0.5}
+        }
+      ]
+    }
+  ],
+  "transitions": {
+    "default": {
+      "type": "dissolve_ii",
+      "duration": 0.5
+    }
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "tvcs": "1.0",
+  "meta": {
+    "title": "Q4 Sales Report",
+    "description": "Data-driven sales summary — chart + blank segments",
+    "author": "Trollfabriken"
+  },
+  "output": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "path": "./output/sales_report.mp4"
+  },
+  "data_sources": {
+    "sales": {
+      "type": "json",
+      "path": "./data/sales_q4.json"
+    }
+  },
+  "theme": {
+    "palette": "corporate",
+    "background": "#0a0a1e",
+    "font": "default",
+    "text_color": "#ffffff"
+  },
+  "segments": [
+    {
+      "id": "title_card",
+      "type": "blank",
+      "duration": 3.0,
+      "color": "#0a0a1e",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "Q4 2025 Sales Report",
+          "effect": "fade_in",
+          "position": "center",
+          "timing": {"start": 0.2, "end": 2.8}
+        }
+      ]
+    },
+    {
+      "id": "revenue_chart",
+      "type": "chart",
+      "duration": 5.0,
+      "chart_type": "bar",
+      "data": "$sources.sales",
+      "config": {
+        "title": "Revenue by Region",
+        "x_field": "region",
+        "y_field": "revenue"
+      }
+    },
+    {
+      "id": "closing",
+      "type": "blank",
+      "duration": 2.0,
+      "color": "#0a0a1e"
+    }
+  ],
+  "transitions": {
+    "default": {
+      "type": "dissolve_ii",
+      "duration": 0.5
+    }
+  }
+}

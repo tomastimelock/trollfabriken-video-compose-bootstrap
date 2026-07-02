@@ -1,28 +1,86 @@
-name: Test
+name: CI
 
 on:
   push:
-    branches: [main, master]
+    branches: [master, main]
   pull_request:
+
+env:
+  PKG: video-compose
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ["3.11", "3.12", "3.13"]
+
+    runs-on: ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: ${{ matrix.python }}
 
-      - name: Install
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+
+      - name: Install ffmpeg (Linux)
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Install ffmpeg (Windows)
+        if: runner.os == 'Windows'
+        run: choco install ffmpeg -y --no-progress
+
+      - name: Install package
+        run: uv pip install --system -e "video-compose[data,dev]"
+
+      - name: Verify version import
+        run: python -c "import video_compose; print(video_compose.__version__)"
+
+      - name: Run schema + validator tests
+        run: python video-compose/tests/test_validator.py
+
+      - name: Run data resolver tests
+        run: python video-compose/tests/test_data_resolver.py
+
+      - name: Run data adapter tests
+        run: python video-compose/tests/test_data_adapters.py
+
+      - name: CLI smoke
+        shell: bash
         run: |
-          cd video-compose
-          pip install -e ".[data]"
+          video-compose --help
+          video-compose schema | python -c "import sys,json; d=json.load(sys.stdin); print('schema ok, keys:', list(d.keys())[:4])"
 
       - name: Validate example specs
+        shell: bash
         run: |
           video-compose validate video-compose/examples/minimal.json
           video-compose validate video-compose/examples/sales_report.json
           video-compose validate video-compose/examples/demo_all_fx.json
+
+      - name: End-to-end blank render
+        run: |
+          python -c "
+          import tempfile, json, pathlib
+          from video_compose.api import compose
+          spec = {
+              'tvcs': '1.0',
+              'output': {'width': 160, 'height': 90, 'fps': 10},
+              'segments': [
+                  {'id': 'a', 'type': 'blank', 'duration': 0.5, 'color': '#000033'},
+                  {'id': 'b', 'type': 'blank', 'duration': 0.5, 'color': '#330000'},
+              ]
+          }
+          with tempfile.TemporaryDirectory() as td:
+              r = compose(spec, output_dir=td)
+              size = r.video_path.stat().st_size
+              assert size > 500, f'output too small: {size} bytes'
+              print(f'OK: {size} bytes')
+          "

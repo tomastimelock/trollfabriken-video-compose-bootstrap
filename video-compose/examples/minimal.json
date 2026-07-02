@@ -1,0 +1,27 @@
+{
+  "tvcs": "1.0",
+  "meta": {
+    "title": "Minimal Example",
+    "description": "Two blank segments — no FX dependencies required"
+  },
+  "output": {
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "path": "./output/minimal.mp4"
+  },
+  "segments": [
+    {
+      "id": "intro",
+      "type": "blank",
+      "duration": 2.0,
+      "color": "#0d0d1a"
+    },
+    {
+      "id": "outro",
+      "type": "blank",
+      "duration": 1.5,
+      "color": "#1a0d0d"
+    }
+  ]
+}
