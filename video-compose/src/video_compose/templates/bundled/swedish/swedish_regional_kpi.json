@@ -4,26 +4,98 @@
     "id": "swedish_regional_kpi",
     "name": "Swedish Regional KPI",
     "category": "swedish",
-    "tags": ["sweden", "regional", "kpi", "statistics", "scb", "lan", "data"],
+    "tags": [
+      "sweden",
+      "regional",
+      "kpi",
+      "statistics",
+      "scb",
+      "lan",
+      "data"
+    ],
     "description": "Swedish regional statistics: title card, animated bar chart comparing regions, summary card with key finding. Suitable for SCB data, regional reports, municipality comparisons.",
     "preview_thumbnail": "previews/thumbnails/swedish_regional_kpi.jpg",
     "preview_full": "previews/full/swedish_regional_kpi.jpg",
     "author": "Trollfabriken",
     "version": "1.0",
     "variables": [
-      {"name": "report_title",   "type": "string",   "label": "Report title",         "required": true,  "default": "Regionala nyckeltal 2025"},
-      {"name": "metric_label",   "type": "string",   "label": "Metric label (y-axis)", "required": true,  "default": "Medelinkomst (tkr)"},
-      {"name": "chart_data",     "type": "data_ref", "label": "Chart data (region -> value)", "required": true,
-        "default": {"Stockholm":542,"Västra Götaland":498,"Skåne":476,"Uppsala":489,"Östergötland":461,"Jönköping":455,"Halland":468,"Örebro":451,"Dalarna":444,"Gävleborg":438,"Västernorrland":441,"Jämtland":435,"Västerbotten":448,"Norrbotten":452},
-        "description": "Dict of region name to numeric value. Use '$sources.id' for external SCB data."},
-      {"name": "key_finding",    "type": "string",   "label": "Key finding text",     "required": false, "default": "Stockholm leder med 542 tkr i medelinkomst"},
-      {"name": "source_note",    "type": "string",   "label": "Source / footnote",    "required": false, "default": "Källa: SCB 2025"},
-      {"name": "accent_color",   "type": "color",    "label": "Accent colour",        "required": false, "default": "#006aa7"},
-      {"name": "bg_color",       "type": "color",    "label": "Background colour",    "required": false, "default": "#0a1628"}
+      {
+        "name": "report_title",
+        "type": "string",
+        "label": "Report title",
+        "required": true,
+        "default": "Regionala nyckeltal 2025"
+      },
+      {
+        "name": "metric_label",
+        "type": "string",
+        "label": "Metric label (y-axis)",
+        "required": true,
+        "default": "Medelinkomst (tkr)"
+      },
+      {
+        "name": "chart_data",
+        "type": "data_ref",
+        "label": "Chart data (region -> value)",
+        "required": true,
+        "default": {
+          "Stockholm": 542,
+          "Västra Götaland": 498,
+          "Skåne": 476,
+          "Uppsala": 489,
+          "Östergötland": 461,
+          "Jönköping": 455,
+          "Halland": 468,
+          "Örebro": 451,
+          "Dalarna": 444,
+          "Gävleborg": 438,
+          "Västernorrland": 441,
+          "Jämtland": 435,
+          "Västerbotten": 448,
+          "Norrbotten": 452
+        },
+        "description": "Dict of region name to numeric value. Use '$sources.id' for external SCB data."
+      },
+      {
+        "name": "key_finding",
+        "type": "string",
+        "label": "Key finding text",
+        "required": false,
+        "default": "Stockholm leder med 542 tkr i medelinkomst"
+      },
+      {
+        "name": "source_note",
+        "type": "string",
+        "label": "Source / footnote",
+        "required": false,
+        "default": "Källa: SCB 2025"
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Accent colour",
+        "required": false,
+        "default": "#006aa7"
+      },
+      {
+        "name": "bg_color",
+        "type": "color",
+        "label": "Background colour",
+        "required": false,
+        "default": "#0a1628"
+      }
     ]
   },
-  "output": {"width": 1920, "height": 1080, "fps": 30, "path": "./output/swedish_regional_kpi.mp4"},
-  "theme": {"background": "{{bg_color}}", "text_color": "#ffffff"},
+  "output": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "path": "./output/swedish_regional_kpi.mp4"
+  },
+  "theme": {
+    "background": "{{bg_color}}",
+    "text_color": "#ffffff"
+  },
   "segments": [
     {
       "id": "title",
@@ -31,8 +103,26 @@
       "duration": 2.5,
       "color": "{{bg_color}}",
       "overlays": [
-        {"type": "text", "text": "{{report_title}}",  "effect": "fade_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 0.4}},
-        {"type": "text", "text": "{{metric_label}}", "effect": "slide_up", "position": "bottom", "color": "{{accent_color}}", "timing": {"start": 1.0}}
+        {
+          "type": "text",
+          "text": "{{report_title}}",
+          "effect": "fade_in",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.4
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{metric_label}}",
+          "effect": "slide_up_text",
+          "position": "bottom",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 1.0
+          }
+        }
       ]
     },
     {
@@ -41,9 +131,22 @@
       "duration": 8.0,
       "chart_type": "bar",
       "data": "{{chart_data}}",
-      "config": {"orientation": "horizontal", "animate": true, "color": "{{accent_color}}"},
+      "config": {
+        "orientation": "horizontal",
+        "animate": true,
+        "color": "{{accent_color}}"
+      },
       "overlays": [
-        {"type": "text", "text": "{{metric_label}}", "effect": "fade_in", "position": "top", "color": "{{accent_color}}", "timing": {"start": 0.5}}
+        {
+          "type": "text",
+          "text": "{{metric_label}}",
+          "effect": "fade_in",
+          "position": "top",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 0.5
+          }
+        }
       ]
     },
     {
@@ -52,11 +155,43 @@
       "duration": 3.5,
       "color": "{{bg_color}}",
       "overlays": [
-        {"type": "text", "text": "{{report_title}}",  "effect": "fade_in",  "position": "top",    "color": "{{accent_color}}", "timing": {"start": 0.3}},
-        {"type": "text", "text": "{{key_finding}}",  "effect": "zoom_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 0.8}},
-        {"type": "text", "text": "{{source_note}}",  "effect": "fade_in",  "position": "bottom", "color": "#aaaaaa",          "timing": {"start": 1.5}}
+        {
+          "type": "text",
+          "text": "{{report_title}}",
+          "effect": "fade_in",
+          "position": "top",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 0.3
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{key_finding}}",
+          "effect": "drop_in",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.8
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{source_note}}",
+          "effect": "fade_in",
+          "position": "bottom",
+          "color": "#aaaaaa",
+          "timing": {
+            "start": 1.5
+          }
+        }
       ]
     }
   ],
-  "transitions": {"default": {"type": "dissolve_ii", "duration": 0.5}}
+  "transitions": {
+    "default": {
+      "type": "dissolve_ii",
+      "duration": 0.5
+    }
+  }
 }

@@ -4,30 +4,116 @@
     "id": "annual_report_summary",
     "name": "Annual Report Summary",
     "category": "financial",
-    "tags": ["financial", "annual-report", "årsredovisning", "investor-relations", "sustainability", "ESG"],
+    "tags": [
+      "financial",
+      "annual-report",
+      "årsredovisning",
+      "investor-relations",
+      "sustainability",
+      "ESG"
+    ],
     "description": "Annual report highlights video: brand intro, full-year revenue trend line chart, three headline KPIs, CEO quote card, outlook outro.",
     "preview_thumbnail": "previews/thumbnails/annual_report_summary.jpg",
     "preview_full": "previews/full/annual_report_summary.jpg",
     "author": "Trollfabriken",
     "version": "1.0",
     "variables": [
-      {"name": "company_name",   "type": "string",   "label": "Company name",           "required": true,  "default": "Nordstjärnan AB"},
-      {"name": "year",           "type": "string",   "label": "Fiscal year",            "required": true,  "default": "2025"},
-      {"name": "revenue_total",  "type": "string",   "label": "Full-year revenue",      "required": true,  "default": "12.4 MSEK"},
-      {"name": "net_income",     "type": "string",   "label": "Net income",             "required": false, "default": "1.8 MSEK"},
-      {"name": "employees",      "type": "string",   "label": "Number of employees",    "required": false, "default": "342"},
-      {"name": "revenue_trend",  "type": "data_ref", "label": "5-year revenue trend",   "required": false,
-        "default": {"2021": 8.2, "2022": 9.1, "2023": 10.3, "2024": 11.6, "2025": 12.4},
-        "description": "Dict of year to revenue in MSEK"},
-      {"name": "ceo_quote",      "type": "string",   "label": "CEO quote",              "required": false, "default": "Vi levererade rekordresultat trots ett utmanande klimat."},
-      {"name": "ceo_name",       "type": "string",   "label": "CEO name + title",       "required": false, "default": "Anna Lindström, VD"},
-      {"name": "outlook",        "type": "string",   "label": "Outlook statement",      "required": false, "default": "Vi ser fortsatt stark tillväxt under 2026."},
-      {"name": "accent_color",   "type": "color",    "label": "Brand colour",           "required": false, "default": "#006aa7"},
-      {"name": "bg_color",       "type": "color",    "label": "Background colour",      "required": false, "default": "#0a1628"}
+      {
+        "name": "company_name",
+        "type": "string",
+        "label": "Company name",
+        "required": true,
+        "default": "Nordstjärnan AB"
+      },
+      {
+        "name": "year",
+        "type": "string",
+        "label": "Fiscal year",
+        "required": true,
+        "default": "2025"
+      },
+      {
+        "name": "revenue_total",
+        "type": "string",
+        "label": "Full-year revenue",
+        "required": true,
+        "default": "12.4 MSEK"
+      },
+      {
+        "name": "net_income",
+        "type": "string",
+        "label": "Net income",
+        "required": false,
+        "default": "1.8 MSEK"
+      },
+      {
+        "name": "employees",
+        "type": "string",
+        "label": "Number of employees",
+        "required": false,
+        "default": "342"
+      },
+      {
+        "name": "revenue_trend",
+        "type": "data_ref",
+        "label": "5-year revenue trend",
+        "required": false,
+        "default": {
+          "2021": 8.2,
+          "2022": 9.1,
+          "2023": 10.3,
+          "2024": 11.6,
+          "2025": 12.4
+        },
+        "description": "Dict of year to revenue in MSEK"
+      },
+      {
+        "name": "ceo_quote",
+        "type": "string",
+        "label": "CEO quote",
+        "required": false,
+        "default": "Vi levererade rekordresultat trots ett utmanande klimat."
+      },
+      {
+        "name": "ceo_name",
+        "type": "string",
+        "label": "CEO name + title",
+        "required": false,
+        "default": "Anna Lindström, VD"
+      },
+      {
+        "name": "outlook",
+        "type": "string",
+        "label": "Outlook statement",
+        "required": false,
+        "default": "Vi ser fortsatt stark tillväxt under 2026."
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Brand colour",
+        "required": false,
+        "default": "#006aa7"
+      },
+      {
+        "name": "bg_color",
+        "type": "color",
+        "label": "Background colour",
+        "required": false,
+        "default": "#0a1628"
+      }
     ]
   },
-  "output": {"width": 1920, "height": 1080, "fps": 30, "path": "./output/annual_report_summary.mp4"},
-  "theme": {"background": "{{bg_color}}", "text_color": "#ffffff"},
+  "output": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "path": "./output/annual_report_summary.mp4"
+  },
+  "theme": {
+    "background": "{{bg_color}}",
+    "text_color": "#ffffff"
+  },
   "segments": [
     {
       "id": "intro",
@@ -35,8 +121,26 @@
       "duration": 3.0,
       "color": "{{bg_color}}",
       "overlays": [
-        {"type": "text", "text": "{{company_name}}",  "effect": "fade_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 0.4}},
-        {"type": "text", "text": "Årsredovisning {{year}}", "effect": "slide_up", "position": "bottom", "color": "{{accent_color}}", "timing": {"start": 1.0}}
+        {
+          "type": "text",
+          "text": "{{company_name}}",
+          "effect": "fade_in",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.4
+          }
+        },
+        {
+          "type": "text",
+          "text": "Årsredovisning {{year}}",
+          "effect": "slide_up_text",
+          "position": "bottom",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 1.0
+          }
+        }
       ]
     },
     {
@@ -45,9 +149,22 @@
       "duration": 7.0,
       "chart_type": "line",
       "data": "{{revenue_trend}}",
-      "config": {"color": "{{accent_color}}", "animate": true, "fill": true},
+      "config": {
+        "color": "{{accent_color}}",
+        "animate": true,
+        "fill": true
+      },
       "overlays": [
-        {"type": "text", "text": "Omsättningsutveckling (MSEK)", "effect": "fade_in", "position": "top", "color": "{{accent_color}}", "timing": {"start": 0.5}}
+        {
+          "type": "text",
+          "text": "Omsättningsutveckling (MSEK)",
+          "effect": "fade_in",
+          "position": "top",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 0.5
+          }
+        }
       ]
     },
     {
@@ -56,10 +173,46 @@
       "duration": 5.0,
       "color": "{{bg_color}}",
       "overlays": [
-        {"type": "text", "text": "Helår {{year}}",                      "effect": "fade_in",    "position": "top",    "color": "{{accent_color}}", "timing": {"start": 0.3}},
-        {"type": "text", "text": "Omsättning: {{revenue_total}}",       "effect": "slide_right","position": "center", "color": "#ffffff",          "timing": {"start": 0.7}},
-        {"type": "text", "text": "Nettoresultat: {{net_income}}",       "effect": "slide_right","position": "center", "color": "#cccccc",          "timing": {"start": 1.2}},
-        {"type": "text", "text": "Medarbetare: {{employees}}",          "effect": "slide_right","position": "center", "color": "#cccccc",          "timing": {"start": 1.7}}
+        {
+          "type": "text",
+          "text": "Helår {{year}}",
+          "effect": "fade_in",
+          "position": "top",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 0.3
+          }
+        },
+        {
+          "type": "text",
+          "text": "Omsättning: {{revenue_total}}",
+          "effect": "slide_right_text",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.7
+          }
+        },
+        {
+          "type": "text",
+          "text": "Nettoresultat: {{net_income}}",
+          "effect": "slide_right_text",
+          "position": "center",
+          "color": "#cccccc",
+          "timing": {
+            "start": 1.2
+          }
+        },
+        {
+          "type": "text",
+          "text": "Medarbetare: {{employees}}",
+          "effect": "slide_right_text",
+          "position": "center",
+          "color": "#cccccc",
+          "timing": {
+            "start": 1.7
+          }
+        }
       ]
     },
     {
@@ -68,8 +221,26 @@
       "duration": 5.0,
       "color": "{{bg_color}}",
       "overlays": [
-        {"type": "text", "text": "„{{ceo_quote}}”", "effect": "fade_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 0.5}},
-        {"type": "text", "text": "{{ceo_name}}",             "effect": "slide_up", "position": "bottom", "color": "{{accent_color}}", "timing": {"start": 1.5}}
+        {
+          "type": "text",
+          "text": "„{{ceo_quote}}”",
+          "effect": "fade_in",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.5
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{ceo_name}}",
+          "effect": "slide_up_text",
+          "position": "bottom",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 1.5
+          }
+        }
       ]
     },
     {
@@ -78,10 +249,33 @@
       "duration": 3.0,
       "color": "{{bg_color}}",
       "overlays": [
-        {"type": "text", "text": "{{company_name}}", "effect": "fade_in",  "position": "top",    "color": "{{accent_color}}", "timing": {"start": 0.3}},
-        {"type": "text", "text": "{{outlook}}",      "effect": "zoom_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 0.8}}
+        {
+          "type": "text",
+          "text": "{{company_name}}",
+          "effect": "fade_in",
+          "position": "top",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 0.3
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{outlook}}",
+          "effect": "drop_in",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.8
+          }
+        }
       ]
     }
   ],
-  "transitions": {"default": {"type": "dissolve_ii", "duration": 0.5}}
+  "transitions": {
+    "default": {
+      "type": "dissolve_ii",
+      "duration": 0.5
+    }
+  }
 }

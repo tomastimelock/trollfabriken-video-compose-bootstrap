@@ -4,23 +4,75 @@
     "id": "social_tiktok_hook",
     "name": "TikTok / Reels Hook",
     "category": "social",
-    "tags": ["social", "tiktok", "reels", "hook", "portrait", "vertical", "kinetic", "creator"],
+    "tags": [
+      "social",
+      "tiktok",
+      "reels",
+      "hook",
+      "portrait",
+      "vertical",
+      "kinetic",
+      "creator"
+    ],
     "description": "Portrait 9:16 video hook for TikTok and Instagram Reels. Video background with kinetic bounce hook text in the first 3 seconds, sub-text reveal, and slide-up CTA at the bottom.",
     "preview_thumbnail": "previews/thumbnails/social_tiktok_hook.jpg",
     "preview_full": "previews/full/social_tiktok_hook.jpg",
     "author": "Trollfabriken",
     "version": "1.0",
     "variables": [
-      {"name": "video_source",  "type": "video_path", "label": "Background video clip", "required": true},
-      {"name": "hook_text",     "type": "string",     "label": "Hook text (3 sec grab)", "required": true,  "default": "You won't believe this"},
-      {"name": "sub_text",      "type": "string",     "label": "Sub-text",               "required": false, "default": "Watch till the end"},
-      {"name": "cta_text",      "type": "string",     "label": "Call to action",         "required": false, "default": "Follow for more"},
-      {"name": "accent_color",  "type": "color",      "label": "Accent colour",          "required": false, "default": "#ff0050"},
-      {"name": "clip_duration", "type": "duration",   "label": "Clip duration (s)",      "required": false, "default": 15.0}
+      {
+        "name": "video_source",
+        "type": "video_path",
+        "label": "Background video clip",
+        "required": true
+      },
+      {
+        "name": "hook_text",
+        "type": "string",
+        "label": "Hook text (3 sec grab)",
+        "required": true,
+        "default": "You won't believe this"
+      },
+      {
+        "name": "sub_text",
+        "type": "string",
+        "label": "Sub-text",
+        "required": false,
+        "default": "Watch till the end"
+      },
+      {
+        "name": "cta_text",
+        "type": "string",
+        "label": "Call to action",
+        "required": false,
+        "default": "Follow for more"
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Accent colour",
+        "required": false,
+        "default": "#ff0050"
+      },
+      {
+        "name": "clip_duration",
+        "type": "duration",
+        "label": "Clip duration (s)",
+        "required": false,
+        "default": 15.0
+      }
     ]
   },
-  "output": {"width": 1080, "height": 1920, "fps": 30, "path": "./output/social_tiktok_hook.mp4"},
-  "theme": {"background": "#000000", "text_color": "#ffffff"},
+  "output": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "path": "./output/social_tiktok_hook.mp4"
+  },
+  "theme": {
+    "background": "#000000",
+    "text_color": "#ffffff"
+  },
   "segments": [
     {
       "id": "hook",
@@ -28,9 +80,38 @@
       "source": "{{video_source}}",
       "duration": "{{clip_duration}}",
       "overlays": [
-        {"type": "text", "text": "{{hook_text}}", "effect": "bounce",    "position": "center", "color": "#ffffff",          "timing": {"start": 0.3, "end": 4.0}},
-        {"type": "text", "text": "{{sub_text}}",  "effect": "fade_in",   "position": "center", "color": "{{accent_color}}", "timing": {"start": 1.2, "end": 5.0}},
-        {"type": "text", "text": "{{cta_text}}",  "effect": "slide_up",  "position": "bottom", "color": "#ffffff",          "timing": {"start": 3.0}}
+        {
+          "type": "text",
+          "text": "{{hook_text}}",
+          "effect": "bounce_text",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.3,
+            "end": 4.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{sub_text}}",
+          "effect": "fade_in",
+          "position": "center",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 1.2,
+            "end": 5.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{cta_text}}",
+          "effect": "slide_up_text",
+          "position": "bottom",
+          "color": "#ffffff",
+          "timing": {
+            "start": 3.0
+          }
+        }
       ]
     }
   ]

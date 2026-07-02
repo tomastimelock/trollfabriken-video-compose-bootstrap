@@ -4,26 +4,117 @@
     "id": "swedish_election_map",
     "name": "Swedish Election Map",
     "category": "swedish",
-    "tags": ["sweden", "election", "map", "choropleth", "geomap", "val", "politik"],
+    "tags": [
+      "sweden",
+      "election",
+      "map",
+      "choropleth",
+      "geomap",
+      "val",
+      "politik"
+    ],
     "description": "Swedish election or poll result visualisation: title card, animated choropleth map by municipality or region, result summary card.",
     "preview_thumbnail": "previews/thumbnails/swedish_election_map.jpg",
     "preview_full": "previews/full/swedish_election_map.jpg",
     "author": "Trollfabriken",
     "version": "1.0",
     "variables": [
-      {"name": "election_title","type": "string",   "label": "Election / poll title",   "required": true,  "default": "Riksdagsvalet 2026"},
-      {"name": "map_data",      "type": "data_ref", "label": "Map data (lan_kod -> float)", "required": true,
-        "default": {"01":0.31,"03":0.28,"04":0.26,"05":0.29,"06":0.27,"07":0.25,"08":0.24,"09":0.22,"10":0.30,"12":0.34,"13":0.32,"14":0.33,"17":0.23,"18":0.26,"19":0.25,"20":0.22,"21":0.21,"22":0.20,"23":0.19,"24":0.21,"25":0.20},
-        "description": "Dict of 2-digit lan_kod to float (0.0-1.0 share). Use '$sources.id' for external data."},
-      {"name": "map_view",      "type": "string",   "label": "Map view",                "required": false, "default": "regions", "choices": ["regions","municipalities"]},
-      {"name": "palette",       "type": "string",   "label": "Colour palette",          "required": false, "default": "RdBu",    "choices": ["RdBu","YlOrRd","Blues","Greens","Purples","Oranges"]},
-      {"name": "result_text",   "type": "string",   "label": "Result summary text",     "required": false, "default": "Mandatfordelning klar"},
-      {"name": "accent_color",  "type": "color",    "label": "Accent colour",           "required": false, "default": "#006aa7"},
-      {"name": "bg_color",      "type": "color",    "label": "Background colour",       "required": false, "default": "#0a1628"}
+      {
+        "name": "election_title",
+        "type": "string",
+        "label": "Election / poll title",
+        "required": true,
+        "default": "Riksdagsvalet 2026"
+      },
+      {
+        "name": "map_data",
+        "type": "data_ref",
+        "label": "Map data (lan_kod -> float)",
+        "required": true,
+        "default": {
+          "01": 0.31,
+          "03": 0.28,
+          "04": 0.26,
+          "05": 0.29,
+          "06": 0.27,
+          "07": 0.25,
+          "08": 0.24,
+          "09": 0.22,
+          "10": 0.3,
+          "12": 0.34,
+          "13": 0.32,
+          "14": 0.33,
+          "17": 0.23,
+          "18": 0.26,
+          "19": 0.25,
+          "20": 0.22,
+          "21": 0.21,
+          "22": 0.2,
+          "23": 0.19,
+          "24": 0.21,
+          "25": 0.2
+        },
+        "description": "Dict of 2-digit lan_kod to float (0.0-1.0 share). Use '$sources.id' for external data."
+      },
+      {
+        "name": "map_view",
+        "type": "string",
+        "label": "Map view",
+        "required": false,
+        "default": "regions",
+        "choices": [
+          "regions",
+          "municipalities"
+        ]
+      },
+      {
+        "name": "palette",
+        "type": "string",
+        "label": "Colour palette",
+        "required": false,
+        "default": "RdBu",
+        "choices": [
+          "RdBu",
+          "YlOrRd",
+          "Blues",
+          "Greens",
+          "Purples",
+          "Oranges"
+        ]
+      },
+      {
+        "name": "result_text",
+        "type": "string",
+        "label": "Result summary text",
+        "required": false,
+        "default": "Mandatfordelning klar"
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Accent colour",
+        "required": false,
+        "default": "#006aa7"
+      },
+      {
+        "name": "bg_color",
+        "type": "color",
+        "label": "Background colour",
+        "required": false,
+        "default": "#0a1628"
+      }
     ]
   },
-  "output": {"width": 1920, "height": 1080, "fps": 30, "path": "./output/swedish_election_map.mp4"},
-  "theme": {"background": "{{bg_color}}", "text_color": "#ffffff"},
+  "output": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "path": "./output/swedish_election_map.mp4"
+  },
+  "theme": {
+    "background": "{{bg_color}}",
+    "text_color": "#ffffff"
+  },
   "segments": [
     {
       "id": "title",
@@ -31,7 +122,16 @@
       "duration": 2.5,
       "color": "{{bg_color}}",
       "overlays": [
-        {"type": "text", "text": "{{election_title}}", "effect": "fade_in", "position": "center", "color": "#ffffff", "timing": {"start": 0.4}}
+        {
+          "type": "text",
+          "text": "{{election_title}}",
+          "effect": "fade_in",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.4
+          }
+        }
       ]
     },
     {
@@ -50,10 +150,33 @@
       "duration": 3.0,
       "color": "{{bg_color}}",
       "overlays": [
-        {"type": "text", "text": "{{election_title}}", "effect": "fade_in",  "position": "top",    "color": "{{accent_color}}", "timing": {"start": 0.3}},
-        {"type": "text", "text": "{{result_text}}",    "effect": "zoom_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 0.8}}
+        {
+          "type": "text",
+          "text": "{{election_title}}",
+          "effect": "fade_in",
+          "position": "top",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 0.3
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{result_text}}",
+          "effect": "drop_in",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.8
+          }
+        }
       ]
     }
   ],
-  "transitions": {"default": {"type": "dissolve_ii", "duration": 0.5}}
+  "transitions": {
+    "default": {
+      "type": "dissolve_ii",
+      "duration": 0.5
+    }
+  }
 }

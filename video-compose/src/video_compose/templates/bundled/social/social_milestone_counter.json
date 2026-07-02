@@ -4,43 +4,126 @@
     "id": "social_milestone_counter",
     "name": "Milestone Counter",
     "category": "social",
-    "tags": ["social", "milestone", "followers", "subscribers", "celebration", "square", "creator"],
+    "tags": [
+      "social",
+      "milestone",
+      "followers",
+      "subscribers",
+      "celebration",
+      "square",
+      "creator"
+    ],
     "description": "Square-format follower/subscriber milestone celebration: phyllotaxis spiral mathviz background, giant milestone number zoom-in, particle burst reveal, thank-you outro.",
     "preview_thumbnail": "previews/thumbnails/social_milestone_counter.jpg",
     "preview_full": "previews/full/social_milestone_counter.jpg",
     "author": "Trollfabriken",
     "version": "1.0",
     "variables": [
-      {"name": "milestone_number", "type": "string", "label": "Milestone number",    "required": true,  "default": "100 000"},
-      {"name": "milestone_label",  "type": "string", "label": "Milestone label",     "required": true,  "default": "followers"},
-      {"name": "channel_name",     "type": "string", "label": "Channel / page name", "required": true,  "default": "@yourchannel"},
-      {"name": "thank_you_text",   "type": "string", "label": "Thank-you message",   "required": false, "default": "Thank you for the support!"},
-      {"name": "accent_color",     "type": "color",  "label": "Accent colour",       "required": false, "default": "#ffd700"},
-      {"name": "bg_color",         "type": "color",  "label": "Background colour",   "required": false, "default": "#0a0a0a"}
+      {
+        "name": "milestone_number",
+        "type": "string",
+        "label": "Milestone number",
+        "required": true,
+        "default": "100 000"
+      },
+      {
+        "name": "milestone_label",
+        "type": "string",
+        "label": "Milestone label",
+        "required": true,
+        "default": "followers"
+      },
+      {
+        "name": "channel_name",
+        "type": "string",
+        "label": "Channel / page name",
+        "required": true,
+        "default": "@yourchannel"
+      },
+      {
+        "name": "thank_you_text",
+        "type": "string",
+        "label": "Thank-you message",
+        "required": false,
+        "default": "Thank you for the support!"
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Accent colour",
+        "required": false,
+        "default": "#ffd700"
+      },
+      {
+        "name": "bg_color",
+        "type": "color",
+        "label": "Background colour",
+        "required": false,
+        "default": "#0a0a0a"
+      }
     ]
   },
-  "output": {"width": 1080, "height": 1080, "fps": 30, "path": "./output/social_milestone_counter.mp4"},
-  "theme": {"background": "{{bg_color}}", "text_color": "#ffffff"},
+  "output": {
+    "width": 1080,
+    "height": 1080,
+    "fps": 30,
+    "path": "./output/social_milestone_counter.mp4"
+  },
+  "theme": {
+    "background": "{{bg_color}}",
+    "text_color": "#ffffff"
+  },
   "segments": [
     {
       "id": "build_up",
       "type": "mathviz",
       "duration": 3.0,
       "effect": "phyllotaxis_spiral",
-      "config": {"color_scheme": "neon"},
+      "config": {
+        "color_scheme": "neon"
+      },
       "overlays": [
-        {"type": "text", "text": "{{channel_name}}", "effect": "fade_in", "position": "top", "color": "{{accent_color}}", "timing": {"start": 0.5}}
+        {
+          "type": "text",
+          "text": "{{channel_name}}",
+          "effect": "fade_in",
+          "position": "top",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 0.5
+          }
+        }
       ]
     },
     {
       "id": "reveal",
       "type": "shape",
       "duration": 4.0,
-      "effect": "particle_burst",
-      "config": {"color": "{{accent_color}}"},
+      "effect": "particle_flow",
+      "config": {
+        "color": "{{accent_color}}"
+      },
       "overlays": [
-        {"type": "text", "text": "{{milestone_number}}", "effect": "zoom_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 0.5}},
-        {"type": "text", "text": "{{milestone_label}}",  "effect": "fade_in",  "position": "center", "color": "{{accent_color}}", "timing": {"start": 1.2}}
+        {
+          "type": "text",
+          "text": "{{milestone_number}}",
+          "effect": "drop_in",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.5
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{milestone_label}}",
+          "effect": "fade_in",
+          "position": "center",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 1.2
+          }
+        }
       ]
     },
     {
@@ -49,10 +132,33 @@
       "duration": 3.0,
       "color": "{{bg_color}}",
       "overlays": [
-        {"type": "text", "text": "{{thank_you_text}}", "effect": "fade_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 0.5}},
-        {"type": "text", "text": "{{channel_name}}",   "effect": "slide_up", "position": "bottom", "color": "{{accent_color}}", "timing": {"start": 1.2}}
+        {
+          "type": "text",
+          "text": "{{thank_you_text}}",
+          "effect": "fade_in",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.5
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{channel_name}}",
+          "effect": "slide_up_text",
+          "position": "bottom",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 1.2
+          }
+        }
       ]
     }
   ],
-  "transitions": {"default": {"type": "dissolve_ii", "duration": 0.4}}
+  "transitions": {
+    "default": {
+      "type": "dissolve_ii",
+      "duration": 0.4
+    }
+  }
 }

@@ -4,37 +4,135 @@
     "id": "youtube_channel_intro",
     "name": "YouTube Channel Intro",
     "category": "creator",
-    "tags": ["creator", "youtube", "intro", "channel", "branding", "subscribe", "logo"],
+    "tags": [
+      "creator",
+      "youtube",
+      "intro",
+      "channel",
+      "branding",
+      "subscribe",
+      "logo"
+    ],
     "description": "YouTube channel intro bumper: animated particle / shape effect with channel name, subscribe CTA, short stinger. Designed for 5-10 second channel branding.",
     "preview_thumbnail": "previews/thumbnails/youtube_channel_intro.jpg",
     "preview_full": "previews/full/youtube_channel_intro.jpg",
     "author": "Trollfabriken",
     "version": "1.0",
     "variables": [
-      {"name": "channel_name",    "type": "string", "label": "Channel name",           "required": true,  "default": "TechWithTomas"},
-      {"name": "tagline",         "type": "string", "label": "Channel tagline",        "required": false, "default": "Code, AI, and Curiosity"},
-      {"name": "cta",             "type": "string", "label": "CTA text",               "required": false, "default": "Subscribe for weekly videos"},
-      {"name": "shape_effect",    "type": "string", "label": "Background FX",          "required": false, "default": "neon_grid",
-        "choices": ["neon_grid", "particle_burst", "constellation", "hex_grid"]},
-      {"name": "accent_color",    "type": "color",  "label": "Primary channel colour", "required": false, "default": "#ff0000"},
-      {"name": "secondary_color", "type": "color",  "label": "Secondary colour",       "required": false, "default": "#ffffff"},
-      {"name": "bg_color",        "type": "color",  "label": "Background colour",      "required": false, "default": "#0a0a0a"},
-      {"name": "duration",        "type": "duration","label": "Total duration (s)",    "required": false, "default": 7.0}
+      {
+        "name": "channel_name",
+        "type": "string",
+        "label": "Channel name",
+        "required": true,
+        "default": "TechWithTomas"
+      },
+      {
+        "name": "tagline",
+        "type": "string",
+        "label": "Channel tagline",
+        "required": false,
+        "default": "Code, AI, and Curiosity"
+      },
+      {
+        "name": "cta",
+        "type": "string",
+        "label": "CTA text",
+        "required": false,
+        "default": "Subscribe for weekly videos"
+      },
+      {
+        "name": "shape_effect",
+        "type": "string",
+        "label": "Background FX",
+        "required": false,
+        "default": "neon_glow_shape",
+        "choices": [
+          "neon_glow_shape",
+          "particle_flow",
+          "constellation",
+          "hexgrid"
+        ]
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Primary channel colour",
+        "required": false,
+        "default": "#ff0000"
+      },
+      {
+        "name": "secondary_color",
+        "type": "color",
+        "label": "Secondary colour",
+        "required": false,
+        "default": "#ffffff"
+      },
+      {
+        "name": "bg_color",
+        "type": "color",
+        "label": "Background colour",
+        "required": false,
+        "default": "#0a0a0a"
+      },
+      {
+        "name": "duration",
+        "type": "duration",
+        "label": "Total duration (s)",
+        "required": false,
+        "default": 7.0
+      }
     ]
   },
-  "output": {"width": 1920, "height": 1080, "fps": 30, "path": "./output/youtube_channel_intro.mp4"},
-  "theme": {"background": "{{bg_color}}", "text_color": "#ffffff"},
+  "output": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "path": "./output/youtube_channel_intro.mp4"
+  },
+  "theme": {
+    "background": "{{bg_color}}",
+    "text_color": "#ffffff"
+  },
   "segments": [
     {
       "id": "intro",
       "type": "shape",
       "duration": "{{duration}}",
       "effect": "{{shape_effect}}",
-      "config": {"color": "{{accent_color}}"},
+      "config": {
+        "color": "{{accent_color}}"
+      },
       "overlays": [
-        {"type": "text", "text": "{{channel_name}}", "effect": "zoom_in",  "position": "center", "color": "{{secondary_color}}", "timing": {"start": 0.8}},
-        {"type": "text", "text": "{{tagline}}",      "effect": "fade_in",  "position": "bottom", "color": "{{accent_color}}",    "timing": {"start": 1.8}},
-        {"type": "text", "text": "{{cta}}",          "effect": "slide_up", "position": "bottom", "color": "#aaaaaa",             "timing": {"start": 3.5}}
+        {
+          "type": "text",
+          "text": "{{channel_name}}",
+          "effect": "drop_in",
+          "position": "center",
+          "color": "{{secondary_color}}",
+          "timing": {
+            "start": 0.8
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{tagline}}",
+          "effect": "fade_in",
+          "position": "bottom",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 1.8
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{cta}}",
+          "effect": "slide_up_text",
+          "position": "bottom",
+          "color": "#aaaaaa",
+          "timing": {
+            "start": 3.5
+          }
+        }
       ]
     }
   ]

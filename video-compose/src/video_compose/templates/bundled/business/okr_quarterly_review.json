@@ -4,31 +4,132 @@
     "id": "okr_quarterly_review",
     "name": "OKR Quarterly Review",
     "category": "business",
-    "tags": ["business", "OKR", "quarterly", "review", "progress", "goals", "KPI", "team"],
+    "tags": [
+      "business",
+      "OKR",
+      "quarterly",
+      "review",
+      "progress",
+      "goals",
+      "KPI",
+      "team"
+    ],
     "description": "Quarterly OKR progress review: company/quarter title, three animated bar-chart progress bars with RAG status per objective, closing next-steps outro.",
     "preview_thumbnail": "previews/thumbnails/okr_quarterly_review.jpg",
     "preview_full": "previews/full/okr_quarterly_review.jpg",
     "author": "Trollfabriken",
     "version": "1.0",
     "variables": [
-      {"name": "company_name",   "type": "string", "label": "Company name",              "required": true,  "default": "Acme Corp"},
-      {"name": "quarter_label",  "type": "string", "label": "Quarter label",             "required": true,  "default": "Q2 2025"},
-      {"name": "okr1_title",     "type": "string", "label": "OKR 1 objective",           "required": true,  "default": "Grow monthly active users"},
-      {"name": "okr1_progress",  "type": "number", "label": "OKR 1 progress (0-100)",   "required": true,  "default": 78},
-      {"name": "okr1_status",    "type": "string", "label": "OKR 1 status label",        "required": false, "default": "On Track"},
-      {"name": "okr2_title",     "type": "string", "label": "OKR 2 objective",           "required": true,  "default": "Reduce customer churn"},
-      {"name": "okr2_progress",  "type": "number", "label": "OKR 2 progress (0-100)",   "required": true,  "default": 45},
-      {"name": "okr2_status",    "type": "string", "label": "OKR 2 status label",        "required": false, "default": "At Risk"},
-      {"name": "okr3_title",     "type": "string", "label": "OKR 3 objective",           "required": true,  "default": "Launch 3 new markets"},
-      {"name": "okr3_progress",  "type": "number", "label": "OKR 3 progress (0-100)",   "required": true,  "default": 100},
-      {"name": "okr3_status",    "type": "string", "label": "OKR 3 status label",        "required": false, "default": "Complete"},
-      {"name": "next_steps",     "type": "string", "label": "Next steps / focus text",   "required": false, "default": "Q3 focus: churn reduction sprint"},
-      {"name": "accent_color",   "type": "color",  "label": "Brand accent colour",       "required": false, "default": "#0066cc"},
-      {"name": "bg_color",       "type": "color",  "label": "Background colour",         "required": false, "default": "#0a1628"}
+      {
+        "name": "company_name",
+        "type": "string",
+        "label": "Company name",
+        "required": true,
+        "default": "Acme Corp"
+      },
+      {
+        "name": "quarter_label",
+        "type": "string",
+        "label": "Quarter label",
+        "required": true,
+        "default": "Q2 2025"
+      },
+      {
+        "name": "okr1_title",
+        "type": "string",
+        "label": "OKR 1 objective",
+        "required": true,
+        "default": "Grow monthly active users"
+      },
+      {
+        "name": "okr1_progress",
+        "type": "number",
+        "label": "OKR 1 progress (0-100)",
+        "required": true,
+        "default": 78
+      },
+      {
+        "name": "okr1_status",
+        "type": "string",
+        "label": "OKR 1 status label",
+        "required": false,
+        "default": "On Track"
+      },
+      {
+        "name": "okr2_title",
+        "type": "string",
+        "label": "OKR 2 objective",
+        "required": true,
+        "default": "Reduce customer churn"
+      },
+      {
+        "name": "okr2_progress",
+        "type": "number",
+        "label": "OKR 2 progress (0-100)",
+        "required": true,
+        "default": 45
+      },
+      {
+        "name": "okr2_status",
+        "type": "string",
+        "label": "OKR 2 status label",
+        "required": false,
+        "default": "At Risk"
+      },
+      {
+        "name": "okr3_title",
+        "type": "string",
+        "label": "OKR 3 objective",
+        "required": true,
+        "default": "Launch 3 new markets"
+      },
+      {
+        "name": "okr3_progress",
+        "type": "number",
+        "label": "OKR 3 progress (0-100)",
+        "required": true,
+        "default": 100
+      },
+      {
+        "name": "okr3_status",
+        "type": "string",
+        "label": "OKR 3 status label",
+        "required": false,
+        "default": "Complete"
+      },
+      {
+        "name": "next_steps",
+        "type": "string",
+        "label": "Next steps / focus text",
+        "required": false,
+        "default": "Q3 focus: churn reduction sprint"
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Brand accent colour",
+        "required": false,
+        "default": "#0066cc"
+      },
+      {
+        "name": "bg_color",
+        "type": "color",
+        "label": "Background colour",
+        "required": false,
+        "default": "#0a1628"
+      }
     ]
   },
-  "output": {"width": 1920, "height": 1080, "fps": 30, "path": "./output/okr_quarterly_review.mp4"},
-  "theme": {"background": "{{bg_color}}", "text_color": "#ffffff"},
+  "output": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "path": "./output/okr_quarterly_review.mp4"
+  },
+  "theme": {
+    "background": "{{bg_color}}",
+    "text_color": "#ffffff"
+  },
   "segments": [
     {
       "id": "title",
@@ -36,8 +137,26 @@
       "duration": 3.0,
       "color": "{{bg_color}}",
       "overlays": [
-        {"type": "text", "text": "{{company_name}}",  "effect": "fade_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 0.4}},
-        {"type": "text", "text": "{{quarter_label}} OKR Review", "effect": "slide_up", "position": "bottom", "color": "{{accent_color}}", "timing": {"start": 0.9}}
+        {
+          "type": "text",
+          "text": "{{company_name}}",
+          "effect": "fade_in",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.4
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{quarter_label}} OKR Review",
+          "effect": "slide_up_text",
+          "position": "bottom",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 0.9
+          }
+        }
       ]
     },
     {
@@ -46,9 +165,36 @@
       "duration": 5.0,
       "color": "{{bg_color}}",
       "overlays": [
-        {"type": "text", "text": "{{okr1_title}}",    "effect": "slide_right","position": "top",    "color": "#ffffff",          "timing": {"start": 0.4}},
-        {"type": "text", "text": "{{okr1_progress}}%","effect": "zoom_in",   "position": "center", "color": "{{accent_color}}", "timing": {"start": 0.8}},
-        {"type": "text", "text": "{{okr1_status}}",   "effect": "fade_in",   "position": "bottom", "color": "#22c55e",          "timing": {"start": 1.3}}
+        {
+          "type": "text",
+          "text": "{{okr1_title}}",
+          "effect": "slide_right_text",
+          "position": "top",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.4
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{okr1_progress}}%",
+          "effect": "drop_in",
+          "position": "center",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 0.8
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{okr1_status}}",
+          "effect": "fade_in",
+          "position": "bottom",
+          "color": "#22c55e",
+          "timing": {
+            "start": 1.3
+          }
+        }
       ]
     },
     {
@@ -57,9 +203,36 @@
       "duration": 5.0,
       "color": "{{bg_color}}",
       "overlays": [
-        {"type": "text", "text": "{{okr2_title}}",    "effect": "slide_right","position": "top",    "color": "#ffffff",          "timing": {"start": 0.4}},
-        {"type": "text", "text": "{{okr2_progress}}%","effect": "zoom_in",   "position": "center", "color": "{{accent_color}}", "timing": {"start": 0.8}},
-        {"type": "text", "text": "{{okr2_status}}",   "effect": "fade_in",   "position": "bottom", "color": "#f59e0b",          "timing": {"start": 1.3}}
+        {
+          "type": "text",
+          "text": "{{okr2_title}}",
+          "effect": "slide_right_text",
+          "position": "top",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.4
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{okr2_progress}}%",
+          "effect": "drop_in",
+          "position": "center",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 0.8
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{okr2_status}}",
+          "effect": "fade_in",
+          "position": "bottom",
+          "color": "#f59e0b",
+          "timing": {
+            "start": 1.3
+          }
+        }
       ]
     },
     {
@@ -68,9 +241,36 @@
       "duration": 5.0,
       "color": "{{bg_color}}",
       "overlays": [
-        {"type": "text", "text": "{{okr3_title}}",    "effect": "slide_right","position": "top",    "color": "#ffffff",          "timing": {"start": 0.4}},
-        {"type": "text", "text": "{{okr3_progress}}%","effect": "zoom_in",   "position": "center", "color": "{{accent_color}}", "timing": {"start": 0.8}},
-        {"type": "text", "text": "{{okr3_status}}",   "effect": "fade_in",   "position": "bottom", "color": "#22c55e",          "timing": {"start": 1.3}}
+        {
+          "type": "text",
+          "text": "{{okr3_title}}",
+          "effect": "slide_right_text",
+          "position": "top",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.4
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{okr3_progress}}%",
+          "effect": "drop_in",
+          "position": "center",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 0.8
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{okr3_status}}",
+          "effect": "fade_in",
+          "position": "bottom",
+          "color": "#22c55e",
+          "timing": {
+            "start": 1.3
+          }
+        }
       ]
     },
     {
@@ -79,10 +279,33 @@
       "duration": 3.0,
       "color": "{{bg_color}}",
       "overlays": [
-        {"type": "text", "text": "{{quarter_label}}",  "effect": "fade_in",  "position": "top",    "color": "{{accent_color}}", "timing": {"start": 0.3}},
-        {"type": "text", "text": "{{next_steps}}",     "effect": "zoom_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 0.8}}
+        {
+          "type": "text",
+          "text": "{{quarter_label}}",
+          "effect": "fade_in",
+          "position": "top",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 0.3
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{next_steps}}",
+          "effect": "drop_in",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.8
+          }
+        }
       ]
     }
   ],
-  "transitions": {"default": {"type": "dissolve_ii", "duration": 0.4}}
+  "transitions": {
+    "default": {
+      "type": "dissolve_ii",
+      "duration": 0.4
+    }
+  }
 }

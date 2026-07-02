@@ -4,25 +4,88 @@
     "id": "testimonial_review",
     "name": "Testimonial / Review",
     "category": "people",
-    "tags": ["people", "testimonial", "review", "customer", "quote", "social-proof", "marketing"],
+    "tags": [
+      "people",
+      "testimonial",
+      "review",
+      "customer",
+      "quote",
+      "social-proof",
+      "marketing"
+    ],
     "description": "Customer testimonial or review video: customer photo with name + company, animated quote reveal, star rating + CTA. Ideal for social proof in marketing.",
     "preview_thumbnail": "previews/thumbnails/testimonial_review.jpg",
     "preview_full": "previews/full/testimonial_review.jpg",
     "author": "Trollfabriken",
     "version": "1.0",
     "variables": [
-      {"name": "customer_name",   "type": "string",     "label": "Customer name",        "required": true,  "default": "Sofia Bergström"},
-      {"name": "customer_title",  "type": "string",     "label": "Title / company",      "required": false, "default": "CEO, Bergström Consulting"},
-      {"name": "quote",           "type": "string",     "label": "Testimonial quote",    "required": true,  "default": "This product completely transformed how our team works. I can't imagine going back."},
-      {"name": "star_rating",     "type": "string",     "label": "Star rating display",  "required": false, "default": "★★★★★"},
-      {"name": "product_name",    "type": "string",     "label": "Product / service name","required": false, "default": "Acme Platform"},
-      {"name": "customer_photo",  "type": "image_path", "label": "Customer photo",       "required": false},
-      {"name": "accent_color",    "type": "color",      "label": "Brand colour",         "required": false, "default": "#f4a261"},
-      {"name": "bg_color",        "type": "color",      "label": "Background colour",    "required": false, "default": "#1a1a2e"}
+      {
+        "name": "customer_name",
+        "type": "string",
+        "label": "Customer name",
+        "required": true,
+        "default": "Sofia Bergström"
+      },
+      {
+        "name": "customer_title",
+        "type": "string",
+        "label": "Title / company",
+        "required": false,
+        "default": "CEO, Bergström Consulting"
+      },
+      {
+        "name": "quote",
+        "type": "string",
+        "label": "Testimonial quote",
+        "required": true,
+        "default": "This product completely transformed how our team works. I can't imagine going back."
+      },
+      {
+        "name": "star_rating",
+        "type": "string",
+        "label": "Star rating display",
+        "required": false,
+        "default": "★★★★★"
+      },
+      {
+        "name": "product_name",
+        "type": "string",
+        "label": "Product / service name",
+        "required": false,
+        "default": "Acme Platform"
+      },
+      {
+        "name": "customer_photo",
+        "type": "image_path",
+        "label": "Customer photo",
+        "required": false
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Brand colour",
+        "required": false,
+        "default": "#f4a261"
+      },
+      {
+        "name": "bg_color",
+        "type": "color",
+        "label": "Background colour",
+        "required": false,
+        "default": "#1a1a2e"
+      }
     ]
   },
-  "output": {"width": 1920, "height": 1080, "fps": 30, "path": "./output/testimonial_review.mp4"},
-  "theme": {"background": "{{bg_color}}", "text_color": "#ffffff"},
+  "output": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "path": "./output/testimonial_review.mp4"
+  },
+  "theme": {
+    "background": "{{bg_color}}",
+    "text_color": "#ffffff"
+  },
   "segments": [
     {
       "id": "quote_card",
@@ -30,10 +93,46 @@
       "duration": 7.0,
       "color": "{{bg_color}}",
       "overlays": [
-        {"type": "text", "text": "{{star_rating}}",     "effect": "zoom_in",  "position": "top",    "color": "{{accent_color}}", "timing": {"start": 0.5}},
-        {"type": "text", "text": "„{{quote}}”",         "effect": "fade_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 1.0}},
-        {"type": "text", "text": "{{customer_name}}",   "effect": "slide_up", "position": "bottom", "color": "#ffffff",          "timing": {"start": 2.5}},
-        {"type": "text", "text": "{{customer_title}}",  "effect": "fade_in",  "position": "bottom", "color": "{{accent_color}}", "timing": {"start": 3.0}}
+        {
+          "type": "text",
+          "text": "{{star_rating}}",
+          "effect": "drop_in",
+          "position": "top",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 0.5
+          }
+        },
+        {
+          "type": "text",
+          "text": "„{{quote}}”",
+          "effect": "fade_in",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 1.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{customer_name}}",
+          "effect": "slide_up_text",
+          "position": "bottom",
+          "color": "#ffffff",
+          "timing": {
+            "start": 2.5
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{customer_title}}",
+          "effect": "fade_in",
+          "position": "bottom",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 3.0
+          }
+        }
       ]
     },
     {
@@ -42,10 +141,33 @@
       "duration": 3.0,
       "color": "{{bg_color}}",
       "overlays": [
-        {"type": "text", "text": "{{product_name}}",  "effect": "zoom_in",  "position": "center", "color": "{{accent_color}}", "timing": {"start": 0.5}},
-        {"type": "text", "text": "See why customers love us", "effect": "fade_in", "position": "bottom", "color": "#ffffff", "timing": {"start": 1.2}}
+        {
+          "type": "text",
+          "text": "{{product_name}}",
+          "effect": "drop_in",
+          "position": "center",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 0.5
+          }
+        },
+        {
+          "type": "text",
+          "text": "See why customers love us",
+          "effect": "fade_in",
+          "position": "bottom",
+          "color": "#ffffff",
+          "timing": {
+            "start": 1.2
+          }
+        }
       ]
     }
   ],
-  "transitions": {"default": {"type": "dissolve_ii", "duration": 0.6}}
+  "transitions": {
+    "default": {
+      "type": "dissolve_ii",
+      "duration": 0.6
+    }
+  }
 }

@@ -4,51 +4,276 @@
     "id": "data_story_kpi_dashboard",
     "name": "Data Story — KPI Dashboard",
     "category": "data_story",
-    "tags": ["kpi", "dashboard", "metrics", "business", "report"],
+    "tags": [
+      "kpi",
+      "dashboard",
+      "metrics",
+      "business",
+      "report"
+    ],
     "description": "Executive KPI summary: animated intro, three KPI stat cards in sequence, closing brand card. Designed for board-level reporting.",
     "preview_thumbnail": "previews/thumbnails/data_story_kpi_dashboard.jpg",
     "preview_full": "previews/full/data_story_kpi_dashboard.jpg",
     "author": "Trollfabriken",
     "version": "1.0",
     "variables": [
-      {"name": "report_title",  "type": "string", "label": "Report title",    "required": true,  "default": "Executive Summary"},
-      {"name": "period",        "type": "string", "label": "Reporting period","required": false, "default": "Q4 2025"},
-      {"name": "kpi1_label",    "type": "string", "label": "KPI 1 label",     "required": true,  "default": "Revenue"},
-      {"name": "kpi1_value",    "type": "string", "label": "KPI 1 value",     "required": true,  "default": "€4.2M"},
-      {"name": "kpi1_delta",    "type": "string", "label": "KPI 1 delta",     "required": false, "default": "+18% YoY"},
-      {"name": "kpi2_label",    "type": "string", "label": "KPI 2 label",     "required": true,  "default": "New Customers"},
-      {"name": "kpi2_value",    "type": "string", "label": "KPI 2 value",     "required": true,  "default": "1 240"},
-      {"name": "kpi2_delta",    "type": "string", "label": "KPI 2 delta",     "required": false, "default": "+34%"},
-      {"name": "kpi3_label",    "type": "string", "label": "KPI 3 label",     "required": true,  "default": "NPS Score"},
-      {"name": "kpi3_value",    "type": "string", "label": "KPI 3 value",     "required": true,  "default": "72"},
-      {"name": "kpi3_delta",    "type": "string", "label": "KPI 3 delta",     "required": false, "default": "+5 pts"},
-      {"name": "accent_color",  "type": "color",  "label": "Accent colour",   "required": false, "default": "#00ff88"},
-      {"name": "bg_color",      "type": "color",  "label": "Background",      "required": false, "default": "#0d0d1a"}
+      {
+        "name": "report_title",
+        "type": "string",
+        "label": "Report title",
+        "required": true,
+        "default": "Executive Summary"
+      },
+      {
+        "name": "period",
+        "type": "string",
+        "label": "Reporting period",
+        "required": false,
+        "default": "Q4 2025"
+      },
+      {
+        "name": "kpi1_label",
+        "type": "string",
+        "label": "KPI 1 label",
+        "required": true,
+        "default": "Revenue"
+      },
+      {
+        "name": "kpi1_value",
+        "type": "string",
+        "label": "KPI 1 value",
+        "required": true,
+        "default": "€4.2M"
+      },
+      {
+        "name": "kpi1_delta",
+        "type": "string",
+        "label": "KPI 1 delta",
+        "required": false,
+        "default": "+18% YoY"
+      },
+      {
+        "name": "kpi2_label",
+        "type": "string",
+        "label": "KPI 2 label",
+        "required": true,
+        "default": "New Customers"
+      },
+      {
+        "name": "kpi2_value",
+        "type": "string",
+        "label": "KPI 2 value",
+        "required": true,
+        "default": "1 240"
+      },
+      {
+        "name": "kpi2_delta",
+        "type": "string",
+        "label": "KPI 2 delta",
+        "required": false,
+        "default": "+34%"
+      },
+      {
+        "name": "kpi3_label",
+        "type": "string",
+        "label": "KPI 3 label",
+        "required": true,
+        "default": "NPS Score"
+      },
+      {
+        "name": "kpi3_value",
+        "type": "string",
+        "label": "KPI 3 value",
+        "required": true,
+        "default": "72"
+      },
+      {
+        "name": "kpi3_delta",
+        "type": "string",
+        "label": "KPI 3 delta",
+        "required": false,
+        "default": "+5 pts"
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Accent colour",
+        "required": false,
+        "default": "#00ff88"
+      },
+      {
+        "name": "bg_color",
+        "type": "color",
+        "label": "Background",
+        "required": false,
+        "default": "#0d0d1a"
+      }
     ]
   },
-  "output": {"width": 1920, "height": 1080, "fps": 30, "path": "./output/data_story_kpi_dashboard.mp4"},
-  "theme": {"background": "{{bg_color}}", "text_color": "#ffffff"},
+  "output": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "path": "./output/data_story_kpi_dashboard.mp4"
+  },
+  "theme": {
+    "background": "{{bg_color}}",
+    "text_color": "#ffffff"
+  },
   "segments": [
-    {"id": "intro",  "type": "blank", "duration": 2.5, "color": "{{bg_color}}", "overlays": [
-      {"type": "text", "text": "{{report_title}}", "effect": "fade_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 0.3}},
-      {"type": "text", "text": "{{period}}",        "effect": "slide_up", "position": "bottom", "color": "{{accent_color}}", "timing": {"start": 0.8}}
-    ]},
-    {"id": "kpi1", "type": "blank", "duration": 3.5, "color": "{{bg_color}}", "overlays": [
-      {"type": "text", "text": "{{kpi1_label}}", "effect": "fade_in",  "position": "top",    "color": "{{accent_color}}", "timing": {"start": 0.2}},
-      {"type": "text", "text": "{{kpi1_value}}", "effect": "zoom_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 0.5}},
-      {"type": "text", "text": "{{kpi1_delta}}", "effect": "slide_up", "position": "bottom", "color": "{{accent_color}}", "timing": {"start": 1.0}}
-    ]},
-    {"id": "kpi2", "type": "blank", "duration": 3.5, "color": "{{bg_color}}", "overlays": [
-      {"type": "text", "text": "{{kpi2_label}}", "effect": "fade_in",  "position": "top",    "color": "{{accent_color}}", "timing": {"start": 0.2}},
-      {"type": "text", "text": "{{kpi2_value}}", "effect": "zoom_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 0.5}},
-      {"type": "text", "text": "{{kpi2_delta}}", "effect": "slide_up", "position": "bottom", "color": "{{accent_color}}", "timing": {"start": 1.0}}
-    ]},
-    {"id": "kpi3", "type": "blank", "duration": 3.5, "color": "{{bg_color}}", "overlays": [
-      {"type": "text", "text": "{{kpi3_label}}", "effect": "fade_in",  "position": "top",    "color": "{{accent_color}}", "timing": {"start": 0.2}},
-      {"type": "text", "text": "{{kpi3_value}}", "effect": "zoom_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 0.5}},
-      {"type": "text", "text": "{{kpi3_delta}}", "effect": "slide_up", "position": "bottom", "color": "{{accent_color}}", "timing": {"start": 1.0}}
-    ]},
-    {"id": "outro", "type": "blank", "duration": 2.0, "color": "{{bg_color}}"}
+    {
+      "id": "intro",
+      "type": "blank",
+      "duration": 2.5,
+      "color": "{{bg_color}}",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{report_title}}",
+          "effect": "fade_in",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.3
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{period}}",
+          "effect": "slide_up_text",
+          "position": "bottom",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 0.8
+          }
+        }
+      ]
+    },
+    {
+      "id": "kpi1",
+      "type": "blank",
+      "duration": 3.5,
+      "color": "{{bg_color}}",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{kpi1_label}}",
+          "effect": "fade_in",
+          "position": "top",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 0.2
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{kpi1_value}}",
+          "effect": "drop_in",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.5
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{kpi1_delta}}",
+          "effect": "slide_up_text",
+          "position": "bottom",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "kpi2",
+      "type": "blank",
+      "duration": 3.5,
+      "color": "{{bg_color}}",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{kpi2_label}}",
+          "effect": "fade_in",
+          "position": "top",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 0.2
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{kpi2_value}}",
+          "effect": "drop_in",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.5
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{kpi2_delta}}",
+          "effect": "slide_up_text",
+          "position": "bottom",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "kpi3",
+      "type": "blank",
+      "duration": 3.5,
+      "color": "{{bg_color}}",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{kpi3_label}}",
+          "effect": "fade_in",
+          "position": "top",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 0.2
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{kpi3_value}}",
+          "effect": "drop_in",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.5
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{kpi3_delta}}",
+          "effect": "slide_up_text",
+          "position": "bottom",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "outro",
+      "type": "blank",
+      "duration": 2.0,
+      "color": "{{bg_color}}"
+    }
   ],
-  "transitions": {"default": {"type": "dissolve_ii", "duration": 0.4}}
+  "transitions": {
+    "default": {
+      "type": "dissolve_ii",
+      "duration": 0.4
+    }
+  }
 }

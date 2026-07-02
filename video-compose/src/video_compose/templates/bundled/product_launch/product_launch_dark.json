@@ -4,26 +4,94 @@
     "id": "product_launch_dark",
     "name": "Product Launch — Dark Neon",
     "category": "product_launch",
-    "tags": ["product", "launch", "reveal", "neon", "dark", "cinematic"],
+    "tags": [
+      "product",
+      "launch",
+      "reveal",
+      "neon",
+      "dark",
+      "cinematic"
+    ],
     "description": "High-impact product launch: matrix rain intro, product image reveal with Ken Burns, three feature callouts on shape-fx, bold CTA outro. Dark neon aesthetic.",
     "preview_thumbnail": "previews/thumbnails/product_launch_dark.jpg",
     "preview_full": "previews/full/product_launch_dark.jpg",
     "author": "Trollfabriken",
     "version": "1.0",
     "variables": [
-      {"name": "product_name",  "type": "string",     "label": "Product name",      "required": true,  "default": "PRODUCT X"},
-      {"name": "tagline",       "type": "string",     "label": "Tagline",           "required": false, "default": "Redefining what's possible"},
-      {"name": "feature_1",     "type": "string",     "label": "Feature 1",         "required": false, "default": "Blazing fast performance"},
-      {"name": "feature_2",     "type": "string",     "label": "Feature 2",         "required": false, "default": "Built for scale"},
-      {"name": "feature_3",     "type": "string",     "label": "Feature 3",         "required": false, "default": "Zero compromise"},
-      {"name": "cta_text",      "type": "string",     "label": "Call to action",    "required": false, "default": "Available now"},
-      {"name": "product_image", "type": "image_path", "label": "Product image path","required": true},
-      {"name": "accent_color",  "type": "color",      "label": "Accent colour",     "required": false, "default": "#00ff88"},
-      {"name": "bg_color",      "type": "color",      "label": "Background colour", "required": false, "default": "#0a0a0a"}
+      {
+        "name": "product_name",
+        "type": "string",
+        "label": "Product name",
+        "required": true,
+        "default": "PRODUCT X"
+      },
+      {
+        "name": "tagline",
+        "type": "string",
+        "label": "Tagline",
+        "required": false,
+        "default": "Redefining what's possible"
+      },
+      {
+        "name": "feature_1",
+        "type": "string",
+        "label": "Feature 1",
+        "required": false,
+        "default": "Blazing fast performance"
+      },
+      {
+        "name": "feature_2",
+        "type": "string",
+        "label": "Feature 2",
+        "required": false,
+        "default": "Built for scale"
+      },
+      {
+        "name": "feature_3",
+        "type": "string",
+        "label": "Feature 3",
+        "required": false,
+        "default": "Zero compromise"
+      },
+      {
+        "name": "cta_text",
+        "type": "string",
+        "label": "Call to action",
+        "required": false,
+        "default": "Available now"
+      },
+      {
+        "name": "product_image",
+        "type": "image_path",
+        "label": "Product image path",
+        "required": true
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Accent colour",
+        "required": false,
+        "default": "#00ff88"
+      },
+      {
+        "name": "bg_color",
+        "type": "color",
+        "label": "Background colour",
+        "required": false,
+        "default": "#0a0a0a"
+      }
     ]
   },
-  "output": {"width": 1920, "height": 1080, "fps": 30, "path": "./output/product_launch_dark.mp4"},
-  "theme": {"background": "{{bg_color}}", "text_color": "#ffffff"},
+  "output": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "path": "./output/product_launch_dark.mp4"
+  },
+  "theme": {
+    "background": "{{bg_color}}",
+    "text_color": "#ffffff"
+  },
   "segments": [
     {
       "id": "intro",
@@ -32,8 +100,26 @@
       "effect": "matrix_rain",
       "config": {},
       "overlays": [
-        {"type": "text", "text": "{{product_name}}", "effect": "zoom_in",  "position": "center", "color": "{{accent_color}}", "timing": {"start": 1.0}},
-        {"type": "text", "text": "{{tagline}}",      "effect": "fade_in",  "position": "bottom", "color": "#ffffff",          "timing": {"start": 2.0}}
+        {
+          "type": "text",
+          "text": "{{product_name}}",
+          "effect": "drop_in",
+          "position": "center",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 1.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{tagline}}",
+          "effect": "fade_in",
+          "position": "bottom",
+          "color": "#ffffff",
+          "timing": {
+            "start": 2.0
+          }
+        }
       ]
     },
     {
@@ -50,9 +136,38 @@
       "effect": "constellation",
       "config": {},
       "overlays": [
-        {"type": "text", "text": "{{feature_1}}", "effect": "slide_right", "position": "top",    "color": "{{accent_color}}", "timing": {"start": 0.5, "end": 3.5}},
-        {"type": "text", "text": "{{feature_2}}", "effect": "slide_right", "position": "center", "color": "{{accent_color}}", "timing": {"start": 2.5, "end": 5.5}},
-        {"type": "text", "text": "{{feature_3}}", "effect": "slide_right", "position": "bottom", "color": "{{accent_color}}", "timing": {"start": 4.5}}
+        {
+          "type": "text",
+          "text": "{{feature_1}}",
+          "effect": "slide_right_text",
+          "position": "top",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 0.5,
+            "end": 3.5
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{feature_2}}",
+          "effect": "slide_right_text",
+          "position": "center",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 2.5,
+            "end": 5.5
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{feature_3}}",
+          "effect": "slide_right_text",
+          "position": "bottom",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 4.5
+          }
+        }
       ]
     },
     {
@@ -61,10 +176,33 @@
       "duration": 3.0,
       "color": "{{bg_color}}",
       "overlays": [
-        {"type": "text", "text": "{{product_name}}", "effect": "fade_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 0.3}},
-        {"type": "text", "text": "{{cta_text}}",     "effect": "zoom_in",  "position": "bottom", "color": "{{accent_color}}", "timing": {"start": 0.8}}
+        {
+          "type": "text",
+          "text": "{{product_name}}",
+          "effect": "fade_in",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.3
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{cta_text}}",
+          "effect": "drop_in",
+          "position": "bottom",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 0.8
+          }
+        }
       ]
     }
   ],
-  "transitions": {"default": {"type": "dissolve_ii", "duration": 0.5}}
+  "transitions": {
+    "default": {
+      "type": "dissolve_ii",
+      "duration": 0.5
+    }
+  }
 }

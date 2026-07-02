@@ -4,47 +4,165 @@
     "id": "neon_countdown",
     "name": "Neon Countdown",
     "category": "ambient",
-    "tags": ["ambient", "countdown", "neon", "event", "timer", "launch", "hexgrid", "shape"],
+    "tags": [
+      "ambient",
+      "countdown",
+      "neon",
+      "event",
+      "timer",
+      "launch",
+      "hexgrid",
+      "shape"
+    ],
     "description": "Animated countdown sequence (5-4-3-2-1): hex grid shape-fx background, each number zooms in on its own beat, particle burst at zero, event reveal outro. Use for product launches, streams, and events.",
     "preview_thumbnail": "previews/thumbnails/neon_countdown.jpg",
     "preview_full": "previews/full/neon_countdown.jpg",
     "author": "Trollfabriken",
     "version": "1.0",
     "variables": [
-      {"name": "event_name",   "type": "string", "label": "Event name",           "required": true,  "default": "PRODUCT LAUNCH"},
-      {"name": "event_tagline","type": "string", "label": "Reveal tagline",       "required": false, "default": "Available now"},
-      {"name": "accent_color", "type": "color",  "label": "Neon accent colour",   "required": false, "default": "#00ffcc"},
-      {"name": "bg_color",     "type": "color",  "label": "Background colour",    "required": false, "default": "#050510"}
+      {
+        "name": "event_name",
+        "type": "string",
+        "label": "Event name",
+        "required": true,
+        "default": "PRODUCT LAUNCH"
+      },
+      {
+        "name": "event_tagline",
+        "type": "string",
+        "label": "Reveal tagline",
+        "required": false,
+        "default": "Available now"
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Neon accent colour",
+        "required": false,
+        "default": "#00ffcc"
+      },
+      {
+        "name": "bg_color",
+        "type": "color",
+        "label": "Background colour",
+        "required": false,
+        "default": "#050510"
+      }
     ]
   },
-  "output": {"width": 1920, "height": 1080, "fps": 30, "path": "./output/neon_countdown.mp4"},
-  "theme": {"background": "{{bg_color}}", "text_color": "#ffffff"},
+  "output": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "path": "./output/neon_countdown.mp4"
+  },
+  "theme": {
+    "background": "{{bg_color}}",
+    "text_color": "#ffffff"
+  },
   "segments": [
     {
       "id": "countdown",
       "type": "shape",
       "duration": 6.0,
-      "effect": "hex_grid",
-      "config": {"color": "{{accent_color}}"},
+      "effect": "hexgrid",
+      "config": {
+        "color": "{{accent_color}}"
+      },
       "overlays": [
-        {"type": "text", "text": "5", "effect": "zoom_in", "position": "center", "color": "{{accent_color}}", "timing": {"start": 0.1,  "end": 1.1}},
-        {"type": "text", "text": "4", "effect": "zoom_in", "position": "center", "color": "{{accent_color}}", "timing": {"start": 1.1,  "end": 2.1}},
-        {"type": "text", "text": "3", "effect": "zoom_in", "position": "center", "color": "{{accent_color}}", "timing": {"start": 2.1,  "end": 3.1}},
-        {"type": "text", "text": "2", "effect": "zoom_in", "position": "center", "color": "{{accent_color}}", "timing": {"start": 3.1,  "end": 4.1}},
-        {"type": "text", "text": "1", "effect": "zoom_in", "position": "center", "color": "{{accent_color}}", "timing": {"start": 4.1,  "end": 5.1}}
+        {
+          "type": "text",
+          "text": "5",
+          "effect": "drop_in",
+          "position": "center",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 0.1,
+            "end": 1.1
+          }
+        },
+        {
+          "type": "text",
+          "text": "4",
+          "effect": "drop_in",
+          "position": "center",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 1.1,
+            "end": 2.1
+          }
+        },
+        {
+          "type": "text",
+          "text": "3",
+          "effect": "drop_in",
+          "position": "center",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 2.1,
+            "end": 3.1
+          }
+        },
+        {
+          "type": "text",
+          "text": "2",
+          "effect": "drop_in",
+          "position": "center",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 3.1,
+            "end": 4.1
+          }
+        },
+        {
+          "type": "text",
+          "text": "1",
+          "effect": "drop_in",
+          "position": "center",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 4.1,
+            "end": 5.1
+          }
+        }
       ]
     },
     {
       "id": "reveal",
       "type": "shape",
       "duration": 4.0,
-      "effect": "particle_burst",
-      "config": {"color": "{{accent_color}}"},
+      "effect": "particle_flow",
+      "config": {
+        "color": "{{accent_color}}"
+      },
       "overlays": [
-        {"type": "text", "text": "{{event_name}}",   "effect": "zoom_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 0.5}},
-        {"type": "text", "text": "{{event_tagline}}","effect": "slide_up", "position": "bottom", "color": "{{accent_color}}", "timing": {"start": 1.2}}
+        {
+          "type": "text",
+          "text": "{{event_name}}",
+          "effect": "drop_in",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.5
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{event_tagline}}",
+          "effect": "slide_up_text",
+          "position": "bottom",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 1.2
+          }
+        }
       ]
     }
   ],
-  "transitions": {"default": {"type": "dissolve_ii", "duration": 0.3}}
+  "transitions": {
+    "default": {
+      "type": "dissolve_ii",
+      "duration": 0.3
+    }
+  }
 }

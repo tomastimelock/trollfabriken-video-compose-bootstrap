@@ -4,30 +4,124 @@
     "id": "explainer_timeline",
     "name": "Explainer — Timeline",
     "category": "explainer",
-    "tags": ["explainer", "timeline", "history", "roadmap", "milestones", "sequence", "education"],
+    "tags": [
+      "explainer",
+      "timeline",
+      "history",
+      "roadmap",
+      "milestones",
+      "sequence",
+      "education"
+    ],
     "description": "Animated 5-event horizontal timeline: wipe-reveal draws the spine, event nodes appear in sequence with date and label. Suitable for history, product roadmap, or company milestones.",
     "preview_thumbnail": "previews/thumbnails/explainer_timeline.jpg",
     "preview_full": "previews/full/explainer_timeline.jpg",
     "author": "Trollfabriken",
     "version": "1.0",
     "variables": [
-      {"name": "title",         "type": "string", "label": "Timeline title",      "required": true,  "default": "Our Journey"},
-      {"name": "event_1_date",  "type": "string", "label": "Event 1 date",        "required": true,  "default": "2020"},
-      {"name": "event_1_label", "type": "string", "label": "Event 1 description", "required": true,  "default": "Company founded"},
-      {"name": "event_2_date",  "type": "string", "label": "Event 2 date",        "required": false, "default": "2021"},
-      {"name": "event_2_label", "type": "string", "label": "Event 2 description", "required": false, "default": "First 1 000 customers"},
-      {"name": "event_3_date",  "type": "string", "label": "Event 3 date",        "required": false, "default": "2022"},
-      {"name": "event_3_label", "type": "string", "label": "Event 3 description", "required": false, "default": "Series A funding"},
-      {"name": "event_4_date",  "type": "string", "label": "Event 4 date",        "required": false, "default": "2023"},
-      {"name": "event_4_label", "type": "string", "label": "Event 4 description", "required": false, "default": "International expansion"},
-      {"name": "event_5_date",  "type": "string", "label": "Event 5 date",        "required": false, "default": "2025"},
-      {"name": "event_5_label", "type": "string", "label": "Event 5 description", "required": false, "default": "1M+ users"},
-      {"name": "accent_color",  "type": "color",  "label": "Accent colour",       "required": false, "default": "#3b82f6"},
-      {"name": "bg_color",      "type": "color",  "label": "Background colour",   "required": false, "default": "#0f1923"}
+      {
+        "name": "title",
+        "type": "string",
+        "label": "Timeline title",
+        "required": true,
+        "default": "Our Journey"
+      },
+      {
+        "name": "event_1_date",
+        "type": "string",
+        "label": "Event 1 date",
+        "required": true,
+        "default": "2020"
+      },
+      {
+        "name": "event_1_label",
+        "type": "string",
+        "label": "Event 1 description",
+        "required": true,
+        "default": "Company founded"
+      },
+      {
+        "name": "event_2_date",
+        "type": "string",
+        "label": "Event 2 date",
+        "required": false,
+        "default": "2021"
+      },
+      {
+        "name": "event_2_label",
+        "type": "string",
+        "label": "Event 2 description",
+        "required": false,
+        "default": "First 1 000 customers"
+      },
+      {
+        "name": "event_3_date",
+        "type": "string",
+        "label": "Event 3 date",
+        "required": false,
+        "default": "2022"
+      },
+      {
+        "name": "event_3_label",
+        "type": "string",
+        "label": "Event 3 description",
+        "required": false,
+        "default": "Series A funding"
+      },
+      {
+        "name": "event_4_date",
+        "type": "string",
+        "label": "Event 4 date",
+        "required": false,
+        "default": "2023"
+      },
+      {
+        "name": "event_4_label",
+        "type": "string",
+        "label": "Event 4 description",
+        "required": false,
+        "default": "International expansion"
+      },
+      {
+        "name": "event_5_date",
+        "type": "string",
+        "label": "Event 5 date",
+        "required": false,
+        "default": "2025"
+      },
+      {
+        "name": "event_5_label",
+        "type": "string",
+        "label": "Event 5 description",
+        "required": false,
+        "default": "1M+ users"
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Accent colour",
+        "required": false,
+        "default": "#3b82f6"
+      },
+      {
+        "name": "bg_color",
+        "type": "color",
+        "label": "Background colour",
+        "required": false,
+        "default": "#0f1923"
+      }
     ]
   },
-  "output": {"width": 1920, "height": 1080, "fps": 30, "path": "./output/explainer_timeline.mp4"},
-  "theme": {"background": "{{bg_color}}", "text_color": "#ffffff"},
+  "output": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "path": "./output/explainer_timeline.mp4"
+  },
+  "theme": {
+    "background": "{{bg_color}}",
+    "text_color": "#ffffff"
+  },
   "segments": [
     {
       "id": "title_card",
@@ -35,7 +129,16 @@
       "duration": 2.5,
       "color": "{{bg_color}}",
       "overlays": [
-        {"type": "text", "text": "{{title}}", "effect": "fade_in", "position": "center", "color": "#ffffff", "timing": {"start": 0.5}}
+        {
+          "type": "text",
+          "text": "{{title}}",
+          "effect": "fade_in",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.5
+          }
+        }
       ]
     },
     {
@@ -43,20 +146,126 @@
       "type": "shape",
       "duration": 12.0,
       "effect": "wipe_reveal",
-      "config": {"color": "{{accent_color}}", "direction": "left_to_right"},
+      "config": {
+        "color": "{{accent_color}}",
+        "direction": "left_to_right"
+      },
       "overlays": [
-        {"type": "text", "text": "{{event_1_date}}", "effect": "fade_in", "position": "center", "color": "{{accent_color}}", "timing": {"start": 0.5,  "end": 3.0}},
-        {"type": "text", "text": "{{event_1_label}}","effect": "slide_up","position": "center", "color": "#ffffff",          "timing": {"start": 0.8,  "end": 3.0}},
-        {"type": "text", "text": "{{event_2_date}}", "effect": "fade_in", "position": "center", "color": "{{accent_color}}", "timing": {"start": 2.5,  "end": 5.0}},
-        {"type": "text", "text": "{{event_2_label}}","effect": "slide_up","position": "center", "color": "#ffffff",          "timing": {"start": 2.8,  "end": 5.0}},
-        {"type": "text", "text": "{{event_3_date}}", "effect": "fade_in", "position": "center", "color": "{{accent_color}}", "timing": {"start": 5.0,  "end": 7.5}},
-        {"type": "text", "text": "{{event_3_label}}","effect": "slide_up","position": "center", "color": "#ffffff",          "timing": {"start": 5.3,  "end": 7.5}},
-        {"type": "text", "text": "{{event_4_date}}", "effect": "fade_in", "position": "center", "color": "{{accent_color}}", "timing": {"start": 7.5,  "end": 10.0}},
-        {"type": "text", "text": "{{event_4_label}}","effect": "slide_up","position": "center", "color": "#ffffff",          "timing": {"start": 7.8,  "end": 10.0}},
-        {"type": "text", "text": "{{event_5_date}}", "effect": "fade_in", "position": "center", "color": "{{accent_color}}", "timing": {"start": 10.0}},
-        {"type": "text", "text": "{{event_5_label}}","effect": "slide_up","position": "center", "color": "#ffffff",          "timing": {"start": 10.3}}
+        {
+          "type": "text",
+          "text": "{{event_1_date}}",
+          "effect": "fade_in",
+          "position": "center",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 0.5,
+            "end": 3.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{event_1_label}}",
+          "effect": "slide_up_text",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.8,
+            "end": 3.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{event_2_date}}",
+          "effect": "fade_in",
+          "position": "center",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 2.5,
+            "end": 5.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{event_2_label}}",
+          "effect": "slide_up_text",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 2.8,
+            "end": 5.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{event_3_date}}",
+          "effect": "fade_in",
+          "position": "center",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 5.0,
+            "end": 7.5
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{event_3_label}}",
+          "effect": "slide_up_text",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 5.3,
+            "end": 7.5
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{event_4_date}}",
+          "effect": "fade_in",
+          "position": "center",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 7.5,
+            "end": 10.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{event_4_label}}",
+          "effect": "slide_up_text",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 7.8,
+            "end": 10.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{event_5_date}}",
+          "effect": "fade_in",
+          "position": "center",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 10.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{event_5_label}}",
+          "effect": "slide_up_text",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 10.3
+          }
+        }
       ]
     }
   ],
-  "transitions": {"default": {"type": "dissolve_ii", "duration": 0.5}}
+  "transitions": {
+    "default": {
+      "type": "dissolve_ii",
+      "duration": 0.5
+    }
+  }
 }

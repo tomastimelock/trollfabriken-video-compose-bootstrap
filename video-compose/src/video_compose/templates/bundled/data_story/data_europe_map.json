@@ -4,27 +4,109 @@
     "id": "data_europe_map",
     "name": "Europe Map Choropleth",
     "category": "data_story",
-    "tags": ["data", "europe", "EU", "map", "choropleth", "geomap", "policy", "statistics"],
+    "tags": [
+      "data",
+      "europe",
+      "EU",
+      "map",
+      "choropleth",
+      "geomap",
+      "policy",
+      "statistics"
+    ],
     "description": "European choropleth map for EU/EEA data stories: title card, animated Europe map coloured by country-level data, key finding summary. Covers all EU/EEA member states.",
     "preview_thumbnail": "previews/thumbnails/data_europe_map.jpg",
     "preview_full": "previews/full/data_europe_map.jpg",
     "author": "Trollfabriken",
     "version": "1.0",
     "variables": [
-      {"name": "map_title",    "type": "string",   "label": "Map title",                    "required": true,  "default": "EU Renewable Energy Share 2024"},
-      {"name": "map_data",     "type": "data_ref", "label": "Country data (ISO2 -> float)", "required": true,
-        "default": {"SE":0.66,"FI":0.47,"AT":0.36,"DK":0.35,"PT":0.34,"LV":0.42,"EE":0.38,"LT":0.32,"HR":0.30,"RO":0.25,"DE":0.21,"FR":0.19,"PL":0.16,"CZ":0.18,"BE":0.13,"NL":0.14},
-        "description": "Dict of ISO 3166-1 alpha-2 country code to normalised float (0.0-1.0)"},
-      {"name": "palette",      "type": "string",   "label": "Colour palette",               "required": false, "default": "Greens",
-        "choices": ["Greens","Blues","YlOrRd","Purples","RdBu","viridis"]},
-      {"name": "key_finding",  "type": "string",   "label": "Key finding text",             "required": false, "default": "Sweden leads EU with 66% renewable share"},
-      {"name": "source_note",  "type": "string",   "label": "Data source",                  "required": false, "default": "Source: Eurostat 2024"},
-      {"name": "accent_color", "type": "color",    "label": "Accent colour",                "required": false, "default": "#003399"},
-      {"name": "bg_color",     "type": "color",    "label": "Background colour",            "required": false, "default": "#0a1628"}
+      {
+        "name": "map_title",
+        "type": "string",
+        "label": "Map title",
+        "required": true,
+        "default": "EU Renewable Energy Share 2024"
+      },
+      {
+        "name": "map_data",
+        "type": "data_ref",
+        "label": "Country data (ISO2 -> float)",
+        "required": true,
+        "default": {
+          "SE": 0.66,
+          "FI": 0.47,
+          "AT": 0.36,
+          "DK": 0.35,
+          "PT": 0.34,
+          "LV": 0.42,
+          "EE": 0.38,
+          "LT": 0.32,
+          "HR": 0.3,
+          "RO": 0.25,
+          "DE": 0.21,
+          "FR": 0.19,
+          "PL": 0.16,
+          "CZ": 0.18,
+          "BE": 0.13,
+          "NL": 0.14
+        },
+        "description": "Dict of ISO 3166-1 alpha-2 country code to normalised float (0.0-1.0)"
+      },
+      {
+        "name": "palette",
+        "type": "string",
+        "label": "Colour palette",
+        "required": false,
+        "default": "Greens",
+        "choices": [
+          "Greens",
+          "Blues",
+          "YlOrRd",
+          "Purples",
+          "RdBu",
+          "viridis"
+        ]
+      },
+      {
+        "name": "key_finding",
+        "type": "string",
+        "label": "Key finding text",
+        "required": false,
+        "default": "Sweden leads EU with 66% renewable share"
+      },
+      {
+        "name": "source_note",
+        "type": "string",
+        "label": "Data source",
+        "required": false,
+        "default": "Source: Eurostat 2024"
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Accent colour",
+        "required": false,
+        "default": "#003399"
+      },
+      {
+        "name": "bg_color",
+        "type": "color",
+        "label": "Background colour",
+        "required": false,
+        "default": "#0a1628"
+      }
     ]
   },
-  "output": {"width": 1920, "height": 1080, "fps": 30, "path": "./output/data_europe_map.mp4"},
-  "theme": {"background": "{{bg_color}}", "text_color": "#ffffff"},
+  "output": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "path": "./output/data_europe_map.mp4"
+  },
+  "theme": {
+    "background": "{{bg_color}}",
+    "text_color": "#ffffff"
+  },
   "segments": [
     {
       "id": "title",
@@ -32,7 +114,16 @@
       "duration": 2.5,
       "color": "{{bg_color}}",
       "overlays": [
-        {"type": "text", "text": "{{map_title}}", "effect": "fade_in", "position": "center", "color": "#ffffff", "timing": {"start": 0.5}}
+        {
+          "type": "text",
+          "text": "{{map_title}}",
+          "effect": "fade_in",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.5
+          }
+        }
       ]
     },
     {
@@ -40,7 +131,7 @@
       "type": "geomap",
       "duration": 9.0,
       "scope": "europe",
-      "view": "countries",
+      "view": "regions",
       "data": "{{map_data}}",
       "palette": "{{palette}}",
       "animation": "ken_burns_zoom"
@@ -51,11 +142,43 @@
       "duration": 3.5,
       "color": "{{bg_color}}",
       "overlays": [
-        {"type": "text", "text": "{{map_title}}",   "effect": "fade_in",  "position": "top",    "color": "{{accent_color}}", "timing": {"start": 0.3}},
-        {"type": "text", "text": "{{key_finding}}", "effect": "zoom_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 0.8}},
-        {"type": "text", "text": "{{source_note}}", "effect": "fade_in",  "position": "bottom", "color": "#aaaaaa",          "timing": {"start": 1.5}}
+        {
+          "type": "text",
+          "text": "{{map_title}}",
+          "effect": "fade_in",
+          "position": "top",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 0.3
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{key_finding}}",
+          "effect": "drop_in",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.8
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{source_note}}",
+          "effect": "fade_in",
+          "position": "bottom",
+          "color": "#aaaaaa",
+          "timing": {
+            "start": 1.5
+          }
+        }
       ]
     }
   ],
-  "transitions": {"default": {"type": "dissolve_ii", "duration": 0.5}}
+  "transitions": {
+    "default": {
+      "type": "dissolve_ii",
+      "duration": 0.5
+    }
+  }
 }

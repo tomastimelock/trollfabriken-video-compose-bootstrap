@@ -4,24 +4,82 @@
     "id": "lower_third_score_bug",
     "name": "Lower Third — Score Bug",
     "category": "lower_third",
-    "tags": ["lower-third", "sports", "score", "bug", "broadcast"],
+    "tags": [
+      "lower-third",
+      "sports",
+      "score",
+      "bug",
+      "broadcast"
+    ],
     "description": "Sports score bug overlay on a video. Shows team names and scores in a broadcast-style score bug.",
     "preview_thumbnail": "previews/thumbnails/lower_third_score_bug.jpg",
     "preview_full": "previews/full/lower_third_score_bug.jpg",
     "author": "Trollfabriken",
     "version": "1.0",
     "variables": [
-      {"name": "video_source",  "type": "video_path","label": "Background video",  "required": true},
-      {"name": "team_a",        "type": "string",    "label": "Team A name",       "required": true,  "default": "HOME"},
-      {"name": "score_a",       "type": "string",    "label": "Team A score",      "required": true,  "default": "2"},
-      {"name": "team_b",        "type": "string",    "label": "Team B name",       "required": true,  "default": "AWAY"},
-      {"name": "score_b",       "type": "string",    "label": "Team B score",      "required": true,  "default": "1"},
-      {"name": "period",        "type": "string",    "label": "Period / time",     "required": false, "default": "HT"},
-      {"name": "accent_color",  "type": "color",     "label": "Accent colour",     "required": false, "default": "#0055aa"},
-      {"name": "clip_duration", "type": "duration",  "label": "Duration (seconds)","required": false, "default": 8.0}
+      {
+        "name": "video_source",
+        "type": "video_path",
+        "label": "Background video",
+        "required": true
+      },
+      {
+        "name": "team_a",
+        "type": "string",
+        "label": "Team A name",
+        "required": true,
+        "default": "HOME"
+      },
+      {
+        "name": "score_a",
+        "type": "string",
+        "label": "Team A score",
+        "required": true,
+        "default": "2"
+      },
+      {
+        "name": "team_b",
+        "type": "string",
+        "label": "Team B name",
+        "required": true,
+        "default": "AWAY"
+      },
+      {
+        "name": "score_b",
+        "type": "string",
+        "label": "Team B score",
+        "required": true,
+        "default": "1"
+      },
+      {
+        "name": "period",
+        "type": "string",
+        "label": "Period / time",
+        "required": false,
+        "default": "HT"
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Accent colour",
+        "required": false,
+        "default": "#0055aa"
+      },
+      {
+        "name": "clip_duration",
+        "type": "duration",
+        "label": "Duration (seconds)",
+        "required": false,
+        "default": 8.0
+      }
     ]
   },
-  "output": {"width": 1920, "height": 1080, "fps": 30, "path": "./output/lower_third_score_bug.mp4"},
+  "output": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "path": "./output/lower_third_score_bug.mp4"
+  },
   "segments": [
     {
       "id": "match",
@@ -29,8 +87,26 @@
       "source": "{{video_source}}",
       "duration": "{{clip_duration}}",
       "overlays": [
-        {"type": "text", "text": "{{team_a}}  {{score_a}} — {{score_b}}  {{team_b}}", "effect": "fade_in", "position": "top", "color": "#ffffff", "timing": {"start": 0.5}},
-        {"type": "text", "text": "{{period}}", "effect": "fade_in", "position": "top-right", "color": "{{accent_color}}", "timing": {"start": 0.5}}
+        {
+          "type": "text",
+          "text": "{{team_a}}  {{score_a}} — {{score_b}}  {{team_b}}",
+          "effect": "fade_in",
+          "position": "top",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.5
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{period}}",
+          "effect": "fade_in",
+          "position": "top-right",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 0.5
+          }
+        }
       ]
     }
   ]

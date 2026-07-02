@@ -4,21 +4,62 @@
     "id": "lower_third_cnn",
     "name": "Lower Third — CNN Style",
     "category": "lower_third",
-    "tags": ["lower-third", "news", "broadcast", "cnn", "chyron", "overlay"],
+    "tags": [
+      "lower-third",
+      "news",
+      "broadcast",
+      "cnn",
+      "chyron",
+      "overlay"
+    ],
     "description": "Broadcast-style lower third with headline and subline overlay on a video source. Inspired by CNN chyron graphics.",
     "preview_thumbnail": "previews/thumbnails/lower_third_cnn.jpg",
     "preview_full": "previews/full/lower_third_cnn.jpg",
     "author": "Trollfabriken",
     "version": "1.0",
     "variables": [
-      {"name": "video_source",  "type": "video_path","label": "Background video",   "required": true},
-      {"name": "headline",      "type": "string",    "label": "Headline",           "required": true,  "default": "BREAKING NEWS"},
-      {"name": "subline",       "type": "string",    "label": "Subline / ticker",   "required": false, "default": "Developing story — more details to follow"},
-      {"name": "accent_color",  "type": "color",     "label": "Accent colour",      "required": false, "default": "#cc0000"},
-      {"name": "clip_duration", "type": "duration",  "label": "Duration (seconds)", "required": false, "default": 8.0}
+      {
+        "name": "video_source",
+        "type": "video_path",
+        "label": "Background video",
+        "required": true
+      },
+      {
+        "name": "headline",
+        "type": "string",
+        "label": "Headline",
+        "required": true,
+        "default": "BREAKING NEWS"
+      },
+      {
+        "name": "subline",
+        "type": "string",
+        "label": "Subline / ticker",
+        "required": false,
+        "default": "Developing story — more details to follow"
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Accent colour",
+        "required": false,
+        "default": "#cc0000"
+      },
+      {
+        "name": "clip_duration",
+        "type": "duration",
+        "label": "Duration (seconds)",
+        "required": false,
+        "default": 8.0
+      }
     ]
   },
-  "output": {"width": 1920, "height": 1080, "fps": 30, "path": "./output/lower_third_cnn.mp4"},
+  "output": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "path": "./output/lower_third_cnn.mp4"
+  },
   "segments": [
     {
       "id": "broadcast",
@@ -26,8 +67,26 @@
       "source": "{{video_source}}",
       "duration": "{{clip_duration}}",
       "overlays": [
-        {"type": "text", "text": "{{headline}}", "effect": "slide_right", "position": "bottom-left", "color": "#ffffff",          "timing": {"start": 1.0}},
-        {"type": "text", "text": "{{subline}}",  "effect": "slide_right", "position": "bottom",      "color": "{{accent_color}}", "timing": {"start": 1.3}}
+        {
+          "type": "text",
+          "text": "{{headline}}",
+          "effect": "slide_right_text",
+          "position": "bottom-left",
+          "color": "#ffffff",
+          "timing": {
+            "start": 1.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{subline}}",
+          "effect": "slide_right_text",
+          "position": "bottom",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 1.3
+          }
+        }
       ]
     }
   ]

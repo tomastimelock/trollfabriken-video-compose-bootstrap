@@ -4,27 +4,103 @@
     "id": "movie_end_credits",
     "name": "Movie End Credits",
     "category": "entertainment",
-    "tags": ["entertainment", "credits", "film", "end-card", "scroll", "cinematic", "video"],
+    "tags": [
+      "entertainment",
+      "credits",
+      "film",
+      "end-card",
+      "scroll",
+      "cinematic",
+      "video"
+    ],
     "description": "Cinematic end credits roll: sequential cast and crew names slide up on pure black with a colour-accented title, suitable for short films, YouTube videos, and branded content.",
     "preview_thumbnail": "previews/thumbnails/movie_end_credits.jpg",
     "preview_full": "previews/full/movie_end_credits.jpg",
     "author": "Trollfabriken",
     "version": "1.0",
     "variables": [
-      {"name": "production_title", "type": "string", "label": "Film / production title", "required": true,  "default": "THE LAST SIGNAL"},
-      {"name": "credit_1",         "type": "string", "label": "Credit line 1",           "required": true,  "default": "Directed by  Anna Lindström"},
-      {"name": "credit_2",         "type": "string", "label": "Credit line 2",           "required": false, "default": "Produced by  Erik Svensson"},
-      {"name": "credit_3",         "type": "string", "label": "Credit line 3",           "required": false, "default": "Screenplay by  Maria Eklund"},
-      {"name": "credit_4",         "type": "string", "label": "Credit line 4",           "required": false, "default": "Director of Photography  Johan Berg"},
-      {"name": "credit_5",         "type": "string", "label": "Credit line 5",           "required": false, "default": "Original Score  Nils Holmgren"},
-      {"name": "credit_6",         "type": "string", "label": "Credit line 6",           "required": false, "default": "Visual Effects  Trollfabriken VFX"},
-      {"name": "closing_line",     "type": "string", "label": "Closing copyright line",  "required": false, "default": "All rights reserved"},
-      {"name": "accent_color",     "type": "color",  "label": "Title accent colour",     "required": false, "default": "#c8963e"},
-      {"name": "bg_color",         "type": "color",  "label": "Background colour",       "required": false, "default": "#000000"}
+      {
+        "name": "production_title",
+        "type": "string",
+        "label": "Film / production title",
+        "required": true,
+        "default": "THE LAST SIGNAL"
+      },
+      {
+        "name": "credit_1",
+        "type": "string",
+        "label": "Credit line 1",
+        "required": true,
+        "default": "Directed by  Anna Lindström"
+      },
+      {
+        "name": "credit_2",
+        "type": "string",
+        "label": "Credit line 2",
+        "required": false,
+        "default": "Produced by  Erik Svensson"
+      },
+      {
+        "name": "credit_3",
+        "type": "string",
+        "label": "Credit line 3",
+        "required": false,
+        "default": "Screenplay by  Maria Eklund"
+      },
+      {
+        "name": "credit_4",
+        "type": "string",
+        "label": "Credit line 4",
+        "required": false,
+        "default": "Director of Photography  Johan Berg"
+      },
+      {
+        "name": "credit_5",
+        "type": "string",
+        "label": "Credit line 5",
+        "required": false,
+        "default": "Original Score  Nils Holmgren"
+      },
+      {
+        "name": "credit_6",
+        "type": "string",
+        "label": "Credit line 6",
+        "required": false,
+        "default": "Visual Effects  Trollfabriken VFX"
+      },
+      {
+        "name": "closing_line",
+        "type": "string",
+        "label": "Closing copyright line",
+        "required": false,
+        "default": "All rights reserved"
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Title accent colour",
+        "required": false,
+        "default": "#c8963e"
+      },
+      {
+        "name": "bg_color",
+        "type": "color",
+        "label": "Background colour",
+        "required": false,
+        "default": "#000000"
+      }
     ]
   },
-  "output": {"width": 1920, "height": 1080, "fps": 30, "path": "./output/movie_end_credits.mp4"},
-  "theme": {"background": "{{bg_color}}", "text_color": "#ffffff"},
+  "output": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "path": "./output/movie_end_credits.mp4"
+  },
+  "theme": {
+    "background": "{{bg_color}}",
+    "text_color": "#ffffff"
+  },
   "segments": [
     {
       "id": "title_end",
@@ -32,7 +108,16 @@
       "duration": 3.0,
       "color": "{{bg_color}}",
       "overlays": [
-        {"type": "text", "text": "{{production_title}}", "effect": "fade_in", "position": "center", "color": "{{accent_color}}", "timing": {"start": 0.6}}
+        {
+          "type": "text",
+          "text": "{{production_title}}",
+          "effect": "fade_in",
+          "position": "center",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 0.6
+          }
+        }
       ]
     },
     {
@@ -41,12 +126,71 @@
       "duration": 14.0,
       "color": "{{bg_color}}",
       "overlays": [
-        {"type": "text", "text": "{{credit_1}}", "effect": "slide_up", "position": "center", "color": "#ffffff", "timing": {"start": 0.5,  "end": 3.0}},
-        {"type": "text", "text": "{{credit_2}}", "effect": "slide_up", "position": "center", "color": "#ffffff", "timing": {"start": 2.5,  "end": 5.0}},
-        {"type": "text", "text": "{{credit_3}}", "effect": "slide_up", "position": "center", "color": "#ffffff", "timing": {"start": 4.5,  "end": 7.0}},
-        {"type": "text", "text": "{{credit_4}}", "effect": "slide_up", "position": "center", "color": "#ffffff", "timing": {"start": 6.5,  "end": 9.5}},
-        {"type": "text", "text": "{{credit_5}}", "effect": "slide_up", "position": "center", "color": "#ffffff", "timing": {"start": 9.0,  "end": 11.5}},
-        {"type": "text", "text": "{{credit_6}}", "effect": "slide_up", "position": "center", "color": "#ffffff", "timing": {"start": 11.0}}
+        {
+          "type": "text",
+          "text": "{{credit_1}}",
+          "effect": "slide_up_text",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.5,
+            "end": 3.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{credit_2}}",
+          "effect": "slide_up_text",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 2.5,
+            "end": 5.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{credit_3}}",
+          "effect": "slide_up_text",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 4.5,
+            "end": 7.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{credit_4}}",
+          "effect": "slide_up_text",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 6.5,
+            "end": 9.5
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{credit_5}}",
+          "effect": "slide_up_text",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 9.0,
+            "end": 11.5
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{credit_6}}",
+          "effect": "slide_up_text",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 11.0
+          }
+        }
       ]
     },
     {
@@ -55,9 +199,23 @@
       "duration": 3.0,
       "color": "{{bg_color}}",
       "overlays": [
-        {"type": "text", "text": "{{closing_line}}", "effect": "fade_in", "position": "bottom", "color": "#555555", "timing": {"start": 0.8}}
+        {
+          "type": "text",
+          "text": "{{closing_line}}",
+          "effect": "fade_in",
+          "position": "bottom",
+          "color": "#555555",
+          "timing": {
+            "start": 0.8
+          }
+        }
       ]
     }
   ],
-  "transitions": {"default": {"type": "dissolve_ii", "duration": 0.8}}
+  "transitions": {
+    "default": {
+      "type": "dissolve_ii",
+      "duration": 0.8
+    }
+  }
 }

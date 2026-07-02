@@ -4,40 +4,136 @@
     "id": "audiogram_podcast",
     "name": "Audiogram — Podcast",
     "category": "audio",
-    "tags": ["audio", "audiogram", "podcast", "waveform", "social", "clip", "spotify"],
+    "tags": [
+      "audio",
+      "audiogram",
+      "podcast",
+      "waveform",
+      "social",
+      "clip",
+      "spotify"
+    ],
     "description": "Podcast audiogram for social sharing: background image or colour, animated waveform visualiser, episode title + guest name, subscribe CTA. Square format for Instagram/TikTok.",
     "preview_thumbnail": "previews/thumbnails/audiogram_podcast.jpg",
     "preview_full": "previews/full/audiogram_podcast.jpg",
     "author": "Trollfabriken",
     "version": "1.0",
     "variables": [
-      {"name": "podcast_name",   "type": "string",     "label": "Podcast name",         "required": true,  "default": "The Build Podcast"},
-      {"name": "episode_title",  "type": "string",     "label": "Episode title",        "required": true,  "default": "Building AI products that actually ship"},
-      {"name": "guest_name",     "type": "string",     "label": "Guest name",           "required": false, "default": "with Maria Eklund"},
-      {"name": "cta",            "type": "string",     "label": "Subscribe CTA",        "required": false, "default": "Listen everywhere · @TheBuildPodcast"},
-      {"name": "audio_source",   "type": "audio_path", "label": "Audio clip (mp3/wav)", "required": true},
-      {"name": "bg_image",       "type": "image_path", "label": "Background image (optional)", "required": false},
-      {"name": "accent_color",   "type": "color",      "label": "Waveform / accent colour","required": false, "default": "#ff6b35"},
-      {"name": "bg_color",       "type": "color",      "label": "Background colour",    "required": false, "default": "#1a1a2e"},
-      {"name": "clip_duration",  "type": "duration",   "label": "Clip duration (s)",    "required": false, "default": 60.0}
+      {
+        "name": "podcast_name",
+        "type": "string",
+        "label": "Podcast name",
+        "required": true,
+        "default": "The Build Podcast"
+      },
+      {
+        "name": "episode_title",
+        "type": "string",
+        "label": "Episode title",
+        "required": true,
+        "default": "Building AI products that actually ship"
+      },
+      {
+        "name": "guest_name",
+        "type": "string",
+        "label": "Guest name",
+        "required": false,
+        "default": "with Maria Eklund"
+      },
+      {
+        "name": "cta",
+        "type": "string",
+        "label": "Subscribe CTA",
+        "required": false,
+        "default": "Listen everywhere · @TheBuildPodcast"
+      },
+      {
+        "name": "bg_image",
+        "type": "image_path",
+        "label": "Background image (optional)",
+        "required": false
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Waveform / accent colour",
+        "required": false,
+        "default": "#ff6b35"
+      },
+      {
+        "name": "bg_color",
+        "type": "color",
+        "label": "Background colour",
+        "required": false,
+        "default": "#1a1a2e"
+      },
+      {
+        "name": "clip_duration",
+        "type": "duration",
+        "label": "Clip duration (s)",
+        "required": false,
+        "default": 60.0
+      }
     ]
   },
-  "output": {"width": 1080, "height": 1080, "fps": 30, "path": "./output/audiogram_podcast.mp4"},
-  "theme": {"background": "{{bg_color}}", "text_color": "#ffffff"},
+  "output": {
+    "width": 1080,
+    "height": 1080,
+    "fps": 30,
+    "path": "./output/audiogram_podcast.mp4"
+  },
+  "theme": {
+    "background": "{{bg_color}}",
+    "text_color": "#ffffff"
+  },
   "segments": [
     {
       "id": "audiogram",
-      "type": "audio",
+      "type": "mathviz",
       "duration": "{{clip_duration}}",
-      "source": "{{audio_source}}",
-      "visualizer": "waveform",
-      "visualizer_color": "{{accent_color}}",
-      "bg_color": "{{bg_color}}",
+      "effect": "waveform_oscilloscope",
+      "config": {"color_scheme": "electric", "background_color": "{{bg_color}}"},
       "overlays": [
-        {"type": "text", "text": "{{podcast_name}}",  "effect": "fade_in",  "position": "top",    "color": "{{accent_color}}", "timing": {"start": 0.5}},
-        {"type": "text", "text": "{{episode_title}}", "effect": "fade_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 1.0}},
-        {"type": "text", "text": "{{guest_name}}",    "effect": "fade_in",  "position": "center", "color": "#cccccc",          "timing": {"start": 1.5}},
-        {"type": "text", "text": "{{cta}}",           "effect": "slide_up", "position": "bottom", "color": "{{accent_color}}", "timing": {"start": 2.0}}
+        {
+          "type": "text",
+          "text": "{{podcast_name}}",
+          "effect": "fade_in",
+          "position": "top",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 0.5
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{episode_title}}",
+          "effect": "fade_in",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 1.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{guest_name}}",
+          "effect": "fade_in",
+          "position": "center",
+          "color": "#cccccc",
+          "timing": {
+            "start": 1.5
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{cta}}",
+          "effect": "slide_up_text",
+          "position": "bottom",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 2.0
+          }
+        }
       ]
     }
   ]

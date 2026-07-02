@@ -4,26 +4,95 @@
     "id": "real_estate_listing",
     "name": "Real Estate Listing",
     "category": "real_estate",
-    "tags": ["real-estate", "property", "listing", "house", "apartment", "bostad", "hemnet"],
+    "tags": [
+      "real-estate",
+      "property",
+      "listing",
+      "house",
+      "apartment",
+      "bostad",
+      "hemnet"
+    ],
     "description": "Property listing video: exterior image reveal with Ken Burns, key specs card (beds/baths/sqm/price), contact CTA. Suitable for agents and Hemnet listings.",
     "preview_thumbnail": "previews/thumbnails/real_estate_listing.jpg",
     "preview_full": "previews/full/real_estate_listing.jpg",
     "author": "Trollfabriken",
     "version": "1.0",
     "variables": [
-      {"name": "address",         "type": "string",     "label": "Property address",    "required": true,  "default": "Storgatan 12, Stockholm"},
-      {"name": "price",           "type": "string",     "label": "Asking price",        "required": true,  "default": "4 950 000 kr"},
-      {"name": "area_sqm",        "type": "string",     "label": "Living area (sqm)",   "required": false, "default": "98 m²"},
-      {"name": "rooms",           "type": "string",     "label": "Number of rooms",     "required": false, "default": "4 rum"},
-      {"name": "property_type",   "type": "string",     "label": "Property type",       "required": false, "default": "Bostadsrätt"},
-      {"name": "agent_name",      "type": "string",     "label": "Agent / agency name", "required": false, "default": "Erik Svensson Mäklare"},
-      {"name": "property_image",  "type": "image_path", "label": "Property photo",      "required": true},
-      {"name": "accent_color",    "type": "color",      "label": "Brand / accent colour","required": false, "default": "#c8963e"},
-      {"name": "bg_color",        "type": "color",      "label": "Background colour",   "required": false, "default": "#1a1a2e"}
+      {
+        "name": "address",
+        "type": "string",
+        "label": "Property address",
+        "required": true,
+        "default": "Storgatan 12, Stockholm"
+      },
+      {
+        "name": "price",
+        "type": "string",
+        "label": "Asking price",
+        "required": true,
+        "default": "4 950 000 kr"
+      },
+      {
+        "name": "area_sqm",
+        "type": "string",
+        "label": "Living area (sqm)",
+        "required": false,
+        "default": "98 m²"
+      },
+      {
+        "name": "rooms",
+        "type": "string",
+        "label": "Number of rooms",
+        "required": false,
+        "default": "4 rum"
+      },
+      {
+        "name": "property_type",
+        "type": "string",
+        "label": "Property type",
+        "required": false,
+        "default": "Bostadsrätt"
+      },
+      {
+        "name": "agent_name",
+        "type": "string",
+        "label": "Agent / agency name",
+        "required": false,
+        "default": "Erik Svensson Mäklare"
+      },
+      {
+        "name": "property_image",
+        "type": "image_path",
+        "label": "Property photo",
+        "required": true
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Brand / accent colour",
+        "required": false,
+        "default": "#c8963e"
+      },
+      {
+        "name": "bg_color",
+        "type": "color",
+        "label": "Background colour",
+        "required": false,
+        "default": "#1a1a2e"
+      }
     ]
   },
-  "output": {"width": 1920, "height": 1080, "fps": 30, "path": "./output/real_estate_listing.mp4"},
-  "theme": {"background": "{{bg_color}}", "text_color": "#ffffff"},
+  "output": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "path": "./output/real_estate_listing.mp4"
+  },
+  "theme": {
+    "background": "{{bg_color}}",
+    "text_color": "#ffffff"
+  },
   "segments": [
     {
       "id": "reveal",
@@ -32,7 +101,16 @@
       "source": "{{property_image}}",
       "motion": "ken_burns",
       "overlays": [
-        {"type": "text", "text": "{{address}}", "effect": "fade_in", "position": "bottom", "color": "#ffffff", "timing": {"start": 1.5}}
+        {
+          "type": "text",
+          "text": "{{address}}",
+          "effect": "fade_in",
+          "position": "bottom",
+          "color": "#ffffff",
+          "timing": {
+            "start": 1.5
+          }
+        }
       ]
     },
     {
@@ -41,10 +119,46 @@
       "duration": 5.0,
       "color": "{{bg_color}}",
       "overlays": [
-        {"type": "text", "text": "{{address}}",       "effect": "fade_in",  "position": "top",    "color": "{{accent_color}}", "timing": {"start": 0.3}},
-        {"type": "text", "text": "{{property_type}}", "effect": "fade_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 0.6}},
-        {"type": "text", "text": "{{rooms}}  ·  {{area_sqm}}", "effect": "slide_up", "position": "center", "color": "#cccccc", "timing": {"start": 1.0}},
-        {"type": "text", "text": "{{price}}",         "effect": "zoom_in",  "position": "bottom", "color": "{{accent_color}}", "timing": {"start": 1.5}}
+        {
+          "type": "text",
+          "text": "{{address}}",
+          "effect": "fade_in",
+          "position": "top",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 0.3
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{property_type}}",
+          "effect": "fade_in",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.6
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{rooms}}  ·  {{area_sqm}}",
+          "effect": "slide_up_text",
+          "position": "center",
+          "color": "#cccccc",
+          "timing": {
+            "start": 1.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{price}}",
+          "effect": "drop_in",
+          "position": "bottom",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 1.5
+          }
+        }
       ]
     },
     {
@@ -53,10 +167,33 @@
       "duration": 3.0,
       "color": "{{bg_color}}",
       "overlays": [
-        {"type": "text", "text": "{{agent_name}}", "effect": "fade_in", "position": "center", "color": "#ffffff",          "timing": {"start": 0.5}},
-        {"type": "text", "text": "Kontakta oss",   "effect": "slide_up","position": "bottom", "color": "{{accent_color}}", "timing": {"start": 1.0}}
+        {
+          "type": "text",
+          "text": "{{agent_name}}",
+          "effect": "fade_in",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.5
+          }
+        },
+        {
+          "type": "text",
+          "text": "Kontakta oss",
+          "effect": "slide_up_text",
+          "position": "bottom",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 1.0
+          }
+        }
       ]
     }
   ],
-  "transitions": {"default": {"type": "dissolve_ii", "duration": 0.6}}
+  "transitions": {
+    "default": {
+      "type": "dissolve_ii",
+      "duration": 0.6
+    }
+  }
 }

@@ -4,26 +4,87 @@
     "id": "social_poll_result",
     "name": "Poll Result Reveal",
     "category": "social",
-    "tags": ["social", "poll", "vote", "result", "donut", "chart", "instagram", "square"],
+    "tags": [
+      "social",
+      "poll",
+      "vote",
+      "result",
+      "donut",
+      "chart",
+      "instagram",
+      "square"
+    ],
     "description": "Square-format poll result reveal: question title card, animated donut chart with percentage labels, winner announcement. Perfect for Instagram Stories follow-up or community post.",
     "preview_thumbnail": "previews/thumbnails/social_poll_result.jpg",
     "preview_full": "previews/full/social_poll_result.jpg",
     "author": "Trollfabriken",
     "version": "1.0",
     "variables": [
-      {"name": "question",      "type": "string",   "label": "Poll question",           "required": true,  "default": "Which do you prefer?"},
-      {"name": "option_a",      "type": "string",   "label": "Option A label",          "required": true,  "default": "Option A"},
-      {"name": "option_b",      "type": "string",   "label": "Option B label",          "required": true,  "default": "Option B"},
-      {"name": "chart_data",    "type": "data_ref", "label": "Vote counts (label -> n)","required": true,
-        "default": {"Option A": 6842, "Option B": 3158},
-        "description": "Dict mapping each option label to its vote count"},
-      {"name": "winner_text",   "type": "string",   "label": "Winner announcement",     "required": false, "default": "Option A wins!"},
-      {"name": "accent_color",  "type": "color",    "label": "Primary accent colour",   "required": false, "default": "#7c3aed"},
-      {"name": "bg_color",      "type": "color",    "label": "Background colour",       "required": false, "default": "#0f0f1a"}
+      {
+        "name": "question",
+        "type": "string",
+        "label": "Poll question",
+        "required": true,
+        "default": "Which do you prefer?"
+      },
+      {
+        "name": "option_a",
+        "type": "string",
+        "label": "Option A label",
+        "required": true,
+        "default": "Option A"
+      },
+      {
+        "name": "option_b",
+        "type": "string",
+        "label": "Option B label",
+        "required": true,
+        "default": "Option B"
+      },
+      {
+        "name": "chart_data",
+        "type": "data_ref",
+        "label": "Vote counts (label -> n)",
+        "required": true,
+        "default": {
+          "Option A": 6842,
+          "Option B": 3158
+        },
+        "description": "Dict mapping each option label to its vote count"
+      },
+      {
+        "name": "winner_text",
+        "type": "string",
+        "label": "Winner announcement",
+        "required": false,
+        "default": "Option A wins!"
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Primary accent colour",
+        "required": false,
+        "default": "#7c3aed"
+      },
+      {
+        "name": "bg_color",
+        "type": "color",
+        "label": "Background colour",
+        "required": false,
+        "default": "#0f0f1a"
+      }
     ]
   },
-  "output": {"width": 1080, "height": 1080, "fps": 30, "path": "./output/social_poll_result.mp4"},
-  "theme": {"background": "{{bg_color}}", "text_color": "#ffffff"},
+  "output": {
+    "width": 1080,
+    "height": 1080,
+    "fps": 30,
+    "path": "./output/social_poll_result.mp4"
+  },
+  "theme": {
+    "background": "{{bg_color}}",
+    "text_color": "#ffffff"
+  },
   "segments": [
     {
       "id": "question_card",
@@ -31,19 +92,51 @@
       "duration": 2.0,
       "color": "{{bg_color}}",
       "overlays": [
-        {"type": "text", "text": "You voted.",     "effect": "fade_in",  "position": "top",    "color": "{{accent_color}}", "timing": {"start": 0.3}},
-        {"type": "text", "text": "{{question}}",   "effect": "zoom_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 0.7}}
+        {
+          "type": "text",
+          "text": "You voted.",
+          "effect": "fade_in",
+          "position": "top",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 0.3
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{question}}",
+          "effect": "drop_in",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.7
+          }
+        }
       ]
     },
     {
       "id": "donut",
       "type": "chart",
       "duration": 6.0,
-      "chart_type": "donut",
+      "chart_type": "pie",
       "data": "{{chart_data}}",
-      "config": {"color": "{{accent_color}}", "animate": true, "show_labels": true, "show_percentages": true},
+      "config": {
+        "color": "{{accent_color}}",
+        "animate": true,
+        "show_labels": true,
+        "show_percentages": true
+      },
       "overlays": [
-        {"type": "text", "text": "{{question}}", "effect": "fade_in", "position": "top", "color": "{{accent_color}}", "timing": {"start": 0.5}}
+        {
+          "type": "text",
+          "text": "{{question}}",
+          "effect": "fade_in",
+          "position": "top",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 0.5
+          }
+        }
       ]
     },
     {
@@ -52,10 +145,33 @@
       "duration": 3.0,
       "color": "{{bg_color}}",
       "overlays": [
-        {"type": "text", "text": "{{winner_text}}", "effect": "zoom_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 0.5}},
-        {"type": "text", "text": "{{option_a}} vs {{option_b}}", "effect": "fade_in", "position": "bottom", "color": "{{accent_color}}", "timing": {"start": 1.2}}
+        {
+          "type": "text",
+          "text": "{{winner_text}}",
+          "effect": "drop_in",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.5
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{option_a}} vs {{option_b}}",
+          "effect": "fade_in",
+          "position": "bottom",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 1.2
+          }
+        }
       ]
     }
   ],
-  "transitions": {"default": {"type": "dissolve_ii", "duration": 0.5}}
+  "transitions": {
+    "default": {
+      "type": "dissolve_ii",
+      "duration": 0.5
+    }
+  }
 }

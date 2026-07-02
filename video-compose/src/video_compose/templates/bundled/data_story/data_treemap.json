@@ -4,24 +4,81 @@
     "id": "data_treemap",
     "name": "Treemap",
     "category": "data_story",
-    "tags": ["data", "treemap", "portfolio", "market-share", "composition", "hierarchy", "finance"],
+    "tags": [
+      "data",
+      "treemap",
+      "portfolio",
+      "market-share",
+      "composition",
+      "hierarchy",
+      "finance"
+    ],
     "description": "Treemap for hierarchical composition stories: market share, portfolio weights, budget breakdown, app category distribution. Animated block reveal with percentage labels.",
     "preview_thumbnail": "previews/thumbnails/data_treemap.jpg",
     "preview_full": "previews/full/data_treemap.jpg",
     "author": "Trollfabriken",
     "version": "1.0",
     "variables": [
-      {"name": "title",        "type": "string",   "label": "Chart title",            "required": true,  "default": "S&P 500 Sector Weights"},
-      {"name": "chart_data",   "type": "data_ref", "label": "Category -> value dict", "required": true,
-        "default": {"Technology": 31.4, "Healthcare": 12.8, "Financials": 12.6, "Consumer Disc.": 10.9, "Industrials": 8.7, "Comm. Services": 8.5, "Consumer Staples": 5.8, "Energy": 3.8, "Utilities": 2.5, "Materials": 2.3, "Real Estate": 2.2},
-        "description": "Dict of category label to numeric value (proportional)"},
-      {"name": "key_insight",  "type": "string",   "label": "Key insight",            "required": false, "default": "Technology accounts for nearly a third of the index"},
-      {"name": "accent_color", "type": "color",    "label": "Accent colour",          "required": false, "default": "#6366f1"},
-      {"name": "bg_color",     "type": "color",    "label": "Background colour",      "required": false, "default": "#0a1628"}
+      {
+        "name": "title",
+        "type": "string",
+        "label": "Chart title",
+        "required": true,
+        "default": "S&P 500 Sector Weights"
+      },
+      {
+        "name": "chart_data",
+        "type": "data_ref",
+        "label": "Category -> value dict",
+        "required": true,
+        "default": {
+          "Technology": 31.4,
+          "Healthcare": 12.8,
+          "Financials": 12.6,
+          "Consumer Disc.": 10.9,
+          "Industrials": 8.7,
+          "Comm. Services": 8.5,
+          "Consumer Staples": 5.8,
+          "Energy": 3.8,
+          "Utilities": 2.5,
+          "Materials": 2.3,
+          "Real Estate": 2.2
+        },
+        "description": "Dict of category label to numeric value (proportional)"
+      },
+      {
+        "name": "key_insight",
+        "type": "string",
+        "label": "Key insight",
+        "required": false,
+        "default": "Technology accounts for nearly a third of the index"
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Accent colour",
+        "required": false,
+        "default": "#6366f1"
+      },
+      {
+        "name": "bg_color",
+        "type": "color",
+        "label": "Background colour",
+        "required": false,
+        "default": "#0a1628"
+      }
     ]
   },
-  "output": {"width": 1920, "height": 1080, "fps": 30, "path": "./output/data_treemap.mp4"},
-  "theme": {"background": "{{bg_color}}", "text_color": "#ffffff"},
+  "output": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "path": "./output/data_treemap.mp4"
+  },
+  "theme": {
+    "background": "{{bg_color}}",
+    "text_color": "#ffffff"
+  },
   "segments": [
     {
       "id": "title",
@@ -29,7 +86,16 @@
       "duration": 2.0,
       "color": "{{bg_color}}",
       "overlays": [
-        {"type": "text", "text": "{{title}}", "effect": "fade_in", "position": "center", "color": "#ffffff", "timing": {"start": 0.5}}
+        {
+          "type": "text",
+          "text": "{{title}}",
+          "effect": "fade_in",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.5
+          }
+        }
       ]
     },
     {
@@ -38,9 +104,23 @@
       "duration": 8.0,
       "chart_type": "treemap",
       "data": "{{chart_data}}",
-      "config": {"color": "{{accent_color}}", "animate": true, "show_labels": true, "show_percentages": true},
+      "config": {
+        "color": "{{accent_color}}",
+        "animate": true,
+        "show_labels": true,
+        "show_percentages": true
+      },
       "overlays": [
-        {"type": "text", "text": "{{title}}", "effect": "fade_in", "position": "top", "color": "{{accent_color}}", "timing": {"start": 0.5}}
+        {
+          "type": "text",
+          "text": "{{title}}",
+          "effect": "fade_in",
+          "position": "top",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 0.5
+          }
+        }
       ]
     },
     {
@@ -49,10 +129,33 @@
       "duration": 3.0,
       "color": "{{bg_color}}",
       "overlays": [
-        {"type": "text", "text": "{{title}}",       "effect": "fade_in", "position": "top",    "color": "{{accent_color}}", "timing": {"start": 0.3}},
-        {"type": "text", "text": "{{key_insight}}", "effect": "zoom_in", "position": "center", "color": "#ffffff",          "timing": {"start": 0.8}}
+        {
+          "type": "text",
+          "text": "{{title}}",
+          "effect": "fade_in",
+          "position": "top",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 0.3
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{key_insight}}",
+          "effect": "drop_in",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.8
+          }
+        }
       ]
     }
   ],
-  "transitions": {"default": {"type": "dissolve_ii", "duration": 0.5}}
+  "transitions": {
+    "default": {
+      "type": "dissolve_ii",
+      "duration": 0.5
+    }
+  }
 }

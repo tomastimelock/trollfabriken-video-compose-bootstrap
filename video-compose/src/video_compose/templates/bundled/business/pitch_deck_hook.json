@@ -4,33 +4,103 @@
     "id": "pitch_deck_hook",
     "name": "Pitch Deck Hook",
     "category": "business",
-    "tags": ["business", "pitch", "startup", "investor", "deck", "problem", "solution", "traction"],
+    "tags": [
+      "business",
+      "pitch",
+      "startup",
+      "investor",
+      "deck",
+      "problem",
+      "solution",
+      "traction"
+    ],
     "description": "3-card startup pitch hook: starfield intro, Problem card with bold pain-point stat, Solution card with your tagline, Traction card with key metric. 9 seconds of investor attention-grabbing before the full deck.",
     "preview_thumbnail": "previews/thumbnails/pitch_deck_hook.jpg",
     "preview_full": "previews/full/pitch_deck_hook.jpg",
     "author": "Trollfabriken",
     "version": "1.0",
     "variables": [
-      {"name": "company_name",    "type": "string", "label": "Company name",              "required": true,  "default": "Acme AI"},
-      {"name": "problem_stat",    "type": "string", "label": "Problem / pain-point stat", "required": true,  "default": "73% of teams waste 6+ hours/week on manual reporting"},
-      {"name": "solution_tag",    "type": "string", "label": "Your solution tagline",     "required": true,  "default": "We automate it in 30 seconds."},
-      {"name": "traction_metric", "type": "string", "label": "Key traction metric",       "required": true,  "default": "1 200 teams. $2.4M ARR. Growing 22% MoM."},
-      {"name": "cta_text",        "type": "string", "label": "Closing CTA",               "required": false, "default": "Let us show you."},
-      {"name": "accent_color",    "type": "color",  "label": "Brand accent colour",       "required": false, "default": "#6366f1"},
-      {"name": "bg_color",        "type": "color",  "label": "Base background colour",    "required": false, "default": "#0a1628"}
+      {
+        "name": "company_name",
+        "type": "string",
+        "label": "Company name",
+        "required": true,
+        "default": "Acme AI"
+      },
+      {
+        "name": "problem_stat",
+        "type": "string",
+        "label": "Problem / pain-point stat",
+        "required": true,
+        "default": "73% of teams waste 6+ hours/week on manual reporting"
+      },
+      {
+        "name": "solution_tag",
+        "type": "string",
+        "label": "Your solution tagline",
+        "required": true,
+        "default": "We automate it in 30 seconds."
+      },
+      {
+        "name": "traction_metric",
+        "type": "string",
+        "label": "Key traction metric",
+        "required": true,
+        "default": "1 200 teams. $2.4M ARR. Growing 22% MoM."
+      },
+      {
+        "name": "cta_text",
+        "type": "string",
+        "label": "Closing CTA",
+        "required": false,
+        "default": "Let us show you."
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Brand accent colour",
+        "required": false,
+        "default": "#6366f1"
+      },
+      {
+        "name": "bg_color",
+        "type": "color",
+        "label": "Base background colour",
+        "required": false,
+        "default": "#0a1628"
+      }
     ]
   },
-  "output": {"width": 1920, "height": 1080, "fps": 30, "path": "./output/pitch_deck_hook.mp4"},
-  "theme": {"background": "{{bg_color}}", "text_color": "#ffffff"},
+  "output": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "path": "./output/pitch_deck_hook.mp4"
+  },
+  "theme": {
+    "background": "{{bg_color}}",
+    "text_color": "#ffffff"
+  },
   "segments": [
     {
       "id": "intro",
       "type": "mathviz",
       "duration": 2.5,
       "effect": "starfield_3d",
-      "config": {"color_scheme": "electric"},
+      "config": {
+        "color_scheme": "electric"
+      },
       "overlays": [
-        {"type": "text", "text": "{{company_name}}", "effect": "zoom_in", "position": "center", "color": "{{accent_color}}", "timing": {"start": 0.8}}
+        {
+          "type": "text",
+          "text": "{{company_name}}",
+          "effect": "drop_in",
+          "position": "center",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 0.8
+          }
+        }
       ]
     },
     {
@@ -39,8 +109,26 @@
       "duration": 4.0,
       "color": "#1a0a0a",
       "overlays": [
-        {"type": "text", "text": "The problem.",        "effect": "fade_in",  "position": "top",    "color": "#ef4444",          "timing": {"start": 0.3}},
-        {"type": "text", "text": "{{problem_stat}}",   "effect": "zoom_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 0.7}}
+        {
+          "type": "text",
+          "text": "The problem.",
+          "effect": "fade_in",
+          "position": "top",
+          "color": "#ef4444",
+          "timing": {
+            "start": 0.3
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{problem_stat}}",
+          "effect": "drop_in",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.7
+          }
+        }
       ]
     },
     {
@@ -49,8 +137,26 @@
       "duration": 4.0,
       "color": "{{bg_color}}",
       "overlays": [
-        {"type": "text", "text": "{{company_name}}",   "effect": "fade_in",  "position": "top",    "color": "{{accent_color}}", "timing": {"start": 0.3}},
-        {"type": "text", "text": "{{solution_tag}}",   "effect": "zoom_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 0.7}}
+        {
+          "type": "text",
+          "text": "{{company_name}}",
+          "effect": "fade_in",
+          "position": "top",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 0.3
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{solution_tag}}",
+          "effect": "drop_in",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.7
+          }
+        }
       ]
     },
     {
@@ -59,11 +165,43 @@
       "duration": 4.0,
       "color": "{{bg_color}}",
       "overlays": [
-        {"type": "text", "text": "Traction.",             "effect": "fade_in",  "position": "top",    "color": "#22c55e",          "timing": {"start": 0.3}},
-        {"type": "text", "text": "{{traction_metric}}", "effect": "zoom_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 0.7}},
-        {"type": "text", "text": "{{cta_text}}",        "effect": "slide_up", "position": "bottom", "color": "{{accent_color}}", "timing": {"start": 1.8}}
+        {
+          "type": "text",
+          "text": "Traction.",
+          "effect": "fade_in",
+          "position": "top",
+          "color": "#22c55e",
+          "timing": {
+            "start": 0.3
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{traction_metric}}",
+          "effect": "drop_in",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.7
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{cta_text}}",
+          "effect": "slide_up_text",
+          "position": "bottom",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 1.8
+          }
+        }
       ]
     }
   ],
-  "transitions": {"default": {"type": "dissolve_ii", "duration": 0.4}}
+  "transitions": {
+    "default": {
+      "type": "dissolve_ii",
+      "duration": 0.4
+    }
+  }
 }

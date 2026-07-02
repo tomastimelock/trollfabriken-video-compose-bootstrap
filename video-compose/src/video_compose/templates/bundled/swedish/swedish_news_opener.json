@@ -4,34 +4,112 @@
     "id": "swedish_news_opener",
     "name": "Swedish News Opener",
     "category": "swedish",
-    "tags": ["sweden", "news", "broadcast", "opener", "nyheter", "SVT", "media"],
+    "tags": [
+      "sweden",
+      "news",
+      "broadcast",
+      "opener",
+      "nyheter",
+      "SVT",
+      "media"
+    ],
     "description": "SVT/TV4-style Swedish news broadcast opener: animated particle intro, programme name card, headline ticker. Professional broadcast aesthetic.",
     "preview_thumbnail": "previews/thumbnails/swedish_news_opener.jpg",
     "preview_full": "previews/full/swedish_news_opener.jpg",
     "author": "Trollfabriken",
     "version": "1.0",
     "variables": [
-      {"name": "programme_name", "type": "string",   "label": "Programme name",       "required": true,  "default": "Nyheterna"},
-      {"name": "edition",        "type": "string",   "label": "Edition / time slot",  "required": false, "default": "Kväll"},
-      {"name": "headline_1",     "type": "string",   "label": "Headline 1",           "required": true,  "default": "Riksdagen röstar om statsbudgeten"},
-      {"name": "headline_2",     "type": "string",   "label": "Headline 2",           "required": false, "default": "Rapport: Inflationen sjunker för tredje månaden"},
-      {"name": "headline_3",     "type": "string",   "label": "Headline 3",           "required": false, "default": "Landslaget klart för semifinal"},
-      {"name": "accent_color",   "type": "color",    "label": "Accent / brand colour","required": false, "default": "#0055a4"},
-      {"name": "bg_color",       "type": "color",    "label": "Background colour",    "required": false, "default": "#0a0a1a"}
+      {
+        "name": "programme_name",
+        "type": "string",
+        "label": "Programme name",
+        "required": true,
+        "default": "Nyheterna"
+      },
+      {
+        "name": "edition",
+        "type": "string",
+        "label": "Edition / time slot",
+        "required": false,
+        "default": "Kväll"
+      },
+      {
+        "name": "headline_1",
+        "type": "string",
+        "label": "Headline 1",
+        "required": true,
+        "default": "Riksdagen röstar om statsbudgeten"
+      },
+      {
+        "name": "headline_2",
+        "type": "string",
+        "label": "Headline 2",
+        "required": false,
+        "default": "Rapport: Inflationen sjunker för tredje månaden"
+      },
+      {
+        "name": "headline_3",
+        "type": "string",
+        "label": "Headline 3",
+        "required": false,
+        "default": "Landslaget klart för semifinal"
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Accent / brand colour",
+        "required": false,
+        "default": "#0055a4"
+      },
+      {
+        "name": "bg_color",
+        "type": "color",
+        "label": "Background colour",
+        "required": false,
+        "default": "#0a0a1a"
+      }
     ]
   },
-  "output": {"width": 1920, "height": 1080, "fps": 30, "path": "./output/swedish_news_opener.mp4"},
-  "theme": {"background": "{{bg_color}}", "text_color": "#ffffff"},
+  "output": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "path": "./output/swedish_news_opener.mp4"
+  },
+  "theme": {
+    "background": "{{bg_color}}",
+    "text_color": "#ffffff"
+  },
   "segments": [
     {
       "id": "particles",
       "type": "shape",
       "duration": 3.5,
-      "effect": "particle_burst",
-      "config": {"color": "{{accent_color}}"},
+      "effect": "particle_flow",
+      "config": {
+        "color": "{{accent_color}}"
+      },
       "overlays": [
-        {"type": "text", "text": "{{programme_name}}", "effect": "zoom_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 1.2}},
-        {"type": "text", "text": "{{edition}}",        "effect": "fade_in",  "position": "bottom", "color": "{{accent_color}}", "timing": {"start": 2.0}}
+        {
+          "type": "text",
+          "text": "{{programme_name}}",
+          "effect": "drop_in",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 1.2
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{edition}}",
+          "effect": "fade_in",
+          "position": "bottom",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 2.0
+          }
+        }
       ]
     },
     {
@@ -40,12 +118,55 @@
       "duration": 6.0,
       "color": "{{bg_color}}",
       "overlays": [
-        {"type": "text", "text": "{{programme_name}}", "effect": "fade_in",    "position": "top",    "color": "{{accent_color}}", "timing": {"start": 0.3}},
-        {"type": "text", "text": "{{headline_1}}",     "effect": "slide_right","position": "center", "color": "#ffffff",          "timing": {"start": 0.8, "end": 2.5}},
-        {"type": "text", "text": "{{headline_2}}",     "effect": "slide_right","position": "center", "color": "#ffffff",          "timing": {"start": 2.5, "end": 4.2}},
-        {"type": "text", "text": "{{headline_3}}",     "effect": "slide_right","position": "center", "color": "#ffffff",          "timing": {"start": 4.2}}
+        {
+          "type": "text",
+          "text": "{{programme_name}}",
+          "effect": "fade_in",
+          "position": "top",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 0.3
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{headline_1}}",
+          "effect": "slide_right_text",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.8,
+            "end": 2.5
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{headline_2}}",
+          "effect": "slide_right_text",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 2.5,
+            "end": 4.2
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{headline_3}}",
+          "effect": "slide_right_text",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 4.2
+          }
+        }
       ]
     }
   ],
-  "transitions": {"default": {"type": "dissolve_ii", "duration": 0.4}}
+  "transitions": {
+    "default": {
+      "type": "dissolve_ii",
+      "duration": 0.4
+    }
+  }
 }

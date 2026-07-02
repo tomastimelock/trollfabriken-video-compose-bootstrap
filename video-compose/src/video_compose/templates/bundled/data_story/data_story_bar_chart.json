@@ -4,28 +4,116 @@
     "id": "data_story_bar_chart",
     "name": "Data Story — Bar Chart",
     "category": "data_story",
-    "tags": ["chart", "bar", "data", "business", "report", "kpi"],
+    "tags": [
+      "chart",
+      "bar",
+      "data",
+      "business",
+      "report",
+      "kpi"
+    ],
     "description": "Three-act data story: animated mathviz intro, animated bar chart, closing statement card. Works with inline data or a $sources reference.",
     "preview_thumbnail": "previews/thumbnails/data_story_bar_chart.jpg",
     "preview_full": "previews/full/data_story_bar_chart.jpg",
     "author": "Trollfabriken",
     "version": "1.0",
     "variables": [
-      {"name": "title",          "type": "string",   "label": "Video title",          "required": true,  "default": "Revenue Overview"},
-      {"name": "subtitle",       "type": "string",   "label": "Subtitle / period",    "required": false, "default": "Q4 2025"},
-      {"name": "chart_data",     "type": "data_ref", "label": "Chart data (inline dict or $sources.xxx)", "required": true,
-        "default": {"title": "Revenue by Region", "x_categories": ["North", "South", "East", "West"], "series": [{"name": "Revenue (MSEK)", "values": [148, 93, 112, 76]}], "y_label": "MSEK"},
-        "description": "ChartData dict: {title, x_categories, series: [{name, values}], y_label} or '$sources.id'"},
-      {"name": "outro_text",     "type": "string",   "label": "Closing statement",    "required": false, "default": "Data driven. Results proven."},
-      {"name": "accent_color",   "type": "color",    "label": "Accent colour",        "required": false, "default": "#00ff88"},
-      {"name": "bg_color",       "type": "color",    "label": "Background colour",    "required": false, "default": "#0d0d1a"},
-      {"name": "intro_duration", "type": "duration", "label": "Intro duration (s)",   "required": false, "default": 3.0},
-      {"name": "chart_duration", "type": "duration", "label": "Chart duration (s)",   "required": false, "default": 8.0},
-      {"name": "outro_duration", "type": "duration", "label": "Outro duration (s)",   "required": false, "default": 3.0}
+      {
+        "name": "title",
+        "type": "string",
+        "label": "Video title",
+        "required": true,
+        "default": "Revenue Overview"
+      },
+      {
+        "name": "subtitle",
+        "type": "string",
+        "label": "Subtitle / period",
+        "required": false,
+        "default": "Q4 2025"
+      },
+      {
+        "name": "chart_data",
+        "type": "data_ref",
+        "label": "Chart data (inline dict or $sources.xxx)",
+        "required": true,
+        "default": {
+          "title": "Revenue by Region",
+          "x_categories": [
+            "North",
+            "South",
+            "East",
+            "West"
+          ],
+          "series": [
+            {
+              "name": "Revenue (MSEK)",
+              "values": [
+                148,
+                93,
+                112,
+                76
+              ]
+            }
+          ],
+          "y_label": "MSEK"
+        },
+        "description": "ChartData dict: {title, x_categories, series: [{name, values}], y_label} or '$sources.id'"
+      },
+      {
+        "name": "outro_text",
+        "type": "string",
+        "label": "Closing statement",
+        "required": false,
+        "default": "Data driven. Results proven."
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Accent colour",
+        "required": false,
+        "default": "#00ff88"
+      },
+      {
+        "name": "bg_color",
+        "type": "color",
+        "label": "Background colour",
+        "required": false,
+        "default": "#0d0d1a"
+      },
+      {
+        "name": "intro_duration",
+        "type": "duration",
+        "label": "Intro duration (s)",
+        "required": false,
+        "default": 3.0
+      },
+      {
+        "name": "chart_duration",
+        "type": "duration",
+        "label": "Chart duration (s)",
+        "required": false,
+        "default": 8.0
+      },
+      {
+        "name": "outro_duration",
+        "type": "duration",
+        "label": "Outro duration (s)",
+        "required": false,
+        "default": 3.0
+      }
     ]
   },
-  "output": {"width": 1920, "height": 1080, "fps": 30, "path": "./output/data_story_bar_chart.mp4"},
-  "theme": {"background": "{{bg_color}}", "text_color": "#ffffff"},
+  "output": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "path": "./output/data_story_bar_chart.mp4"
+  },
+  "theme": {
+    "background": "{{bg_color}}",
+    "text_color": "#ffffff"
+  },
   "segments": [
     {
       "id": "intro",
@@ -34,8 +122,26 @@
       "effect": "matrix_rain",
       "config": {},
       "overlays": [
-        {"type": "text", "text": "{{title}}",    "effect": "fade_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 0.5}},
-        {"type": "text", "text": "{{subtitle}}", "effect": "slide_up", "position": "bottom", "color": "{{accent_color}}", "timing": {"start": 1.0}}
+        {
+          "type": "text",
+          "text": "{{title}}",
+          "effect": "fade_in",
+          "position": "center",
+          "color": "#ffffff",
+          "timing": {
+            "start": 0.5
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{subtitle}}",
+          "effect": "slide_up_text",
+          "position": "bottom",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 1.0
+          }
+        }
       ]
     },
     {
@@ -52,9 +158,23 @@
       "duration": "{{outro_duration}}",
       "color": "{{bg_color}}",
       "overlays": [
-        {"type": "text", "text": "{{outro_text}}", "effect": "fade_in", "position": "center", "color": "{{accent_color}}", "timing": {"start": 0.5}}
+        {
+          "type": "text",
+          "text": "{{outro_text}}",
+          "effect": "fade_in",
+          "position": "center",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 0.5
+          }
+        }
       ]
     }
   ],
-  "transitions": {"default": {"type": "dissolve_ii", "duration": 0.5}}
+  "transitions": {
+    "default": {
+      "type": "dissolve_ii",
+      "duration": 0.5
+    }
+  }
 }

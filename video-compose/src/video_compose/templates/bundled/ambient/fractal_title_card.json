@@ -4,35 +4,123 @@
     "id": "fractal_title_card",
     "name": "Fractal Title Card",
     "category": "ambient",
-    "tags": ["ambient", "fractal", "generative", "title", "cinematic", "mathviz", "opener", "art"],
+    "tags": [
+      "ambient",
+      "fractal",
+      "generative",
+      "title",
+      "cinematic",
+      "mathviz",
+      "opener",
+      "art"
+    ],
     "description": "Cinematic opening title card: slow generative fractal / pattern zoom as full-frame background, neon-glow title reveal, fade-out to black. Striking opener for films, presentations, or brand videos.",
     "preview_thumbnail": "previews/thumbnails/fractal_title_card.jpg",
     "preview_full": "previews/full/fractal_title_card.jpg",
     "author": "Trollfabriken",
     "version": "1.0",
     "variables": [
-      {"name": "title",        "type": "string",  "label": "Title text",               "required": true,  "default": "THE NEXT CHAPTER"},
-      {"name": "subtitle",     "type": "string",  "label": "Subtitle / tagline",       "required": false, "default": "A story about what comes next"},
-      {"name": "bg_effect",    "type": "string",  "label": "Background effect",        "required": false, "default": "kaleidoscope",
-        "choices": ["kaleidoscope","hyperbolic_tiling","lissajous_curves","spirograph","phyllotaxis_spiral","moire_pattern"]},
-      {"name": "color_scheme", "type": "string",  "label": "Colour scheme",            "required": false, "default": "cinematic_noir",
-        "choices": ["cinematic_noir","nebula","synthwave","electric","cyberpunk","obsidian"]},
-      {"name": "accent_color", "type": "color",   "label": "Title accent colour",      "required": false, "default": "#c8963e"},
-      {"name": "duration",     "type": "duration","label": "Total duration (s)",       "required": false, "default": 8.0}
+      {
+        "name": "title",
+        "type": "string",
+        "label": "Title text",
+        "required": true,
+        "default": "THE NEXT CHAPTER"
+      },
+      {
+        "name": "subtitle",
+        "type": "string",
+        "label": "Subtitle / tagline",
+        "required": false,
+        "default": "A story about what comes next"
+      },
+      {
+        "name": "bg_effect",
+        "type": "string",
+        "label": "Background effect",
+        "required": false,
+        "default": "kaleidoscope",
+        "choices": [
+          "kaleidoscope",
+          "hyperbolic_tiling",
+          "lissajous_curves",
+          "spirograph",
+          "phyllotaxis_spiral",
+          "moire_pattern"
+        ]
+      },
+      {
+        "name": "color_scheme",
+        "type": "string",
+        "label": "Colour scheme",
+        "required": false,
+        "default": "cinematic_noir",
+        "choices": [
+          "cinematic_noir",
+          "nebula",
+          "synthwave",
+          "electric",
+          "cyberpunk",
+          "obsidian"
+        ]
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Title accent colour",
+        "required": false,
+        "default": "#c8963e"
+      },
+      {
+        "name": "duration",
+        "type": "duration",
+        "label": "Total duration (s)",
+        "required": false,
+        "default": 8.0
+      }
     ]
   },
-  "output": {"width": 1920, "height": 1080, "fps": 30, "path": "./output/fractal_title_card.mp4"},
-  "theme": {"background": "#000000", "text_color": "#ffffff"},
+  "output": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "path": "./output/fractal_title_card.mp4"
+  },
+  "theme": {
+    "background": "#000000",
+    "text_color": "#ffffff"
+  },
   "segments": [
     {
       "id": "fractal_bg",
       "type": "mathviz",
       "duration": "{{duration}}",
       "effect": "{{bg_effect}}",
-      "config": {"color_scheme": "{{color_scheme}}", "animation": "zoom"},
+      "config": {
+        "color_scheme": "{{color_scheme}}",
+        "animation": "zoom"
+      },
       "overlays": [
-        {"type": "text", "text": "{{title}}",    "effect": "neon_glow", "position": "center", "color": "{{accent_color}}", "timing": {"start": 1.5}},
-        {"type": "text", "text": "{{subtitle}}", "effect": "fade_in",   "position": "bottom", "color": "#cccccc",          "timing": {"start": 2.5}}
+        {
+          "type": "text",
+          "text": "{{title}}",
+          "effect": "neon_glow_text",
+          "position": "center",
+          "color": "{{accent_color}}",
+          "timing": {
+            "start": 1.5
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{subtitle}}",
+          "effect": "fade_in",
+          "position": "bottom",
+          "color": "#cccccc",
+          "timing": {
+            "start": 2.5
+          }
+        }
       ]
     }
   ]
