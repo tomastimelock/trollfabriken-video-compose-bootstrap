@@ -1,0 +1,40 @@
+{
+  "tvcs": "1.0",
+  "template": {
+    "id": "podcast_chapter_card",
+    "name": "Podcast Chapter Card",
+    "category": "entertainment",
+    "tags": ["entertainment", "podcast", "chapter", "timestamp", "waveform", "audio", "youtube", "creator"],
+    "description": "In-episode chapter marker card for podcast videos: waveform oscilloscope mathviz at the base, chapter number and title fade in, timestamp badge, podcast name footer.",
+    "preview_thumbnail": "previews/thumbnails/podcast_chapter_card.jpg",
+    "preview_full": "previews/full/podcast_chapter_card.jpg",
+    "author": "Trollfabriken",
+    "version": "1.0",
+    "variables": [
+      {"name": "podcast_name",    "type": "string",   "label": "Podcast name",        "required": true,  "default": "The Build Podcast"},
+      {"name": "chapter_number",  "type": "string",   "label": "Chapter number",      "required": true,  "default": "Chapter 3"},
+      {"name": "chapter_title",   "type": "string",   "label": "Chapter title",       "required": true,  "default": "Shipping Your First Product"},
+      {"name": "timestamp",       "type": "string",   "label": "Timestamp",           "required": false, "default": "00:42:17"},
+      {"name": "accent_color",    "type": "color",    "label": "Accent colour",       "required": false, "default": "#ff6b35"},
+      {"name": "bg_color",        "type": "color",    "label": "Background colour",   "required": false, "default": "#1a1a2e"},
+      {"name": "card_duration",   "type": "duration", "label": "Card duration (s)",   "required": false, "default": 4.0}
+    ]
+  },
+  "output": {"width": 1080, "height": 1080, "fps": 30, "path": "./output/podcast_chapter_card.mp4"},
+  "theme": {"background": "{{bg_color}}", "text_color": "#ffffff"},
+  "segments": [
+    {
+      "id": "chapter",
+      "type": "mathviz",
+      "duration": "{{card_duration}}",
+      "effect": "waveform_oscilloscope",
+      "config": {"color_scheme": "neon"},
+      "overlays": [
+        {"type": "text", "text": "{{podcast_name}}",   "effect": "fade_in",  "position": "top",    "color": "{{accent_color}}", "timing": {"start": 0.3}},
+        {"type": "text", "text": "{{chapter_number}}", "effect": "fade_in",  "position": "center", "color": "{{accent_color}}", "timing": {"start": 0.6}},
+        {"type": "text", "text": "{{chapter_title}}",  "effect": "slide_up", "position": "center", "color": "#ffffff",          "timing": {"start": 1.0}},
+        {"type": "text", "text": "{{timestamp}}",      "effect": "fade_in",  "position": "bottom", "color": "#888888",          "timing": {"start": 1.5}}
+      ]
+    }
+  ]
+}

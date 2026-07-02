@@ -1,0 +1,62 @@
+{
+  "tvcs": "1.0",
+  "template": {
+    "id": "explainer_numbered_steps",
+    "name": "Explainer — Numbered Steps",
+    "category": "explainer",
+    "tags": ["explainer", "steps", "process", "how-to", "numbered", "tutorial", "education"],
+    "description": "Clean 5-step process walkthrough: title card, each numbered step slides in sequentially with a stagger-reveal divider, summary outro. Ideal for how-to content, onboarding, and tutorials.",
+    "preview_thumbnail": "previews/thumbnails/explainer_numbered_steps.jpg",
+    "preview_full": "previews/full/explainer_numbered_steps.jpg",
+    "author": "Trollfabriken",
+    "version": "1.0",
+    "variables": [
+      {"name": "title",      "type": "string", "label": "Section title",   "required": true,  "default": "How it works"},
+      {"name": "step_1",     "type": "string", "label": "Step 1",          "required": true,  "default": "Sign up for a free account"},
+      {"name": "step_2",     "type": "string", "label": "Step 2",          "required": true,  "default": "Connect your data source"},
+      {"name": "step_3",     "type": "string", "label": "Step 3",          "required": true,  "default": "Configure your dashboard"},
+      {"name": "step_4",     "type": "string", "label": "Step 4",          "required": false, "default": "Invite your team"},
+      {"name": "step_5",     "type": "string", "label": "Step 5",          "required": false, "default": "Go live"},
+      {"name": "cta_text",   "type": "string", "label": "Outro CTA text",  "required": false, "default": "Get started today"},
+      {"name": "accent_color","type": "color", "label": "Accent colour",   "required": false, "default": "#00c9a7"},
+      {"name": "bg_color",   "type": "color",  "label": "Background colour","required": false, "default": "#0f1923"}
+    ]
+  },
+  "output": {"width": 1920, "height": 1080, "fps": 30, "path": "./output/explainer_numbered_steps.mp4"},
+  "theme": {"background": "{{bg_color}}", "text_color": "#ffffff"},
+  "segments": [
+    {
+      "id": "title_card",
+      "type": "blank",
+      "duration": 2.5,
+      "color": "{{bg_color}}",
+      "overlays": [
+        {"type": "text", "text": "{{title}}", "effect": "zoom_in", "position": "center", "color": "#ffffff", "timing": {"start": 0.5}}
+      ]
+    },
+    {
+      "id": "steps",
+      "type": "shape",
+      "duration": 12.0,
+      "effect": "stagger_reveal",
+      "config": {"color": "{{accent_color}}"},
+      "overlays": [
+        {"type": "text", "text": "1  {{step_1}}", "effect": "slide_right", "position": "center", "color": "#ffffff",          "timing": {"start": 0.5,  "end": 3.0}},
+        {"type": "text", "text": "2  {{step_2}}", "effect": "slide_right", "position": "center", "color": "#ffffff",          "timing": {"start": 2.5,  "end": 5.0}},
+        {"type": "text", "text": "3  {{step_3}}", "effect": "slide_right", "position": "center", "color": "#ffffff",          "timing": {"start": 4.5,  "end": 7.5}},
+        {"type": "text", "text": "4  {{step_4}}", "effect": "slide_right", "position": "center", "color": "#ffffff",          "timing": {"start": 7.0,  "end": 10.0}},
+        {"type": "text", "text": "5  {{step_5}}", "effect": "slide_right", "position": "center", "color": "{{accent_color}}", "timing": {"start": 9.5}}
+      ]
+    },
+    {
+      "id": "outro",
+      "type": "blank",
+      "duration": 3.0,
+      "color": "{{bg_color}}",
+      "overlays": [
+        {"type": "text", "text": "{{cta_text}}", "effect": "zoom_in", "position": "center", "color": "{{accent_color}}", "timing": {"start": 0.6}}
+      ]
+    }
+  ],
+  "transitions": {"default": {"type": "dissolve_ii", "duration": 0.5}}
+}

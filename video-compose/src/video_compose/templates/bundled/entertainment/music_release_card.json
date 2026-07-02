@@ -1,0 +1,52 @@
+{
+  "tvcs": "1.0",
+  "template": {
+    "id": "music_release_card",
+    "name": "Music Release Card",
+    "category": "entertainment",
+    "tags": ["entertainment", "music", "album", "single", "release", "artist", "spotify", "apple-music"],
+    "description": "Album or single release announcement: album artwork Ken Burns reveal, artist name and track title card, release date and streaming platform CTA. Square-friendly (works at 1:1 or 16:9).",
+    "preview_thumbnail": "previews/thumbnails/music_release_card.jpg",
+    "preview_full": "previews/full/music_release_card.jpg",
+    "author": "Trollfabriken",
+    "version": "1.0",
+    "variables": [
+      {"name": "artist_name",   "type": "string",     "label": "Artist / band name",    "required": true,  "default": "The Static Ensemble"},
+      {"name": "release_title", "type": "string",     "label": "Album / single title",  "required": true,  "default": "Afterglow"},
+      {"name": "release_type",  "type": "string",     "label": "Release type label",    "required": false, "default": "New Single"},
+      {"name": "release_date",  "type": "string",     "label": "Release date",          "required": false, "default": "Out now"},
+      {"name": "streaming_cta", "type": "string",     "label": "Streaming CTA",         "required": false, "default": "Stream everywhere"},
+      {"name": "album_art",     "type": "image_path", "label": "Album artwork",         "required": true},
+      {"name": "accent_color",  "type": "color",      "label": "Accent colour",         "required": false, "default": "#e879f9"},
+      {"name": "bg_color",      "type": "color",      "label": "Background colour",     "required": false, "default": "#0a0a0a"}
+    ]
+  },
+  "output": {"width": 1080, "height": 1080, "fps": 30, "path": "./output/music_release_card.mp4"},
+  "theme": {"background": "{{bg_color}}", "text_color": "#ffffff"},
+  "segments": [
+    {
+      "id": "artwork",
+      "type": "still",
+      "duration": 6.0,
+      "source": "{{album_art}}",
+      "motion": "ken_burns",
+      "overlays": [
+        {"type": "text", "text": "{{release_type}}", "effect": "fade_in",  "position": "top",    "color": "{{accent_color}}", "timing": {"start": 0.8}},
+        {"type": "text", "text": "{{artist_name}}",  "effect": "slide_up", "position": "bottom", "color": "#ffffff",          "timing": {"start": 1.5}}
+      ]
+    },
+    {
+      "id": "title_card",
+      "type": "blank",
+      "duration": 5.0,
+      "color": "{{bg_color}}",
+      "overlays": [
+        {"type": "text", "text": "{{artist_name}}",   "effect": "fade_in",  "position": "top",    "color": "{{accent_color}}", "timing": {"start": 0.4}},
+        {"type": "text", "text": "{{release_title}}", "effect": "zoom_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 0.8}},
+        {"type": "text", "text": "{{release_date}}",  "effect": "fade_in",  "position": "center", "color": "#aaaaaa",          "timing": {"start": 1.5}},
+        {"type": "text", "text": "{{streaming_cta}}", "effect": "slide_up", "position": "bottom", "color": "{{accent_color}}", "timing": {"start": 2.2}}
+      ]
+    }
+  ],
+  "transitions": {"default": {"type": "dissolve_ii", "duration": 0.6}}
+}

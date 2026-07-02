@@ -49,7 +49,14 @@ class TestFilterByTags:
         social = registry.list(tags=["social"])
         chart = registry.list(tags=["chart"])
         combined = registry.list(tags=["social", "chart"])
-        assert len(combined) >= len(social) + len(chart)
+        social_ids = {t.id for t in social}
+        chart_ids = {t.id for t in chart}
+        combined_ids = {t.id for t in combined}
+        # combined must be a superset of both individual results
+        assert social_ids.issubset(combined_ids)
+        assert chart_ids.issubset(combined_ids)
+        # combined cannot exceed the union
+        assert combined_ids == social_ids | chart_ids
 
 
 class TestSearchQuery:

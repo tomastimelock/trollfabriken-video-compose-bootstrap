@@ -1,0 +1,60 @@
+{
+  "tvcs": "1.0",
+  "template": {
+    "id": "data_waterfall_bridge",
+    "name": "Waterfall Bridge Chart",
+    "category": "data_story",
+    "tags": ["data", "waterfall", "bridge", "P&L", "variance", "revenue", "finance", "earnings"],
+    "description": "Revenue or P&L waterfall bridge chart: animated bars showing start value, positive and negative contributions, and end value. Standard for earnings presentations and variance analysis.",
+    "preview_thumbnail": "previews/thumbnails/data_waterfall_bridge.jpg",
+    "preview_full": "previews/full/data_waterfall_bridge.jpg",
+    "author": "Trollfabriken",
+    "version": "1.0",
+    "variables": [
+      {"name": "title",        "type": "string",   "label": "Chart title",             "required": true,  "default": "Revenue Bridge H1 2025 vs H1 2024"},
+      {"name": "chart_data",   "type": "data_ref", "label": "Waterfall items",         "required": true,
+        "default": {"H1 2024": 18.5, "New customers": 3.2, "Upsell": 1.8, "FX impact": -0.9, "Churn": -1.4, "H1 2025": 21.2},
+        "description": "Ordered dict: first key is starting bar, last is ending bar, middle keys are deltas"},
+      {"name": "unit_label",   "type": "string",   "label": "Unit label (axis)",       "required": false, "default": "Revenue (MSEK)"},
+      {"name": "key_insight",  "type": "string",   "label": "Key insight text",        "required": false, "default": "New customer acquisition drove 55% of growth"},
+      {"name": "pos_color",    "type": "color",    "label": "Positive bar colour",     "required": false, "default": "#22c55e"},
+      {"name": "neg_color",    "type": "color",    "label": "Negative bar colour",     "required": false, "default": "#ef4444"},
+      {"name": "bg_color",     "type": "color",    "label": "Background colour",       "required": false, "default": "#0a1628"}
+    ]
+  },
+  "output": {"width": 1920, "height": 1080, "fps": 30, "path": "./output/data_waterfall_bridge.mp4"},
+  "theme": {"background": "{{bg_color}}", "text_color": "#ffffff"},
+  "segments": [
+    {
+      "id": "title",
+      "type": "blank",
+      "duration": 2.5,
+      "color": "{{bg_color}}",
+      "overlays": [
+        {"type": "text", "text": "{{title}}", "effect": "fade_in", "position": "center", "color": "#ffffff", "timing": {"start": 0.5}}
+      ]
+    },
+    {
+      "id": "waterfall",
+      "type": "chart",
+      "duration": 8.0,
+      "chart_type": "waterfall",
+      "data": "{{chart_data}}",
+      "config": {"animate": true, "positive_color": "{{pos_color}}", "negative_color": "{{neg_color}}", "show_labels": true},
+      "overlays": [
+        {"type": "text", "text": "{{unit_label}}", "effect": "fade_in", "position": "top", "color": "#aaaaaa", "timing": {"start": 0.5}}
+      ]
+    },
+    {
+      "id": "insight",
+      "type": "blank",
+      "duration": 3.5,
+      "color": "{{bg_color}}",
+      "overlays": [
+        {"type": "text", "text": "{{title}}",       "effect": "fade_in",  "position": "top",    "color": "#ffffff",  "timing": {"start": 0.3}},
+        {"type": "text", "text": "{{key_insight}}", "effect": "zoom_in",  "position": "center", "color": "{{pos_color}}", "timing": {"start": 0.8}}
+      ]
+    }
+  ],
+  "transitions": {"default": {"type": "dissolve_ii", "duration": 0.5}}
+}

@@ -1,0 +1,64 @@
+{
+  "tvcs": "1.0",
+  "template": {
+    "id": "data_radar_performance",
+    "name": "Radar Performance Chart",
+    "category": "data_story",
+    "tags": ["data", "radar", "spider", "performance", "skills", "comparison", "HR", "sports", "scoring"],
+    "description": "Radar/spider chart for multi-axis performance scoring: skills matrix, player scouting, product comparison, or competitor analysis. Animated fill with up to two overlaid datasets.",
+    "preview_thumbnail": "previews/thumbnails/data_radar_performance.jpg",
+    "preview_full": "previews/full/data_radar_performance.jpg",
+    "author": "Trollfabriken",
+    "version": "1.0",
+    "variables": [
+      {"name": "title",         "type": "string",   "label": "Chart title",              "required": true,  "default": "Player Performance Profile"},
+      {"name": "subject_a",     "type": "string",   "label": "Subject A name",           "required": true,  "default": "Player A"},
+      {"name": "subject_b",     "type": "string",   "label": "Subject B name (optional)","required": false, "default": "League Average"},
+      {"name": "chart_data",    "type": "data_ref", "label": "Radar data",               "required": true,
+        "default": {
+          "Player A":    {"Speed": 88, "Strength": 72, "Passing": 85, "Shooting": 79, "Defending": 55, "Stamina": 91},
+          "League Average": {"Speed": 75, "Strength": 75, "Passing": 75, "Shooting": 75, "Defending": 75, "Stamina": 75}
+        },
+        "description": "Dict of subject name -> {axis: value} dicts. Single subject OK."},
+      {"name": "key_insight",   "type": "string",   "label": "Key insight",              "required": false, "default": "Elite speed and stamina — defensive work rate needs improvement"},
+      {"name": "accent_color",  "type": "color",    "label": "Primary accent colour",    "required": false, "default": "#f59e0b"},
+      {"name": "bg_color",      "type": "color",    "label": "Background colour",        "required": false, "default": "#0a1628"}
+    ]
+  },
+  "output": {"width": 1920, "height": 1080, "fps": 30, "path": "./output/data_radar_performance.mp4"},
+  "theme": {"background": "{{bg_color}}", "text_color": "#ffffff"},
+  "segments": [
+    {
+      "id": "title",
+      "type": "blank",
+      "duration": 2.5,
+      "color": "{{bg_color}}",
+      "overlays": [
+        {"type": "text", "text": "{{title}}",    "effect": "fade_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 0.5}},
+        {"type": "text", "text": "{{subject_a}}", "effect": "slide_up", "position": "bottom", "color": "{{accent_color}}", "timing": {"start": 1.0}}
+      ]
+    },
+    {
+      "id": "radar",
+      "type": "chart",
+      "duration": 7.0,
+      "chart_type": "radar",
+      "data": "{{chart_data}}",
+      "config": {"color": "{{accent_color}}", "animate": true, "fill": true, "show_labels": true},
+      "overlays": [
+        {"type": "text", "text": "{{subject_a}}  vs  {{subject_b}}", "effect": "fade_in", "position": "top", "color": "{{accent_color}}", "timing": {"start": 0.5}}
+      ]
+    },
+    {
+      "id": "insight",
+      "type": "blank",
+      "duration": 3.5,
+      "color": "{{bg_color}}",
+      "overlays": [
+        {"type": "text", "text": "{{subject_a}}",   "effect": "fade_in",  "position": "top",    "color": "{{accent_color}}", "timing": {"start": 0.3}},
+        {"type": "text", "text": "{{key_insight}}", "effect": "zoom_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 0.8}}
+      ]
+    }
+  ],
+  "transitions": {"default": {"type": "dissolve_ii", "duration": 0.5}}
+}

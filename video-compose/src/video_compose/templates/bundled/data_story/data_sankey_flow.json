@@ -1,0 +1,69 @@
+{
+  "tvcs": "1.0",
+  "template": {
+    "id": "data_sankey_flow",
+    "name": "Sankey Flow Diagram",
+    "category": "data_story",
+    "tags": ["data", "sankey", "flow", "budget", "energy", "allocation", "journalism"],
+    "description": "Sankey flow diagram for budget allocation, energy mix, user journey, or supply chain stories. Title card, animated Sankey chart with flow widths proportional to values, insight outro.",
+    "preview_thumbnail": "previews/thumbnails/data_sankey_flow.jpg",
+    "preview_full": "previews/full/data_sankey_flow.jpg",
+    "author": "Trollfabriken",
+    "version": "1.0",
+    "variables": [
+      {"name": "title",        "type": "string",   "label": "Chart title",            "required": true,  "default": "Swedish Government Budget 2025"},
+      {"name": "flow_data",    "type": "data_ref", "label": "Sankey nodes and links",  "required": true,
+        "default": {
+          "nodes": ["Revenue", "Income Tax", "VAT", "Corporate Tax", "Health", "Education", "Defence", "Infrastructure"],
+          "links": [
+            {"source": "Revenue", "target": "Income Tax",     "value": 580},
+            {"source": "Revenue", "target": "VAT",            "value": 420},
+            {"source": "Revenue", "target": "Corporate Tax",  "value": 180},
+            {"source": "Income Tax",    "target": "Health",        "value": 320},
+            {"source": "Income Tax",    "target": "Education",     "value": 260},
+            {"source": "VAT",           "target": "Infrastructure","value": 210},
+            {"source": "Corporate Tax", "target": "Defence",       "value": 180}
+          ]
+        },
+        "description": "Dict with 'nodes' (list of names) and 'links' (list of {source, target, value})"},
+      {"name": "key_insight",  "type": "string",   "label": "Key insight",            "required": false, "default": "Health receives the largest single allocation"},
+      {"name": "accent_color", "type": "color",    "label": "Flow accent colour",     "required": false, "default": "#06b6d4"},
+      {"name": "bg_color",     "type": "color",    "label": "Background colour",      "required": false, "default": "#0a1628"}
+    ]
+  },
+  "output": {"width": 1920, "height": 1080, "fps": 30, "path": "./output/data_sankey_flow.mp4"},
+  "theme": {"background": "{{bg_color}}", "text_color": "#ffffff"},
+  "segments": [
+    {
+      "id": "title",
+      "type": "blank",
+      "duration": 2.5,
+      "color": "{{bg_color}}",
+      "overlays": [
+        {"type": "text", "text": "{{title}}", "effect": "fade_in", "position": "center", "color": "#ffffff", "timing": {"start": 0.5}}
+      ]
+    },
+    {
+      "id": "sankey",
+      "type": "chart",
+      "duration": 9.0,
+      "chart_type": "sankey",
+      "data": "{{flow_data}}",
+      "config": {"color": "{{accent_color}}", "animate": true},
+      "overlays": [
+        {"type": "text", "text": "{{title}}", "effect": "fade_in", "position": "top", "color": "{{accent_color}}", "timing": {"start": 0.5}}
+      ]
+    },
+    {
+      "id": "insight",
+      "type": "blank",
+      "duration": 3.5,
+      "color": "{{bg_color}}",
+      "overlays": [
+        {"type": "text", "text": "{{title}}",        "effect": "fade_in",  "position": "top",    "color": "{{accent_color}}", "timing": {"start": 0.3}},
+        {"type": "text", "text": "{{key_insight}}",  "effect": "zoom_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 0.8}}
+      ]
+    }
+  ],
+  "transitions": {"default": {"type": "dissolve_ii", "duration": 0.5}}
+}

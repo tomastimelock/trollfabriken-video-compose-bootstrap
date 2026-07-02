@@ -1,0 +1,67 @@
+{
+  "tvcs": "1.0",
+  "template": {
+    "id": "data_candlestick",
+    "name": "Candlestick Chart",
+    "category": "data_story",
+    "tags": ["data", "candlestick", "OHLC", "stock", "crypto", "finance", "trading", "price"],
+    "description": "OHLC candlestick chart for stock or crypto price action: title card with ticker + period, animated candlestick chart, key level annotation outro (support, resistance, trend).",
+    "preview_thumbnail": "previews/thumbnails/data_candlestick.jpg",
+    "preview_full": "previews/full/data_candlestick.jpg",
+    "author": "Trollfabriken",
+    "version": "1.0",
+    "variables": [
+      {"name": "ticker",       "type": "string",   "label": "Ticker symbol",                "required": true,  "default": "AAPL"},
+      {"name": "period_label", "type": "string",   "label": "Period label",                 "required": false, "default": "Jan–Jun 2025"},
+      {"name": "chart_data",   "type": "data_ref", "label": "OHLCV data (list of candles)", "required": true,
+        "default": [
+          {"date": "2025-01-06", "open": 243.0, "high": 247.2, "low": 241.5, "close": 245.8, "volume": 68000000},
+          {"date": "2025-01-13", "open": 245.8, "high": 252.1, "low": 243.0, "close": 249.4, "volume": 72000000},
+          {"date": "2025-01-20", "open": 249.4, "high": 255.0, "low": 246.2, "close": 251.7, "volume": 65000000},
+          {"date": "2025-01-27", "open": 251.7, "high": 253.8, "low": 238.9, "close": 240.2, "volume": 95000000},
+          {"date": "2025-02-03", "open": 240.2, "high": 246.5, "low": 237.1, "close": 244.0, "volume": 71000000},
+          {"date": "2025-02-10", "open": 244.0, "high": 250.3, "low": 241.8, "close": 248.9, "volume": 69000000}
+        ],
+        "description": "List of OHLCV dicts: {date, open, high, low, close, volume}"},
+      {"name": "key_level",    "type": "string",   "label": "Key level / annotation",       "required": false, "default": "Key support: $240"},
+      {"name": "accent_color", "type": "color",    "label": "Accent colour",                "required": false, "default": "#22c55e"},
+      {"name": "bg_color",     "type": "color",    "label": "Background colour",            "required": false, "default": "#0a0a0a"}
+    ]
+  },
+  "output": {"width": 1920, "height": 1080, "fps": 30, "path": "./output/data_candlestick.mp4"},
+  "theme": {"background": "{{bg_color}}", "text_color": "#ffffff"},
+  "segments": [
+    {
+      "id": "title",
+      "type": "blank",
+      "duration": 2.5,
+      "color": "{{bg_color}}",
+      "overlays": [
+        {"type": "text", "text": "{{ticker}}",       "effect": "zoom_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 0.4}},
+        {"type": "text", "text": "{{period_label}}", "effect": "fade_in",  "position": "bottom", "color": "{{accent_color}}", "timing": {"start": 1.0}}
+      ]
+    },
+    {
+      "id": "chart",
+      "type": "chart",
+      "duration": 8.0,
+      "chart_type": "candlestick",
+      "data": "{{chart_data}}",
+      "config": {"color": "{{accent_color}}", "animate": true, "show_volume": true},
+      "overlays": [
+        {"type": "text", "text": "{{ticker}}  ·  {{period_label}}", "effect": "fade_in", "position": "top", "color": "{{accent_color}}", "timing": {"start": 0.5}}
+      ]
+    },
+    {
+      "id": "annotation",
+      "type": "blank",
+      "duration": 3.0,
+      "color": "{{bg_color}}",
+      "overlays": [
+        {"type": "text", "text": "{{ticker}}",     "effect": "fade_in",  "position": "top",    "color": "{{accent_color}}", "timing": {"start": 0.3}},
+        {"type": "text", "text": "{{key_level}}",  "effect": "zoom_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 0.7}}
+      ]
+    }
+  ],
+  "transitions": {"default": {"type": "dissolve_ii", "duration": 0.5}}
+}

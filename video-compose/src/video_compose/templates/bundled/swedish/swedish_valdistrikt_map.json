@@ -1,0 +1,66 @@
+{
+  "tvcs": "1.0",
+  "template": {
+    "id": "swedish_valdistrikt_map",
+    "name": "Swedish Valdistrikt Map",
+    "category": "swedish",
+    "tags": ["sweden", "election", "valdistrikt", "electoral-district", "map", "geomap", "choropleth", "granular"],
+    "description": "Hyper-granular Swedish election map at valdistrikt (electoral district) level — the finest geographic resolution available. Use for election-night deep dives, precinct-level reporting, and regional party breakdowns.",
+    "preview_thumbnail": "previews/thumbnails/swedish_valdistrikt_map.jpg",
+    "preview_full": "previews/full/swedish_valdistrikt_map.jpg",
+    "author": "Trollfabriken",
+    "version": "1.0",
+    "variables": [
+      {"name": "election_title",  "type": "string",   "label": "Election / poll title",       "required": true,  "default": "Riksdagsvalet 2026 — Valdistrikt"},
+      {"name": "region_name",     "type": "string",   "label": "Region name (focus area)",    "required": false, "default": "Stockholms län"},
+      {"name": "map_data",        "type": "data_ref", "label": "Valdistrikt data (code -> float)", "required": true,
+        "default": {},
+        "description": "Dict of valdistrikt code to float (0.0-1.0 share). Typically loaded from '$sources.election_api'."},
+      {"name": "party_name",      "type": "string",   "label": "Party name being mapped",     "required": false, "default": "Socialdemokraterna"},
+      {"name": "palette",         "type": "string",   "label": "Colour palette",              "required": false, "default": "RdBu",
+        "choices": ["RdBu","Blues","Reds","Greens","YlOrRd","Purples"]},
+      {"name": "result_text",     "type": "string",   "label": "Key result / insight text",   "required": false, "default": "Stark uppslutning i tätorterna"},
+      {"name": "accent_color",    "type": "color",    "label": "Accent colour",               "required": false, "default": "#e8112d"},
+      {"name": "bg_color",        "type": "color",    "label": "Background colour",           "required": false, "default": "#0a1628"}
+    ]
+  },
+  "output": {"width": 1920, "height": 1080, "fps": 30, "path": "./output/swedish_valdistrikt_map.mp4"},
+  "theme": {"background": "{{bg_color}}", "text_color": "#ffffff"},
+  "segments": [
+    {
+      "id": "title",
+      "type": "blank",
+      "duration": 2.5,
+      "color": "{{bg_color}}",
+      "overlays": [
+        {"type": "text", "text": "{{election_title}}", "effect": "fade_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 0.4}},
+        {"type": "text", "text": "{{region_name}}",    "effect": "slide_up", "position": "bottom", "color": "{{accent_color}}", "timing": {"start": 1.0}}
+      ]
+    },
+    {
+      "id": "valdistrikt_map",
+      "type": "geomap",
+      "duration": 10.0,
+      "scope": "sweden",
+      "view": "region_valdistrikt",
+      "data": "{{map_data}}",
+      "palette": "{{palette}}",
+      "animation": "ken_burns_zoom",
+      "overlays": [
+        {"type": "text", "text": "{{party_name}}", "effect": "fade_in", "position": "top", "color": "{{accent_color}}", "timing": {"start": 0.5}}
+      ]
+    },
+    {
+      "id": "result",
+      "type": "blank",
+      "duration": 3.5,
+      "color": "{{bg_color}}",
+      "overlays": [
+        {"type": "text", "text": "{{election_title}}", "effect": "fade_in",  "position": "top",    "color": "{{accent_color}}", "timing": {"start": 0.3}},
+        {"type": "text", "text": "{{party_name}}",     "effect": "fade_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 0.6}},
+        {"type": "text", "text": "{{result_text}}",    "effect": "zoom_in",  "position": "center", "color": "#cccccc",          "timing": {"start": 1.0}}
+      ]
+    }
+  ],
+  "transitions": {"default": {"type": "dissolve_ii", "duration": 0.5}}
+}

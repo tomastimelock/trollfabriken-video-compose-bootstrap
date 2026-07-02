@@ -1,0 +1,58 @@
+{
+  "tvcs": "1.0",
+  "template": {
+    "id": "explainer_funnel",
+    "name": "Explainer — Funnel Chart",
+    "category": "explainer",
+    "tags": ["explainer", "funnel", "marketing", "conversion", "sales", "pipeline", "tofu", "mofu", "bofu"],
+    "description": "Marketing or sales funnel visualisation: title card, animated funnel chart with stage labels and conversion rates, summary with key drop-off insight.",
+    "preview_thumbnail": "previews/thumbnails/explainer_funnel.jpg",
+    "preview_full": "previews/full/explainer_funnel.jpg",
+    "author": "Trollfabriken",
+    "version": "1.0",
+    "variables": [
+      {"name": "title",          "type": "string",   "label": "Funnel title",             "required": true,  "default": "Marketing Funnel Q2 2025"},
+      {"name": "funnel_data",    "type": "data_ref", "label": "Stage -> count data",       "required": true,
+        "default": {"Awareness": 50000, "Interest": 18000, "Consideration": 6500, "Intent": 2200, "Purchase": 890},
+        "description": "Ordered dict of stage name to visitor/lead count"},
+      {"name": "key_insight",    "type": "string",   "label": "Key insight text",          "required": false, "default": "Biggest drop: Awareness to Interest (64%)"},
+      {"name": "accent_color",   "type": "color",    "label": "Funnel accent colour",      "required": false, "default": "#f59e0b"},
+      {"name": "bg_color",       "type": "color",    "label": "Background colour",         "required": false, "default": "#0a1628"}
+    ]
+  },
+  "output": {"width": 1920, "height": 1080, "fps": 30, "path": "./output/explainer_funnel.mp4"},
+  "theme": {"background": "{{bg_color}}", "text_color": "#ffffff"},
+  "segments": [
+    {
+      "id": "title",
+      "type": "blank",
+      "duration": 2.5,
+      "color": "{{bg_color}}",
+      "overlays": [
+        {"type": "text", "text": "{{title}}", "effect": "fade_in", "position": "center", "color": "#ffffff", "timing": {"start": 0.5}}
+      ]
+    },
+    {
+      "id": "funnel",
+      "type": "chart",
+      "duration": 8.0,
+      "chart_type": "funnel",
+      "data": "{{funnel_data}}",
+      "config": {"color": "{{accent_color}}", "animate": true, "show_labels": true, "show_percentages": true},
+      "overlays": [
+        {"type": "text", "text": "{{title}}", "effect": "fade_in", "position": "top", "color": "{{accent_color}}", "timing": {"start": 0.5}}
+      ]
+    },
+    {
+      "id": "insight",
+      "type": "blank",
+      "duration": 3.5,
+      "color": "{{bg_color}}",
+      "overlays": [
+        {"type": "text", "text": "{{title}}",       "effect": "fade_in",  "position": "top",    "color": "{{accent_color}}", "timing": {"start": 0.3}},
+        {"type": "text", "text": "{{key_insight}}", "effect": "zoom_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 0.8}}
+      ]
+    }
+  ],
+  "transitions": {"default": {"type": "dissolve_ii", "duration": 0.5}}
+}

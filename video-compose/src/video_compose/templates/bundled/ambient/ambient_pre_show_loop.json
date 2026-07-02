@@ -1,0 +1,41 @@
+{
+  "tvcs": "1.0",
+  "template": {
+    "id": "ambient_pre_show_loop",
+    "name": "Ambient Pre-Show Loop",
+    "category": "ambient",
+    "tags": ["ambient", "pre-show", "loop", "event", "screensaver", "holding", "mathviz", "generative"],
+    "description": "Event holding screen / pre-show ambient loop: generative mathviz background (voronoi, plasma, or perlin noise), event name overlay, countdown-to-start card. Designed to play on loop before a live event.",
+    "preview_thumbnail": "previews/thumbnails/ambient_pre_show_loop.jpg",
+    "preview_full": "previews/full/ambient_pre_show_loop.jpg",
+    "author": "Trollfabriken",
+    "version": "1.0",
+    "variables": [
+      {"name": "event_name",    "type": "string",  "label": "Event name",               "required": true,  "default": "Tech Summit 2025"},
+      {"name": "start_time",    "type": "string",  "label": "Start time text",          "required": false, "default": "Starting at 14:00"},
+      {"name": "tagline",       "type": "string",  "label": "Tagline / sub-title",      "required": false, "default": "The future starts here"},
+      {"name": "bg_effect",     "type": "string",  "label": "Background mathviz effect","required": false, "default": "voronoi_cells",
+        "choices": ["voronoi_cells","plasma_field","perlin_noise","noise_flow_field","reaction_diffusion"]},
+      {"name": "color_scheme",  "type": "string",  "label": "Colour scheme",            "required": false, "default": "neon",
+        "choices": ["neon","cyberpunk","ocean","electric","nebula","synthwave"]},
+      {"name": "accent_color",  "type": "color",   "label": "Text accent colour",       "required": false, "default": "#00ffcc"},
+      {"name": "loop_duration", "type": "duration","label": "Loop duration (s)",        "required": false, "default": 30.0}
+    ]
+  },
+  "output": {"width": 1920, "height": 1080, "fps": 30, "path": "./output/ambient_pre_show_loop.mp4"},
+  "theme": {"background": "#000000", "text_color": "#ffffff"},
+  "segments": [
+    {
+      "id": "ambient",
+      "type": "mathviz",
+      "duration": "{{loop_duration}}",
+      "effect": "{{bg_effect}}",
+      "config": {"color_scheme": "{{color_scheme}}"},
+      "overlays": [
+        {"type": "text", "text": "{{event_name}}",  "effect": "fade_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 1.0}},
+        {"type": "text", "text": "{{tagline}}",     "effect": "fade_in",  "position": "center", "color": "{{accent_color}}", "timing": {"start": 2.0}},
+        {"type": "text", "text": "{{start_time}}",  "effect": "pulse",    "position": "bottom", "color": "{{accent_color}}", "timing": {"start": 3.0}}
+      ]
+    }
+  ]
+}
