@@ -52,6 +52,9 @@ jobs:
       - name: Run data adapter tests
         run: python video-compose/tests/test_data_adapters.py
 
+      - name: Run prompt builder tests
+        run: python video-compose/tests/test_prompt_builder.py
+
       - name: CLI smoke
         shell: bash
         run: |
