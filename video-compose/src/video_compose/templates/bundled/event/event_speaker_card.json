@@ -1,0 +1,51 @@
+{
+  "tvcs": "1.0",
+  "template": {
+    "id": "event_speaker_card",
+    "name": "Event Speaker Card",
+    "category": "event",
+    "tags": ["event", "speaker", "conference", "intro", "keynote", "headshot"],
+    "description": "Conference speaker introduction: event logo / title card, speaker photo reveal with name + title + talk topic, session time + room.",
+    "preview_thumbnail": "previews/thumbnails/event_speaker_card.jpg",
+    "preview_full": "previews/full/event_speaker_card.jpg",
+    "author": "Trollfabriken",
+    "version": "1.0",
+    "variables": [
+      {"name": "event_name",     "type": "string",     "label": "Event name",          "required": true,  "default": "Tech Summit 2025"},
+      {"name": "speaker_name",   "type": "string",     "label": "Speaker full name",   "required": true,  "default": "Dr. Maria Eklund"},
+      {"name": "speaker_title",  "type": "string",     "label": "Title / company",     "required": true,  "default": "CTO, Nordstjärnan AI"},
+      {"name": "talk_title",     "type": "string",     "label": "Talk / session title","required": true,  "default": "The Future of Generative AI in Enterprise"},
+      {"name": "session_info",   "type": "string",     "label": "Time + room",         "required": false, "default": "14:00  ·  Hall A"},
+      {"name": "speaker_photo",  "type": "image_path", "label": "Speaker headshot",    "required": true},
+      {"name": "accent_color",   "type": "color",      "label": "Event brand colour",  "required": false, "default": "#e63946"},
+      {"name": "bg_color",       "type": "color",      "label": "Background colour",   "required": false, "default": "#0a1628"}
+    ]
+  },
+  "output": {"width": 1920, "height": 1080, "fps": 30, "path": "./output/event_speaker_card.mp4"},
+  "theme": {"background": "{{bg_color}}", "text_color": "#ffffff"},
+  "segments": [
+    {
+      "id": "event_title",
+      "type": "blank",
+      "duration": 2.5,
+      "color": "{{bg_color}}",
+      "overlays": [
+        {"type": "text", "text": "{{event_name}}", "effect": "zoom_in", "position": "center", "color": "{{accent_color}}", "timing": {"start": 0.5}}
+      ]
+    },
+    {
+      "id": "speaker",
+      "type": "still",
+      "duration": 7.0,
+      "source": "{{speaker_photo}}",
+      "motion": "zoom_in",
+      "overlays": [
+        {"type": "text", "text": "{{speaker_name}}",  "effect": "slide_right","position": "bottom",      "color": "#ffffff",          "timing": {"start": 0.8}},
+        {"type": "text", "text": "{{speaker_title}}", "effect": "fade_in",   "position": "bottom",      "color": "{{accent_color}}", "timing": {"start": 1.4}},
+        {"type": "text", "text": "{{talk_title}}",    "effect": "slide_up",  "position": "bottom",      "color": "#cccccc",          "timing": {"start": 2.0}},
+        {"type": "text", "text": "{{session_info}}",  "effect": "fade_in",   "position": "bottom-right","color": "{{accent_color}}", "timing": {"start": 2.5}}
+      ]
+    }
+  ],
+  "transitions": {"default": {"type": "dissolve_ii", "duration": 0.5}}
+}

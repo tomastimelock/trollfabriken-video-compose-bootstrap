@@ -1,0 +1,37 @@
+{
+  "tvcs": "1.0",
+  "template": {
+    "id": "social_announcement",
+    "name": "Social Announcement",
+    "category": "social",
+    "tags": ["announcement", "social", "launch", "news", "short"],
+    "description": "Bold announcement card with headline, subtext, and call-to-action. Perfect for product launches, events, or breaking news.",
+    "preview_thumbnail": "previews/thumbnails/social_announcement.jpg",
+    "preview_full": "previews/full/social_announcement.jpg",
+    "author": "Trollfabriken",
+    "version": "1.0",
+    "variables": [
+      {"name": "headline",      "type": "string",   "label": "Headline",          "required": true,  "default": "BIG NEWS"},
+      {"name": "subtext",       "type": "string",   "label": "Supporting text",   "required": true,  "default": "Something exciting is coming your way"},
+      {"name": "cta",           "type": "string",   "label": "Call to action",    "required": false, "default": "Learn more"},
+      {"name": "bg_color",      "type": "color",    "label": "Background colour", "required": false, "default": "#1a0030"},
+      {"name": "accent_color",  "type": "color",    "label": "Accent colour",     "required": false, "default": "#ff4400"},
+      {"name": "clip_duration", "type": "duration", "label": "Duration (seconds)","required": false, "default": 5.0}
+    ]
+  },
+  "output": {"width": 1080, "height": 1080, "fps": 30, "path": "./output/social_announcement.mp4"},
+  "theme": {"background": "{{bg_color}}", "text_color": "#ffffff"},
+  "segments": [
+    {
+      "id": "card",
+      "type": "blank",
+      "duration": "{{clip_duration}}",
+      "color": "{{bg_color}}",
+      "overlays": [
+        {"type": "text", "text": "{{headline}}", "effect": "zoom_in", "position": "center", "color": "{{accent_color}}", "timing": {"start": 0.3}},
+        {"type": "text", "text": "{{subtext}}",  "effect": "fade_in", "position": "center", "color": "#ffffff",          "timing": {"start": 1.0}},
+        {"type": "text", "text": "{{cta}}",      "effect": "slide_up","position": "bottom", "color": "{{accent_color}}", "timing": {"start": 2.0}}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "tvcs": "1.0",
+  "template": {
+    "id": "lower_third_scrolling_ticker",
+    "name": "Lower Third — Scrolling Ticker",
+    "category": "lower_third",
+    "tags": ["lower-third", "ticker", "news", "broadcast", "crawl"],
+    "description": "News-style scrolling ticker bar at the bottom of the frame over a video source.",
+    "preview_thumbnail": "previews/thumbnails/lower_third_scrolling_ticker.jpg",
+    "preview_full": "previews/full/lower_third_scrolling_ticker.jpg",
+    "author": "Trollfabriken",
+    "version": "1.0",
+    "variables": [
+      {"name": "video_source",  "type": "video_path","label": "Background video",  "required": true},
+      {"name": "ticker_text",   "type": "string",    "label": "Ticker text",       "required": true,  "default": "MARKETS: S&P 500 +1.2%  |  NASDAQ +0.8%  |  OIL $82.40  |  EUR/USD 1.084"},
+      {"name": "label",         "type": "string",    "label": "Label prefix",      "required": false, "default": "LIVE"},
+      {"name": "accent_color",  "type": "color",     "label": "Accent / bar colour","required": false, "default": "#cc0000"},
+      {"name": "clip_duration", "type": "duration",  "label": "Duration (seconds)","required": false, "default": 10.0}
+    ]
+  },
+  "output": {"width": 1920, "height": 1080, "fps": 30, "path": "./output/lower_third_scrolling_ticker.mp4"},
+  "segments": [
+    {
+      "id": "broadcast",
+      "type": "video",
+      "source": "{{video_source}}",
+      "duration": "{{clip_duration}}",
+      "overlays": [
+        {"type": "text", "text": "{{label}}",       "effect": "fade_in",    "position": "bottom-left", "color": "#ffffff",          "timing": {"start": 0.5}},
+        {"type": "text", "text": "{{ticker_text}}", "effect": "slide_left", "position": "bottom",      "color": "{{accent_color}}", "timing": {"start": 0.5}}
+      ]
+    }
+  ]
+}

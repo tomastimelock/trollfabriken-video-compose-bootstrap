@@ -1,0 +1,63 @@
+{
+  "tvcs": "1.0",
+  "template": {
+    "id": "team_spotlight",
+    "name": "Team Spotlight",
+    "category": "people",
+    "tags": ["people", "team", "employee", "spotlight", "company-culture", "hr", "linkedin"],
+    "description": "Employee / team member spotlight: photo reveal with name + role, quote card, contact / connect CTA. Great for LinkedIn company posts and team introductions.",
+    "preview_thumbnail": "previews/thumbnails/team_spotlight.jpg",
+    "preview_full": "previews/full/team_spotlight.jpg",
+    "author": "Trollfabriken",
+    "version": "1.0",
+    "variables": [
+      {"name": "person_name",    "type": "string",     "label": "Full name",            "required": true,  "default": "Johan Lindqvist"},
+      {"name": "role",           "type": "string",     "label": "Job title / role",     "required": true,  "default": "Lead Engineer"},
+      {"name": "department",     "type": "string",     "label": "Team / department",    "required": false, "default": "Platform & Infrastructure"},
+      {"name": "quote",          "type": "string",     "label": "Personal quote",       "required": false, "default": "Great software is built by teams that trust each other."},
+      {"name": "fun_fact",       "type": "string",     "label": "Fun fact / hobby",     "required": false, "default": "Avid trail runner — 40K per week"},
+      {"name": "company_name",   "type": "string",     "label": "Company name",         "required": false, "default": "Acme Corp"},
+      {"name": "photo",          "type": "image_path", "label": "Headshot / team photo","required": true},
+      {"name": "accent_color",   "type": "color",      "label": "Brand colour",         "required": false, "default": "#0066cc"},
+      {"name": "bg_color",       "type": "color",      "label": "Background colour",    "required": false, "default": "#0a1628"}
+    ]
+  },
+  "output": {"width": 1920, "height": 1080, "fps": 30, "path": "./output/team_spotlight.mp4"},
+  "theme": {"background": "{{bg_color}}", "text_color": "#ffffff"},
+  "segments": [
+    {
+      "id": "photo_reveal",
+      "type": "still",
+      "duration": 6.0,
+      "source": "{{photo}}",
+      "motion": "zoom_in",
+      "overlays": [
+        {"type": "text", "text": "{{person_name}}", "effect": "slide_right","position": "bottom",      "color": "#ffffff",          "timing": {"start": 1.0}},
+        {"type": "text", "text": "{{role}}",        "effect": "fade_in",   "position": "bottom",      "color": "{{accent_color}}", "timing": {"start": 1.6}},
+        {"type": "text", "text": "{{department}}",  "effect": "fade_in",   "position": "bottom",      "color": "#aaaaaa",          "timing": {"start": 2.0}}
+      ]
+    },
+    {
+      "id": "quote_card",
+      "type": "blank",
+      "duration": 5.0,
+      "color": "{{bg_color}}",
+      "overlays": [
+        {"type": "text", "text": "„{{quote}}”", "effect": "fade_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 0.5}},
+        {"type": "text", "text": "{{fun_fact}}",         "effect": "slide_up", "position": "bottom", "color": "{{accent_color}}", "timing": {"start": 1.8}}
+      ]
+    },
+    {
+      "id": "cta",
+      "type": "blank",
+      "duration": 3.0,
+      "color": "{{bg_color}}",
+      "overlays": [
+        {"type": "text", "text": "{{company_name}}", "effect": "fade_in",  "position": "top",    "color": "{{accent_color}}", "timing": {"start": 0.4}},
+        {"type": "text", "text": "{{person_name}}", "effect": "fade_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 0.7}},
+        {"type": "text", "text": "{{role}}",        "effect": "slide_up", "position": "bottom", "color": "{{accent_color}}", "timing": {"start": 1.2}}
+      ]
+    }
+  ],
+  "transitions": {"default": {"type": "dissolve_ii", "duration": 0.5}}
+}

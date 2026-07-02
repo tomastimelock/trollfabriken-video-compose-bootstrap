@@ -1,0 +1,39 @@
+{
+  "tvcs": "1.0",
+  "template": {
+    "id": "product_launch_minimal",
+    "name": "Product Launch — Minimal White",
+    "category": "product_launch",
+    "tags": ["product", "launch", "minimal", "clean", "white", "apple"],
+    "description": "Clean, minimal product reveal: product image with slow Ken Burns, name + tagline, CTA. Apple-inspired aesthetic.",
+    "preview_thumbnail": "previews/thumbnails/product_launch_minimal.jpg",
+    "preview_full": "previews/full/product_launch_minimal.jpg",
+    "author": "Trollfabriken",
+    "version": "1.0",
+    "variables": [
+      {"name": "product_name",  "type": "string",     "label": "Product name",      "required": true,  "default": "Introducing X"},
+      {"name": "tagline",       "type": "string",     "label": "Tagline",           "required": false, "default": "Think different."},
+      {"name": "cta_text",      "type": "string",     "label": "Call to action",    "required": false, "default": "Learn more"},
+      {"name": "product_image", "type": "image_path", "label": "Product image path","required": true},
+      {"name": "accent_color",  "type": "color",      "label": "Accent colour",     "required": false, "default": "#0066cc"},
+      {"name": "bg_color",      "type": "color",      "label": "Background colour", "required": false, "default": "#f5f5f5"}
+    ]
+  },
+  "output": {"width": 1920, "height": 1080, "fps": 30, "path": "./output/product_launch_minimal.mp4"},
+  "theme": {"background": "{{bg_color}}", "text_color": "#111111"},
+  "segments": [
+    {"id": "reveal", "type": "still", "duration": 6.0, "source": "{{product_image}}", "motion": "zoom_in"},
+    {
+      "id": "name_card",
+      "type": "blank",
+      "duration": 5.0,
+      "color": "{{bg_color}}",
+      "overlays": [
+        {"type": "text", "text": "{{product_name}}", "effect": "fade_in",  "position": "center", "color": "#111111",          "timing": {"start": 0.5}},
+        {"type": "text", "text": "{{tagline}}",      "effect": "fade_in",  "position": "bottom", "color": "{{accent_color}}", "timing": {"start": 1.2}},
+        {"type": "text", "text": "{{cta_text}}",     "effect": "slide_up", "position": "bottom", "color": "{{accent_color}}", "timing": {"start": 2.5}}
+      ]
+    }
+  ],
+  "transitions": {"default": {"type": "dissolve_ii", "duration": 0.6}}
+}

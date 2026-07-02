@@ -1,0 +1,68 @@
+{
+  "tvcs": "1.0",
+  "template": {
+    "id": "sports_match_result",
+    "name": "Sports Match Result",
+    "category": "sports",
+    "tags": ["sports", "match", "result", "score", "football", "hockey", "broadcast"],
+    "description": "Sports match result graphic: animated team names with score reveal, top stats (shots, possession, etc.), series / table standing outro.",
+    "preview_thumbnail": "previews/thumbnails/sports_match_result.jpg",
+    "preview_full": "previews/full/sports_match_result.jpg",
+    "author": "Trollfabriken",
+    "version": "1.0",
+    "variables": [
+      {"name": "competition",    "type": "string", "label": "Competition / league",    "required": false, "default": "Allsvenskan"},
+      {"name": "team_home",      "type": "string", "label": "Home team name",          "required": true,  "default": "AIK"},
+      {"name": "team_away",      "type": "string", "label": "Away team name",          "required": true,  "default": "Malmö FF"},
+      {"name": "score_home",     "type": "number", "label": "Home team score",         "required": true,  "default": 2},
+      {"name": "score_away",     "type": "number", "label": "Away team score",         "required": true,  "default": 1},
+      {"name": "stat_1_label",   "type": "string", "label": "Stat 1 label",            "required": false, "default": "Shots"},
+      {"name": "stat_1_home",    "type": "string", "label": "Stat 1 home value",       "required": false, "default": "14"},
+      {"name": "stat_1_away",    "type": "string", "label": "Stat 1 away value",       "required": false, "default": "9"},
+      {"name": "stat_2_label",   "type": "string", "label": "Stat 2 label",            "required": false, "default": "Possession"},
+      {"name": "stat_2_home",    "type": "string", "label": "Stat 2 home value",       "required": false, "default": "56%"},
+      {"name": "stat_2_away",    "type": "string", "label": "Stat 2 away value",       "required": false, "default": "44%"},
+      {"name": "table_note",     "type": "string", "label": "Table / series note",     "required": false, "default": "AIK klättrar till 3:e plats"},
+      {"name": "accent_color",   "type": "color",  "label": "Accent colour",           "required": false, "default": "#ffd700"},
+      {"name": "bg_color",       "type": "color",  "label": "Background colour",       "required": false, "default": "#0a0a0a"}
+    ]
+  },
+  "output": {"width": 1920, "height": 1080, "fps": 30, "path": "./output/sports_match_result.mp4"},
+  "theme": {"background": "{{bg_color}}", "text_color": "#ffffff"},
+  "segments": [
+    {
+      "id": "score_reveal",
+      "type": "blank",
+      "duration": 5.0,
+      "color": "{{bg_color}}",
+      "overlays": [
+        {"type": "text", "text": "{{competition}}",                       "effect": "fade_in",  "position": "top",    "color": "{{accent_color}}", "timing": {"start": 0.3}},
+        {"type": "text", "text": "{{team_home}}",                         "effect": "slide_right","position": "center","color": "#ffffff",          "timing": {"start": 0.7}},
+        {"type": "text", "text": "{{score_home}}  —  {{score_away}}",     "effect": "zoom_in",  "position": "center", "color": "{{accent_color}}", "timing": {"start": 1.2}},
+        {"type": "text", "text": "{{team_away}}",                         "effect": "slide_left","position": "center", "color": "#ffffff",          "timing": {"start": 0.7}}
+      ]
+    },
+    {
+      "id": "stats",
+      "type": "blank",
+      "duration": 5.0,
+      "color": "{{bg_color}}",
+      "overlays": [
+        {"type": "text", "text": "{{team_home}}  vs  {{team_away}}",      "effect": "fade_in",    "position": "top",    "color": "{{accent_color}}", "timing": {"start": 0.3}},
+        {"type": "text", "text": "{{stat_1_label}}: {{stat_1_home}} — {{stat_1_away}}", "effect": "slide_right","position": "center","color": "#ffffff","timing": {"start": 0.8}},
+        {"type": "text", "text": "{{stat_2_label}}: {{stat_2_home}} — {{stat_2_away}}", "effect": "slide_right","position": "center","color": "#cccccc","timing": {"start": 1.6}}
+      ]
+    },
+    {
+      "id": "table",
+      "type": "blank",
+      "duration": 3.0,
+      "color": "{{bg_color}}",
+      "overlays": [
+        {"type": "text", "text": "{{competition}}",  "effect": "fade_in",  "position": "top",    "color": "{{accent_color}}", "timing": {"start": 0.3}},
+        {"type": "text", "text": "{{table_note}}",   "effect": "zoom_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 0.7}}
+      ]
+    }
+  ],
+  "transitions": {"default": {"type": "dissolve_ii", "duration": 0.4}}
+}

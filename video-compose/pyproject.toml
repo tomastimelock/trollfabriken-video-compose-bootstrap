@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "video-compose"
-version = "0.1.0"
+version = "0.2.0"
 description = "JSON-driven video composition engine for the Trollfabriken FX ecosystem"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -45,6 +45,9 @@ slide    = ["slide-render", "playwright"]
 audio    = ["talk-cast", "audio-arrange"]
 web      = ["web-overlay", "playwright"]
 
+# LLM-powered spec generation and template AI
+llm      = ["openai>=1.0"]
+
 # Data source adapters
 data     = [
     "pandas>=2.0",
@@ -55,7 +58,7 @@ data     = [
 
 # Convenience bundles
 fx       = ["video-compose[mathviz,chart,geomap,shape,fractal,grade,cut,text,still]"]
-all      = ["video-compose[fx,slide,audio,web,data]"]
+all      = ["video-compose[fx,slide,audio,web,data,llm]"]
 
 # Development
 dev      = [

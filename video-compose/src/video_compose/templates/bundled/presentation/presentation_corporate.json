@@ -1,0 +1,54 @@
+{
+  "tvcs": "1.0",
+  "template": {
+    "id": "presentation_corporate",
+    "name": "Presentation — Corporate",
+    "category": "presentation",
+    "tags": ["presentation", "corporate", "slides", "business", "deck"],
+    "description": "Corporate presentation wrapper: company intro card, slide deck sequence, branded outro. Provide a deck-spec JSON path or inline dict.",
+    "preview_thumbnail": "previews/thumbnails/presentation_corporate.jpg",
+    "preview_full": "previews/full/presentation_corporate.jpg",
+    "author": "Trollfabriken",
+    "version": "1.0",
+    "variables": [
+      {"name": "company_name",  "type": "string",   "label": "Company name",      "required": true,  "default": "Acme Corporation"},
+      {"name": "presentation_title","type": "string","label": "Presentation title","required": true,  "default": "2025 Strategy Review"},
+      {"name": "slide_spec",    "type": "string",   "label": "Path to deck-spec .json or inline dict", "required": true, "default": "./slides.json",
+        "description": "Path to a slide-render deck-spec JSON file, or an inline deck-spec dict"},
+      {"name": "accent_color",  "type": "color",    "label": "Accent colour",     "required": false, "default": "#0066cc"},
+      {"name": "bg_color",      "type": "color",    "label": "Background colour", "required": false, "default": "#0a1628"},
+      {"name": "slide_duration","type": "duration", "label": "Slide sequence duration (s)", "required": false, "default": 30.0}
+    ]
+  },
+  "output": {"width": 1920, "height": 1080, "fps": 30, "path": "./output/presentation_corporate.mp4"},
+  "theme": {"background": "{{bg_color}}", "text_color": "#ffffff"},
+  "segments": [
+    {
+      "id": "intro",
+      "type": "blank",
+      "duration": 3.0,
+      "color": "{{bg_color}}",
+      "overlays": [
+        {"type": "text", "text": "{{company_name}}",        "effect": "fade_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 0.4}},
+        {"type": "text", "text": "{{presentation_title}}", "effect": "slide_up", "position": "bottom", "color": "{{accent_color}}", "timing": {"start": 0.9}}
+      ]
+    },
+    {
+      "id": "slides",
+      "type": "slide",
+      "duration": "{{slide_duration}}",
+      "slide_spec": "{{slide_spec}}",
+      "motion": "static"
+    },
+    {
+      "id": "outro",
+      "type": "blank",
+      "duration": 2.5,
+      "color": "{{bg_color}}",
+      "overlays": [
+        {"type": "text", "text": "{{company_name}}", "effect": "fade_in", "position": "center", "color": "{{accent_color}}", "timing": {"start": 0.5}}
+      ]
+    }
+  ],
+  "transitions": {"default": {"type": "dissolve_ii", "duration": 0.5}}
+}

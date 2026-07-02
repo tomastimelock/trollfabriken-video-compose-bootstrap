@@ -1,0 +1,66 @@
+{
+  "tvcs": "1.0",
+  "template": {
+    "id": "earnings_quarterly",
+    "name": "Quarterly Earnings Report",
+    "category": "financial",
+    "tags": ["financial", "earnings", "quarterly", "revenue", "EPS", "investor-relations", "Q1", "Q2"],
+    "description": "Investor-facing quarterly earnings recap: company/quarter title, revenue vs prior year bar chart, EPS + key metrics card, guidance outro.",
+    "preview_thumbnail": "previews/thumbnails/earnings_quarterly.jpg",
+    "preview_full": "previews/full/earnings_quarterly.jpg",
+    "author": "Trollfabriken",
+    "version": "1.0",
+    "variables": [
+      {"name": "company_name",    "type": "string",   "label": "Company name",          "required": true,  "default": "Acme Corp"},
+      {"name": "quarter_label",   "type": "string",   "label": "Quarter label",         "required": true,  "default": "Q2 2025"},
+      {"name": "revenue",         "type": "string",   "label": "Revenue (formatted)",   "required": true,  "default": "$2.4B"},
+      {"name": "revenue_growth",  "type": "string",   "label": "Revenue growth YoY",    "required": false, "default": "+12%"},
+      {"name": "eps",             "type": "string",   "label": "Earnings per share",    "required": false, "default": "$1.42"},
+      {"name": "eps_vs_est",      "type": "string",   "label": "EPS vs estimate",       "required": false, "default": "Beat by $0.08"},
+      {"name": "revenue_data",    "type": "data_ref", "label": "Quarterly revenue data","required": false,
+        "default": {"Q2 2024": 2.1, "Q3 2024": 2.2, "Q4 2024": 2.35, "Q1 2025": 2.28, "Q2 2025": 2.4},
+        "description": "Dict of quarter label to revenue in billions"},
+      {"name": "guidance",        "type": "string",   "label": "Forward guidance",      "required": false, "default": "Q3 2025 guidance: $2.45B–$2.55B"},
+      {"name": "accent_color",    "type": "color",    "label": "Brand / accent colour", "required": false, "default": "#0066cc"},
+      {"name": "bg_color",        "type": "color",    "label": "Background colour",     "required": false, "default": "#0a1628"}
+    ]
+  },
+  "output": {"width": 1920, "height": 1080, "fps": 30, "path": "./output/earnings_quarterly.mp4"},
+  "theme": {"background": "{{bg_color}}", "text_color": "#ffffff"},
+  "segments": [
+    {
+      "id": "title",
+      "type": "blank",
+      "duration": 3.0,
+      "color": "{{bg_color}}",
+      "overlays": [
+        {"type": "text", "text": "{{company_name}}",  "effect": "fade_in",  "position": "center", "color": "#ffffff",          "timing": {"start": 0.4}},
+        {"type": "text", "text": "{{quarter_label}} Earnings", "effect": "slide_up", "position": "bottom", "color": "{{accent_color}}", "timing": {"start": 0.9}}
+      ]
+    },
+    {
+      "id": "revenue_chart",
+      "type": "chart",
+      "duration": 7.0,
+      "chart_type": "bar",
+      "data": "{{revenue_data}}",
+      "config": {"color": "{{accent_color}}", "animate": true, "highlight_last": true},
+      "overlays": [
+        {"type": "text", "text": "Revenue ($B)", "effect": "fade_in", "position": "top", "color": "{{accent_color}}", "timing": {"start": 0.5}}
+      ]
+    },
+    {
+      "id": "metrics",
+      "type": "blank",
+      "duration": 5.0,
+      "color": "{{bg_color}}",
+      "overlays": [
+        {"type": "text", "text": "{{quarter_label}} Results",      "effect": "fade_in",  "position": "top",    "color": "{{accent_color}}", "timing": {"start": 0.3}},
+        {"type": "text", "text": "Revenue: {{revenue}}  {{revenue_growth}}", "effect": "slide_right", "position": "center", "color": "#ffffff", "timing": {"start": 0.8}},
+        {"type": "text", "text": "EPS: {{eps}}  —  {{eps_vs_est}}", "effect": "slide_right", "position": "center", "color": "#cccccc", "timing": {"start": 1.4}},
+        {"type": "text", "text": "{{guidance}}",                   "effect": "fade_in",  "position": "bottom", "color": "{{accent_color}}", "timing": {"start": 2.2}}
+      ]
+    }
+  ],
+  "transitions": {"default": {"type": "dissolve_ii", "duration": 0.5}}
+}

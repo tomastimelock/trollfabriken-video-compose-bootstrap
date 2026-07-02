@@ -43,17 +43,9 @@ jobs:
       - name: Verify version import
         run: python -c "import video_compose; print(video_compose.__version__)"
 
-      - name: Run schema + validator tests
-        run: python video-compose/tests/test_validator.py
-
-      - name: Run data resolver tests
-        run: python video-compose/tests/test_data_resolver.py
-
-      - name: Run data adapter tests
-        run: python video-compose/tests/test_data_adapters.py
-
-      - name: Run prompt builder tests
-        run: python video-compose/tests/test_prompt_builder.py
+      - name: Run tests
+        working-directory: video-compose
+        run: python -m pytest tests/ -v --tb=short
 
       - name: CLI smoke
         shell: bash

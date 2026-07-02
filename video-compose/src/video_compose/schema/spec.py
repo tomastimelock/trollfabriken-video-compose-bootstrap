@@ -10,6 +10,41 @@ from typing import Annotated, Any, Literal, Union
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 # ---------------------------------------------------------------------------
+# Template metadata (for .json template files; not part of TVCSSpec)
+# ---------------------------------------------------------------------------
+
+class TemplateVariable(BaseModel):
+    """One fillable variable slot declared in a template's 'variables' list."""
+
+    name: str = Field(description="Variable name — referenced as {{name}} in spec fields")
+    type: Literal[
+        "string", "color", "image_path", "video_path", "audio_path",
+        "number", "duration", "boolean", "data_ref", "data_source_config",
+    ] = "string"
+    label: str = Field(default="", description="Human-readable label for editors and prompts")
+    description: str = Field(default="", description="Longer explanation shown to users/AI when filling")
+    required: bool = True
+    default: Any = None
+    choices: list[Any] | None = Field(default=None, description="Allowed values for enum-style string vars")
+
+
+class TemplateMetadata(BaseModel):
+    """Template block present in .json template files; stripped before render."""
+    model_config = ConfigDict(extra="allow")
+
+    id: str = Field(description="Unique slug — bundled templates use plain slugs, user templates require 'user.' prefix")
+    name: str
+    category: str
+    tags: list[str] = Field(default_factory=list)
+    description: str = ""
+    preview_thumbnail: str | None = Field(default=None, description="Relative path to 400×225 JPEG thumbnail")
+    preview_full: str | None = Field(default=None, description="Relative path to full-size preview JPEG")
+    author: str = "Trollfabriken"
+    version: str = "1.0"
+    variables: list[TemplateVariable] = Field(default_factory=list)
+
+
+# ---------------------------------------------------------------------------
 # Shared primitives
 # ---------------------------------------------------------------------------
 
