@@ -88,6 +88,7 @@
       "type": "blank",
       "duration": 2.5,
       "color": "{{bg_color}}",
+      "bg_style": "gradient_v_dark",
       "overlays": [
         {
           "type": "text",
@@ -95,6 +96,9 @@
           "effect": "drop_in",
           "position": "center",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 0.4
           }
@@ -105,6 +109,9 @@
           "effect": "fade_in",
           "position": "bottom",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 1.0
           }
@@ -129,6 +136,9 @@
           "effect": "fade_in",
           "position": "top",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 0.5
           }
@@ -140,6 +150,7 @@
       "type": "blank",
       "duration": 3.0,
       "color": "{{bg_color}}",
+      "bg_style": "gradient_v_dark",
       "overlays": [
         {
           "type": "text",
@@ -147,6 +158,9 @@
           "effect": "fade_in",
           "position": "top",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 0.3
           }
@@ -157,6 +171,9 @@
           "effect": "drop_in",
           "position": "center",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
           "timing": {
             "start": 0.7
           }

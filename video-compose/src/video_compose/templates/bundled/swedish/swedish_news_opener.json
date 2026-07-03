@@ -96,6 +96,9 @@
           "effect": "drop_in",
           "position": "center",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 1.2
           }
@@ -103,9 +106,12 @@
         {
           "type": "text",
           "text": "{{edition}}",
-          "effect": "fade_in",
+          "effect": "slide_up_text",
           "position": "bottom",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 2.0
           }
@@ -117,6 +123,7 @@
       "type": "blank",
       "duration": 6.0,
       "color": "{{bg_color}}",
+      "bg_style": "gradient_v_dark",
       "overlays": [
         {
           "type": "text",
@@ -124,6 +131,9 @@
           "effect": "fade_in",
           "position": "top",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 0.3
           }
@@ -134,6 +144,9 @@
           "effect": "slide_right_text",
           "position": "center",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
           "timing": {
             "start": 0.8,
             "end": 2.5
@@ -145,6 +158,9 @@
           "effect": "slide_right_text",
           "position": "center",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
           "timing": {
             "start": 2.5,
             "end": 4.2
@@ -156,6 +172,9 @@
           "effect": "slide_right_text",
           "position": "center",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
           "timing": {
             "start": 4.2
           }

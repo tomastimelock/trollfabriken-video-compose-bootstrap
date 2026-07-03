@@ -73,9 +73,12 @@
         {
           "type": "text",
           "text": "5",
-          "effect": "drop_in",
+          "effect": "punch_zoom_title",
           "position": "center",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 0.1,
             "end": 1.1
@@ -84,9 +87,12 @@
         {
           "type": "text",
           "text": "4",
-          "effect": "drop_in",
+          "effect": "punch_zoom_title",
           "position": "center",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 1.1,
             "end": 2.1
@@ -95,9 +101,12 @@
         {
           "type": "text",
           "text": "3",
-          "effect": "drop_in",
+          "effect": "punch_zoom_title",
           "position": "center",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 2.1,
             "end": 3.1
@@ -106,9 +115,12 @@
         {
           "type": "text",
           "text": "2",
-          "effect": "drop_in",
+          "effect": "punch_zoom_title",
           "position": "center",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 3.1,
             "end": 4.1
@@ -117,9 +129,12 @@
         {
           "type": "text",
           "text": "1",
-          "effect": "drop_in",
+          "effect": "punch_zoom_title",
           "position": "center",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 4.1,
             "end": 5.1
@@ -139,9 +154,12 @@
         {
           "type": "text",
           "text": "{{event_name}}",
-          "effect": "drop_in",
+          "effect": "impact_slam",
           "position": "center",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 0.5
           }
@@ -149,9 +167,12 @@
         {
           "type": "text",
           "text": "{{event_tagline}}",
-          "effect": "slide_up_text",
+          "effect": "cyberpunk_neon_glitch",
           "position": "bottom",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
           "timing": {
             "start": 1.2
           }

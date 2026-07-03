@@ -74,7 +74,7 @@ class AudioMixer:
             tl.add(clip, track="voiceover", at=start_at, gain_db=0.0)
 
         # If nothing was added, skip mixing
-        if not tl.events:
+        if not tl.events():
             return video_path
 
         # Render mixed audio to WAV

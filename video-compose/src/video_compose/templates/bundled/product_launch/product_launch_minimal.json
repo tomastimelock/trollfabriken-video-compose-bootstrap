@@ -84,13 +84,17 @@
       "type": "blank",
       "duration": 5.0,
       "color": "{{bg_color}}",
+      "bg_style": "gradient_v",
       "overlays": [
         {
           "type": "text",
           "text": "{{product_name}}",
-          "effect": "fade_in",
+          "effect": "impact_slam",
           "position": "center",
           "color": "#111111",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 0.5
           }
@@ -98,9 +102,12 @@
         {
           "type": "text",
           "text": "{{tagline}}",
-          "effect": "fade_in",
+          "effect": "punch_zoom_title",
           "position": "bottom",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 1.2
           }
@@ -108,9 +115,12 @@
         {
           "type": "text",
           "text": "{{cta_text}}",
-          "effect": "slide_up_text",
+          "effect": "kinetic_pop",
           "position": "bottom",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
           "timing": {
             "start": 2.5
           }

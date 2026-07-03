@@ -73,6 +73,9 @@
           "effect": "slide_right_text",
           "position": "bottom-left",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 1.0
           }
@@ -80,9 +83,12 @@
         {
           "type": "text",
           "text": "{{subline}}",
-          "effect": "slide_right_text",
+          "effect": "word_reveal",
           "position": "bottom",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 1.3
           }

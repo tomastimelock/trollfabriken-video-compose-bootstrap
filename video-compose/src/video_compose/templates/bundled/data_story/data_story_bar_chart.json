@@ -120,14 +120,22 @@
       "type": "mathviz",
       "duration": "{{intro_duration}}",
       "effect": "matrix_rain",
-      "config": {},
+      "config": {
+        "speed": 1.5,
+        "intensity": 1.8,
+        "complexity": 1.5,
+        "color_scheme": "acid_neon"
+      },
       "overlays": [
         {
           "type": "text",
           "text": "{{title}}",
-          "effect": "fade_in",
+          "effect": "word_reveal",
           "position": "center",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 0.5
           }
@@ -138,6 +146,9 @@
           "effect": "slide_up_text",
           "position": "bottom",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 1.0
           }
@@ -157,13 +168,17 @@
       "type": "blank",
       "duration": "{{outro_duration}}",
       "color": "{{bg_color}}",
+      "bg_style": "gradient_v_dark",
       "overlays": [
         {
           "type": "text",
           "text": "{{outro_text}}",
-          "effect": "fade_in",
+          "effect": "typewriter",
           "position": "center",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
           "timing": {
             "start": 0.5
           }

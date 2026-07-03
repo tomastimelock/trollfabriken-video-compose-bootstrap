@@ -135,6 +135,7 @@
       "type": "blank",
       "duration": 5.0,
       "color": "{{bg_color}}",
+      "bg_style": "gradient_v_dark",
       "overlays": [
         {
           "type": "text",
@@ -142,6 +143,9 @@
           "effect": "fade_in",
           "position": "top",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 0.3
           }
@@ -149,9 +153,12 @@
         {
           "type": "text",
           "text": "{{team_home}}",
-          "effect": "slide_right_text",
+          "effect": "impact_slam",
           "position": "center",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 0.7
           }
@@ -159,9 +166,12 @@
         {
           "type": "text",
           "text": "{{score_home}}  —  {{score_away}}",
-          "effect": "drop_in",
+          "effect": "glitch_flash",
           "position": "center",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 1.2
           }
@@ -169,9 +179,12 @@
         {
           "type": "text",
           "text": "{{team_away}}",
-          "effect": "slide_left_text",
+          "effect": "impact_slam",
           "position": "center",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 0.7
           }
@@ -183,13 +196,17 @@
       "type": "blank",
       "duration": 5.0,
       "color": "{{bg_color}}",
+      "bg_style": "gradient_v_dark",
       "overlays": [
         {
           "type": "text",
           "text": "{{team_home}}  vs  {{team_away}}",
-          "effect": "fade_in",
+          "effect": "neon_glow_text",
           "position": "top",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 0.3
           }
@@ -200,6 +217,9 @@
           "effect": "slide_right_text",
           "position": "center",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 0.8
           }
@@ -210,6 +230,9 @@
           "effect": "slide_right_text",
           "position": "center",
           "color": "#cccccc",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 1.6
           }
@@ -221,6 +244,7 @@
       "type": "blank",
       "duration": 3.0,
       "color": "{{bg_color}}",
+      "bg_style": "gradient_v_dark",
       "overlays": [
         {
           "type": "text",
@@ -228,6 +252,9 @@
           "effect": "fade_in",
           "position": "top",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 0.3
           }
@@ -235,9 +262,12 @@
         {
           "type": "text",
           "text": "{{table_note}}",
-          "effect": "drop_in",
+          "effect": "glitch_flash",
           "position": "center",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
           "timing": {
             "start": 0.7
           }

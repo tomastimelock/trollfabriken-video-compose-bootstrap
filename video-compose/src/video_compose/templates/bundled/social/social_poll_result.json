@@ -91,13 +91,17 @@
       "type": "blank",
       "duration": 2.0,
       "color": "{{bg_color}}",
+      "bg_style": "gradient_d",
       "overlays": [
         {
           "type": "text",
           "text": "You voted.",
-          "effect": "fade_in",
+          "effect": "kinetic_pop",
           "position": "top",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 0.3
           }
@@ -108,6 +112,9 @@
           "effect": "drop_in",
           "position": "center",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 0.7
           }
@@ -133,6 +140,9 @@
           "effect": "fade_in",
           "position": "top",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 0.5
           }
@@ -144,13 +154,17 @@
       "type": "blank",
       "duration": 3.0,
       "color": "{{bg_color}}",
+      "bg_style": "gradient_d",
       "overlays": [
         {
           "type": "text",
           "text": "{{winner_text}}",
-          "effect": "drop_in",
+          "effect": "kinetic_pop",
           "position": "center",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 0.5
           }
@@ -161,6 +175,9 @@
           "effect": "fade_in",
           "position": "bottom",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 1.2
           }

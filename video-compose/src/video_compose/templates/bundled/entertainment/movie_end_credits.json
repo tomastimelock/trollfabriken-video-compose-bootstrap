@@ -107,13 +107,17 @@
       "type": "blank",
       "duration": 3.0,
       "color": "{{bg_color}}",
+      "bg_style": "radial",
       "overlays": [
         {
           "type": "text",
           "text": "{{production_title}}",
-          "effect": "fade_in",
+          "effect": "neon_glow_text",
           "position": "center",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 0.6
           }
@@ -125,6 +129,7 @@
       "type": "blank",
       "duration": 14.0,
       "color": "{{bg_color}}",
+      "bg_style": "radial",
       "overlays": [
         {
           "type": "text",
@@ -132,6 +137,9 @@
           "effect": "slide_up_text",
           "position": "center",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 0.5,
             "end": 3.0
@@ -143,6 +151,9 @@
           "effect": "slide_up_text",
           "position": "center",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 2.5,
             "end": 5.0
@@ -154,6 +165,9 @@
           "effect": "slide_up_text",
           "position": "center",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 4.5,
             "end": 7.0
@@ -165,6 +179,9 @@
           "effect": "slide_up_text",
           "position": "center",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 6.5,
             "end": 9.5
@@ -176,6 +193,9 @@
           "effect": "slide_up_text",
           "position": "center",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 9.0,
             "end": 11.5
@@ -187,6 +207,9 @@
           "effect": "slide_up_text",
           "position": "center",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 11.0
           }
@@ -198,6 +221,7 @@
       "type": "blank",
       "duration": 3.0,
       "color": "{{bg_color}}",
+      "bg_style": "radial",
       "overlays": [
         {
           "type": "text",
@@ -205,6 +229,9 @@
           "effect": "fade_in",
           "position": "bottom",
           "color": "#555555",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 0.8
           }

@@ -88,15 +88,21 @@
       "duration": 2.5,
       "effect": "starfield_3d",
       "config": {
-        "color_scheme": "electric"
+        "color_scheme": "electric",
+        "speed": 1.5,
+        "intensity": 1.8,
+        "complexity": 1.5
       },
       "overlays": [
         {
           "type": "text",
           "text": "{{company_name}}",
-          "effect": "drop_in",
+          "effect": "word_reveal",
           "position": "center",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 0.8
           }
@@ -108,13 +114,17 @@
       "type": "blank",
       "duration": 4.0,
       "color": "#1a0a0a",
+      "bg_style": "gradient_v_dark",
       "overlays": [
         {
           "type": "text",
           "text": "The problem.",
-          "effect": "fade_in",
+          "effect": "typewriter",
           "position": "top",
           "color": "#ef4444",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 0.3
           }
@@ -125,6 +135,9 @@
           "effect": "drop_in",
           "position": "center",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 0.7
           }
@@ -136,6 +149,7 @@
       "type": "blank",
       "duration": 4.0,
       "color": "{{bg_color}}",
+      "bg_style": "gradient_v_dark",
       "overlays": [
         {
           "type": "text",
@@ -143,6 +157,9 @@
           "effect": "fade_in",
           "position": "top",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 0.3
           }
@@ -150,9 +167,12 @@
         {
           "type": "text",
           "text": "{{solution_tag}}",
-          "effect": "drop_in",
+          "effect": "word_reveal",
           "position": "center",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 0.7
           }
@@ -164,13 +184,17 @@
       "type": "blank",
       "duration": 4.0,
       "color": "{{bg_color}}",
+      "bg_style": "gradient_v_dark",
       "overlays": [
         {
           "type": "text",
           "text": "Traction.",
-          "effect": "fade_in",
+          "effect": "typewriter",
           "position": "top",
           "color": "#22c55e",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 0.3
           }
@@ -181,6 +205,9 @@
           "effect": "drop_in",
           "position": "center",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 0.7
           }
@@ -191,6 +218,9 @@
           "effect": "slide_up_text",
           "position": "bottom",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
           "timing": {
             "start": 1.8
           }

@@ -106,9 +106,12 @@
         {
           "type": "text",
           "text": "{{channel_name}}",
-          "effect": "drop_in",
+          "effect": "impact_slam",
           "position": "center",
           "color": "{{secondary_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 0.8
           }
@@ -116,9 +119,12 @@
         {
           "type": "text",
           "text": "{{tagline}}",
-          "effect": "fade_in",
+          "effect": "kinetic_pop",
           "position": "bottom",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 1.8
           }
@@ -126,9 +132,12 @@
         {
           "type": "text",
           "text": "{{cta}}",
-          "effect": "slide_up_text",
+          "effect": "spring_words",
           "position": "bottom",
           "color": "#aaaaaa",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 3.5
           }

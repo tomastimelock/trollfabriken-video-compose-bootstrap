@@ -103,13 +103,17 @@
       "type": "blank",
       "duration": 2.5,
       "color": "{{bg_color}}",
+      "bg_style": "gradient_v_dark",
       "overlays": [
         {
           "type": "text",
           "text": "{{election_title}}",
-          "effect": "fade_in",
+          "effect": "word_reveal",
           "position": "center",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 0.4
           }
@@ -120,6 +124,9 @@
           "effect": "slide_up_text",
           "position": "bottom",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 1.0
           }
@@ -142,6 +149,9 @@
           "effect": "fade_in",
           "position": "top",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 0.5
           }
@@ -153,13 +163,17 @@
       "type": "blank",
       "duration": 3.5,
       "color": "{{bg_color}}",
+      "bg_style": "gradient_v_dark",
       "overlays": [
         {
           "type": "text",
           "text": "{{election_title}}",
-          "effect": "fade_in",
+          "effect": "slide_up_text",
           "position": "top",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 0.3
           }
@@ -167,9 +181,12 @@
         {
           "type": "text",
           "text": "{{party_name}}",
-          "effect": "fade_in",
+          "effect": "drop_in",
           "position": "center",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
           "timing": {
             "start": 0.6
           }
@@ -177,9 +194,12 @@
         {
           "type": "text",
           "text": "{{result_text}}",
-          "effect": "drop_in",
+          "effect": "word_reveal",
           "position": "center",
           "color": "#cccccc",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 1.0
           }

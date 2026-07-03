@@ -80,15 +80,21 @@
       "duration": 3.0,
       "effect": "phyllotaxis_spiral",
       "config": {
-        "color_scheme": "neon"
+        "color_scheme": "electric",
+        "speed": 1.5,
+        "intensity": 1.8,
+        "complexity": 1.5
       },
       "overlays": [
         {
           "type": "text",
           "text": "{{channel_name}}",
-          "effect": "fade_in",
+          "effect": "kinetic_pop",
           "position": "top",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 0.5
           }
@@ -110,6 +116,9 @@
           "effect": "drop_in",
           "position": "center",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 0.5
           }
@@ -117,9 +126,12 @@
         {
           "type": "text",
           "text": "{{milestone_label}}",
-          "effect": "fade_in",
+          "effect": "kinetic_pop",
           "position": "center",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 1.2
           }
@@ -131,13 +143,17 @@
       "type": "blank",
       "duration": 3.0,
       "color": "{{bg_color}}",
+      "bg_style": "gradient_d",
       "overlays": [
         {
           "type": "text",
           "text": "{{thank_you_text}}",
-          "effect": "fade_in",
+          "effect": "spring_words",
           "position": "center",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
           "timing": {
             "start": 0.5
           }
@@ -148,6 +164,9 @@
           "effect": "slide_up_text",
           "position": "bottom",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 1.2
           }

@@ -103,15 +103,21 @@
       "duration": "{{loop_duration}}",
       "effect": "{{bg_effect}}",
       "config": {
-        "color_scheme": "{{color_scheme}}"
+        "color_scheme": "{{color_scheme}}",
+        "speed": 1.5,
+        "intensity": 1.8,
+        "complexity": 1.5
       },
       "overlays": [
         {
           "type": "text",
           "text": "{{event_name}}",
-          "effect": "fade_in",
+          "effect": "impact_slam",
           "position": "center",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 1.0
           }
@@ -119,9 +125,12 @@
         {
           "type": "text",
           "text": "{{tagline}}",
-          "effect": "fade_in",
+          "effect": "cyberpunk_neon_glitch",
           "position": "center",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 2.0
           }
@@ -129,9 +138,12 @@
         {
           "type": "text",
           "text": "{{start_time}}",
-          "effect": "glow_pulse",
+          "effect": "punch_zoom_title",
           "position": "bottom",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
           "timing": {
             "start": 3.0
           }

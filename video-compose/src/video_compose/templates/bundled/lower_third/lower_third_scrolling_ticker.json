@@ -69,9 +69,12 @@
         {
           "type": "text",
           "text": "{{label}}",
-          "effect": "fade_in",
+          "effect": "word_reveal",
           "position": "bottom-left",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 0.5
           }
@@ -82,6 +85,9 @@
           "effect": "slide_left_text",
           "position": "bottom",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 0.5
           }

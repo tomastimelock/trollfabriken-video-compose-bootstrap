@@ -98,14 +98,22 @@
       "type": "mathviz",
       "duration": 4.0,
       "effect": "matrix_rain",
-      "config": {},
+      "config": {
+        "color_scheme": "acid_neon",
+        "speed": 1.5,
+        "intensity": 1.8,
+        "complexity": 1.5
+      },
       "overlays": [
         {
           "type": "text",
           "text": "{{product_name}}",
-          "effect": "drop_in",
+          "effect": "impact_slam",
           "position": "center",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 1.0
           }
@@ -113,9 +121,12 @@
         {
           "type": "text",
           "text": "{{tagline}}",
-          "effect": "fade_in",
+          "effect": "punch_zoom_title",
           "position": "bottom",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 2.0
           }
@@ -139,9 +150,12 @@
         {
           "type": "text",
           "text": "{{feature_1}}",
-          "effect": "slide_right_text",
+          "effect": "kinetic_pop",
           "position": "top",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
           "timing": {
             "start": 0.5,
             "end": 3.5
@@ -150,9 +164,12 @@
         {
           "type": "text",
           "text": "{{feature_2}}",
-          "effect": "slide_right_text",
+          "effect": "kinetic_pop",
           "position": "center",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
           "timing": {
             "start": 2.5,
             "end": 5.5
@@ -161,9 +178,12 @@
         {
           "type": "text",
           "text": "{{feature_3}}",
-          "effect": "slide_right_text",
+          "effect": "kinetic_pop",
           "position": "bottom",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
           "timing": {
             "start": 4.5
           }
@@ -175,13 +195,17 @@
       "type": "blank",
       "duration": 3.0,
       "color": "{{bg_color}}",
+      "bg_style": "gradient_v_dark",
       "overlays": [
         {
           "type": "text",
           "text": "{{product_name}}",
-          "effect": "fade_in",
+          "effect": "impact_slam",
           "position": "center",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 0.3
           }
@@ -189,9 +213,12 @@
         {
           "type": "text",
           "text": "{{cta_text}}",
-          "effect": "drop_in",
+          "effect": "punch_zoom_title",
           "position": "bottom",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
           "timing": {
             "start": 0.8
           }

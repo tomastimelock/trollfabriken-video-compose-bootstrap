@@ -98,9 +98,12 @@
         {
           "type": "text",
           "text": "{{release_type}}",
-          "effect": "fade_in",
+          "effect": "rgb_split_text",
           "position": "top",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 0.8
           }
@@ -108,9 +111,12 @@
         {
           "type": "text",
           "text": "{{artist_name}}",
-          "effect": "slide_up_text",
+          "effect": "glitch_flash",
           "position": "bottom",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
           "timing": {
             "start": 1.5
           }
@@ -122,13 +128,17 @@
       "type": "blank",
       "duration": 5.0,
       "color": "{{bg_color}}",
+      "bg_style": "radial",
       "overlays": [
         {
           "type": "text",
           "text": "{{artist_name}}",
-          "effect": "fade_in",
+          "effect": "neon_glow_text",
           "position": "top",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 0.4
           }
@@ -136,9 +146,12 @@
         {
           "type": "text",
           "text": "{{release_title}}",
-          "effect": "drop_in",
+          "effect": "kinetic_pop",
           "position": "center",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 0.8
           }
@@ -149,6 +162,9 @@
           "effect": "fade_in",
           "position": "center",
           "color": "#aaaaaa",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 1.5
           }
@@ -156,9 +172,12 @@
         {
           "type": "text",
           "text": "{{streaming_cta}}",
-          "effect": "slide_up_text",
+          "effect": "spring_words",
           "position": "bottom",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
           "timing": {
             "start": 2.2
           }

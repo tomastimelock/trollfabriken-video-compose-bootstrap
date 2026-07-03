@@ -104,9 +104,12 @@
         {
           "type": "text",
           "text": "{{address}}",
-          "effect": "fade_in",
+          "effect": "slide_right_text",
           "position": "bottom",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 1.5
           }
@@ -118,13 +121,17 @@
       "type": "blank",
       "duration": 5.0,
       "color": "{{bg_color}}",
+      "bg_style": "gradient_v_dark",
       "overlays": [
         {
           "type": "text",
           "text": "{{address}}",
-          "effect": "fade_in",
+          "effect": "neon_glow_text",
           "position": "top",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 0.3
           }
@@ -135,6 +142,9 @@
           "effect": "fade_in",
           "position": "center",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 0.6
           }
@@ -142,9 +152,12 @@
         {
           "type": "text",
           "text": "{{rooms}}  ·  {{area_sqm}}",
-          "effect": "slide_up_text",
+          "effect": "slide_right_text",
           "position": "center",
           "color": "#cccccc",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 1.0
           }
@@ -155,6 +168,9 @@
           "effect": "drop_in",
           "position": "bottom",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
           "timing": {
             "start": 1.5
           }
@@ -166,6 +182,7 @@
       "type": "blank",
       "duration": 3.0,
       "color": "{{bg_color}}",
+      "bg_style": "gradient_v_dark",
       "overlays": [
         {
           "type": "text",
@@ -173,6 +190,9 @@
           "effect": "fade_in",
           "position": "center",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 0.5
           }
@@ -183,6 +203,9 @@
           "effect": "slide_up_text",
           "position": "bottom",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
           "timing": {
             "start": 1.0
           }

@@ -111,9 +111,12 @@
         {
           "type": "text",
           "text": "{{team_a}}",
-          "effect": "slide_right_text",
+          "effect": "impact_slam",
           "position": "top-left",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 0.5
           }
@@ -121,9 +124,12 @@
         {
           "type": "text",
           "text": "{{score_a}}  :  {{score_b}}",
-          "effect": "drop_in",
+          "effect": "glitch_flash",
           "position": "top",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 0.8
           }
@@ -131,9 +137,12 @@
         {
           "type": "text",
           "text": "{{team_b}}",
-          "effect": "slide_left_text",
+          "effect": "impact_slam",
           "position": "top-right",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 0.5
           }
@@ -141,9 +150,12 @@
         {
           "type": "text",
           "text": "{{map_name}}",
-          "effect": "fade_in",
+          "effect": "neon_glow_text",
           "position": "bottom",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
           "timing": {
             "start": 1.0
           }
@@ -151,9 +163,12 @@
         {
           "type": "text",
           "text": "{{round_info}}",
-          "effect": "fade_in",
+          "effect": "rgb_split_text",
           "position": "bottom",
           "color": "#aaaaaa",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 1.5
           }
@@ -161,9 +176,12 @@
         {
           "type": "text",
           "text": "{{stat_line}}",
-          "effect": "slide_up_text",
+          "effect": "glitch_flash",
           "position": "bottom",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
           "timing": {
             "start": 4.0
           }

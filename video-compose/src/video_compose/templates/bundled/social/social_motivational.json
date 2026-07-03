@@ -83,9 +83,12 @@
         {
           "type": "text",
           "text": "{{message}}",
-          "effect": "typewriter",
+          "effect": "spring_words",
           "position": "center",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 0.5
           }

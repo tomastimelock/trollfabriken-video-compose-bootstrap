@@ -186,11 +186,21 @@ class TextOverlay(BaseModel):
     position: Literal[
         "center", "top", "bottom",
         "top-left", "top-right", "bottom-left", "bottom-right",
+        "left", "right",
+        "lower_third", "lower_third_left", "lower_third_right",
     ] = "center"
     timing: OverlayTiming = Field(default_factory=OverlayTiming)
     font_size: int | None = None
     color: str | None = None
     bold: bool = False
+    font_family: str = "Inter"
+    font_weight: Literal["regular", "medium", "bold", "black"] = "bold"
+    stroke_color: str | None = None
+    stroke_width: int = Field(default=0, ge=0)
+    shadow: bool = True
+    intensity: float = Field(default=1.0, ge=0.0, le=2.0)
+    margin_x: int = Field(default=60, ge=0)
+    margin_y: int = Field(default=50, ge=0)
 
 
 class WebOverlay(BaseModel):
@@ -399,11 +409,15 @@ class VideoSegment(BaseSegment):
 
 
 class BlankSegment(BaseSegment):
-    """Solid colour segment."""
+    """Solid colour or gradient segment."""
     type: Literal["blank"]
     color: str | None = Field(
         default=None,
         description="Hex colour; falls back to theme.background"
+    )
+    bg_style: Literal["gradient_v", "gradient_v_dark", "gradient_d", "radial", "solid"] = Field(
+        default="gradient_v",
+        description="Background style: gradient_v (default), gradient_v_dark, gradient_d (diagonal), radial, solid"
     )
 
 

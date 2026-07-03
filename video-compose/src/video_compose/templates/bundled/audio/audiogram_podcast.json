@@ -92,14 +92,23 @@
       "type": "mathviz",
       "duration": "{{clip_duration}}",
       "effect": "waveform_oscilloscope",
-      "config": {"color_scheme": "electric", "background_color": "{{bg_color}}"},
+      "config": {
+        "color_scheme": "electric",
+        "background_color": "{{bg_color}}",
+        "speed": 1.5,
+        "intensity": 1.8,
+        "complexity": 1.5
+      },
       "overlays": [
         {
           "type": "text",
           "text": "{{podcast_name}}",
-          "effect": "fade_in",
+          "effect": "kinetic_pop",
           "position": "top",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 0.5
           }
@@ -107,9 +116,12 @@
         {
           "type": "text",
           "text": "{{episode_title}}",
-          "effect": "fade_in",
+          "effect": "rgb_split_text",
           "position": "center",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 1.0
           }
@@ -117,9 +129,12 @@
         {
           "type": "text",
           "text": "{{guest_name}}",
-          "effect": "fade_in",
+          "effect": "neon_glow_text",
           "position": "center",
           "color": "#cccccc",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 1.5
           }
@@ -127,9 +142,12 @@
         {
           "type": "text",
           "text": "{{cta}}",
-          "effect": "slide_up_text",
+          "effect": "spring_words",
           "position": "bottom",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
           "timing": {
             "start": 2.0
           }

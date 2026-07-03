@@ -77,13 +77,17 @@
       "type": "blank",
       "duration": "{{clip_duration}}",
       "color": "{{bg_color}}",
+      "bg_style": "gradient_d",
       "overlays": [
         {
           "type": "text",
           "text": "{{event_name}}",
-          "effect": "drop_in",
+          "effect": "impact_slam",
           "position": "center",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 0.5
           }
@@ -91,9 +95,12 @@
         {
           "type": "text",
           "text": "{{date_text}}",
-          "effect": "fade_in",
+          "effect": "punch_zoom_title",
           "position": "center",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
           "timing": {
             "start": 1.5
           }
@@ -101,9 +108,12 @@
         {
           "type": "text",
           "text": "{{cta}}",
-          "effect": "slide_up_text",
+          "effect": "kinetic_pop",
           "position": "bottom",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 3.0
           }

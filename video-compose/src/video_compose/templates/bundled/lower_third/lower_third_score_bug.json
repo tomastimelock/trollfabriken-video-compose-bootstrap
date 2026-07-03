@@ -90,9 +90,12 @@
         {
           "type": "text",
           "text": "{{team_a}}  {{score_a}} — {{score_b}}  {{team_b}}",
-          "effect": "fade_in",
+          "effect": "slide_right_text",
           "position": "top",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 0.5
           }
@@ -100,9 +103,12 @@
         {
           "type": "text",
           "text": "{{period}}",
-          "effect": "fade_in",
+          "effect": "word_reveal",
           "position": "top-right",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 0.5
           }

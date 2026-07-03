@@ -71,13 +71,17 @@
       "type": "blank",
       "duration": "{{clip_duration}}",
       "color": "{{bg_color}}",
+      "bg_style": "gradient_d",
       "overlays": [
         {
           "type": "text",
           "text": "\"{{quote_text}}\"",
-          "effect": "fade_in",
+          "effect": "kinetic_pop",
           "position": "center",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
           "timing": {
             "start": 0.4
           }
@@ -85,9 +89,12 @@
         {
           "type": "text",
           "text": "— {{author_name}}",
-          "effect": "slide_up_text",
+          "effect": "neon_glow_text",
           "position": "bottom",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 1.2
           }

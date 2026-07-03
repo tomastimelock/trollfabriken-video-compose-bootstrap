@@ -86,6 +86,9 @@
           "effect": "bounce_text",
           "position": "center",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 0.3,
             "end": 4.0
@@ -94,9 +97,12 @@
         {
           "type": "text",
           "text": "{{sub_text}}",
-          "effect": "fade_in",
+          "effect": "rgb_split_text",
           "position": "center",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 1.2,
             "end": 5.0
@@ -105,9 +111,12 @@
         {
           "type": "text",
           "text": "{{cta_text}}",
-          "effect": "slide_up_text",
+          "effect": "spring_words",
           "position": "bottom",
           "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
           "timing": {
             "start": 3.0
           }

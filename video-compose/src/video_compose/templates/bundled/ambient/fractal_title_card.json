@@ -98,15 +98,21 @@
       "effect": "{{bg_effect}}",
       "config": {
         "color_scheme": "{{color_scheme}}",
-        "animation": "zoom"
+        "animation": "zoom",
+        "speed": 1.5,
+        "intensity": 1.8,
+        "complexity": 1.5
       },
       "overlays": [
         {
           "type": "text",
           "text": "{{title}}",
-          "effect": "neon_glow_text",
+          "effect": "vhs_title",
           "position": "center",
           "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
           "timing": {
             "start": 1.5
           }
@@ -114,9 +120,12 @@
         {
           "type": "text",
           "text": "{{subtitle}}",
-          "effect": "fade_in",
+          "effect": "impact_slam",
           "position": "bottom",
           "color": "#cccccc",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
           "timing": {
             "start": 2.5
           }
