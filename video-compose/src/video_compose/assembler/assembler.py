@@ -88,6 +88,22 @@ class Assembler:
             # ── Phase 0b: Filter by condition ─────────────────────────────────
             segments = [seg for seg in segments if evaluator.evaluate(getattr(seg, "condition", None))]
 
+            # ── Phase 0c: Beat sync — snap segment durations to beat grid ────
+            audio_config = getattr(spec, "audio", None)
+            beat_sync = bool(getattr(audio_config, "beat_sync", False)) if audio_config else False
+            beat_timestamps: list[float] = []
+            if beat_sync and audio_config and audio_config.tracks:
+                first_track = next((t for t in audio_config.tracks if Path(t.source).exists()), None)
+                if first_track:
+                    try:
+                        from video_compose.audio.beats import detect_beats, snap_to_beat
+                        br = detect_beats(Path(first_track.source))
+                        beat_timestamps = br.beat_times.tolist()
+                        for seg in segments:
+                            seg = _snap_segment_duration(seg, beat_timestamps)
+                    except Exception as _be:
+                        logger.warning("Beat sync failed: %s — using original durations", _be)
+
             # ── Phase 1: Render each segment ──────────────────────────────────
             segment_clips: list[Path] = []
             segment_timing: dict[str, float] = {}
@@ -128,6 +144,11 @@ class Assembler:
                 if grade_slug:
                     from video_compose.grade.apply import apply_grade
                     clip_path = apply_grade(clip_path, grade_slug)
+
+                # 1e. Per-segment loudness normalization
+                loudnorm_per_seg = getattr(output, "loudnorm_per_segment", False) if output else False
+                if loudnorm_per_seg:
+                    clip_path = _loudnorm_clip(clip_path, work_dir, i)
 
                 segment_clips.append(clip_path)
                 current_time += seg.duration
@@ -284,6 +305,42 @@ def _watermark_to_overlay(wm):
         speed=1.0,
         reverse=False,
     )
+
+
+def _loudnorm_clip(clip_path: Path, work_dir: Path, index: int) -> Path:
+    """Run ffmpeg loudnorm on a clip, return the normalized path."""
+    import subprocess
+    out = work_dir / f"seg_{index:03d}_loud.mp4"
+    cmd = [
+        "ffmpeg", "-y", "-i", str(clip_path),
+        "-c:v", "copy",
+        "-c:a", "aac", "-b:a", "128k",
+        "-af", "loudnorm=I=-16:TP=-1.5:LRA=11:linear=true",
+        str(out),
+    ]
+    r = subprocess.run(cmd, capture_output=True, text=True)
+    if r.returncode != 0:
+        logger.warning("Per-segment loudnorm failed for %s: %s", clip_path.name, r.stderr[-200:])
+        return clip_path
+    return out
+
+
+def _snap_segment_duration(seg, beat_times: list[float]):
+    """Return a copy of seg with duration snapped to nearest beat boundary."""
+    if not beat_times:
+        return seg
+    dur = seg.duration
+    # Find nearest beat above current duration
+    nearest = min(beat_times, key=lambda b: abs(b - dur))
+    if abs(nearest - dur) < 0.5:
+        import copy
+        clone = copy.copy(seg)
+        try:
+            object.__setattr__(clone, "duration", float(nearest))
+        except Exception:
+            pass
+        return clone
+    return seg
 
 
 def _install_fonts(fonts: list) -> None:

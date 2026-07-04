@@ -33,6 +33,31 @@ def apply_subtitles(
         if not srt_path.exists():
             raise FileNotFoundError(f"Subtitles captions_path not found: {srt_path}")
 
+    # Caption translation
+    translate_to = getattr(config, "translate_to", None)
+    if translate_to:
+        try:
+            from video_compose.audio.caption_translate import translate_srt_file
+            translated_path = work_dir / f"subtitles_{translate_to}.srt"
+            translate_srt_file(srt_path, translated_path, target_lang=translate_to)
+            srt_path = translated_path
+            logger.info("Captions translated to %s → %s", translate_to, srt_path)
+        except Exception as exc:
+            logger.warning("Caption translation failed: %s — using original", exc)
+
+    # Caption compliance check
+    check_compliance = bool(getattr(config, "check_compliance", False))
+    if check_compliance:
+        try:
+            from video_compose.tools.caption_check import check_srt_file
+            violations = check_srt_file(srt_path)
+            if violations:
+                logger.warning("Caption compliance: %d violation(s) found", len(violations))
+                for v in violations[:5]:
+                    logger.warning("  Cue %s: %s", v.cue_index, v.message)
+        except Exception as exc:
+            logger.warning("Caption compliance check failed: %s", exc)
+
     return _burn(video_path, srt_path, config, output_path)
 
 

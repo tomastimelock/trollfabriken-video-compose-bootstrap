@@ -83,6 +83,17 @@ def render_image_overlay(
     if not src.exists():
         raise FileNotFoundError(f"ImageOverlay src not found: {src}")
 
+    # Background removal
+    if getattr(ov, "remove_bg", False):
+        try:
+            from video_compose.tools.bg_remove import remove_bg_image
+            bg_out = work_dir / f"img_nobg_{index}.png"
+            remove_bg_image(src, bg_out)
+            src = bg_out
+        except Exception as exc:
+            import logging as _log
+            _log.getLogger(__name__).warning("remove_bg for ImageOverlay failed: %s — skipping", exc)
+
     out = work_dir / f"img_overlay_{index}.webm"
     start = ov.timing.start
     end = ov.timing.end if ov.timing.end is not None else segment_duration
@@ -141,6 +152,17 @@ def render_video_overlay(
     src = Path(ov.src)
     if not src.exists():
         raise FileNotFoundError(f"VideoOverlay src not found: {src}")
+
+    # Background removal for video overlays
+    if getattr(ov, "remove_bg", False):
+        try:
+            from video_compose.tools.bg_remove import remove_bg_video
+            bg_out = work_dir / f"vid_nobg_{index}.webm"
+            remove_bg_video(src, bg_out)
+            src = bg_out
+        except Exception as exc:
+            import logging as _log
+            _log.getLogger(__name__).warning("remove_bg for VideoOverlay failed: %s — skipping", exc)
 
     out = work_dir / f"vid_overlay_{index}.webm"
     start = ov.timing.start

@@ -52,7 +52,10 @@ class AudioMixer:
             tl.add(clip, track="music", at=start_at, gain_db=_volume_to_db(track.volume),
                    fade_in=track.fade_in, fade_out=track.fade_out)
 
+        denoise = bool(getattr(audio_config, "denoise", False))
         for seg_id, audio_path in voiceover_clips.items():
+            if denoise:
+                audio_path = _denoise_clip(audio_path)
             start_at = 0.0 if seg_id == "__manual__" else segment_timing.get(seg_id, 0.0)
             clip = Clip(source=audio_path)
             tl.add(clip, track="voiceover", at=start_at, gain_db=0.0)
@@ -98,8 +101,11 @@ class AudioMixer:
                          fade_in=track.fade_in, fade_out=track.fade_out)
 
         # Render voiceover-only mix
+        denoise = bool(getattr(audio_config, "denoise", False))
         tl_vo = Timeline(sample_rate=48000, channels=2)
         for seg_id, audio_path in voiceover_clips.items():
+            if denoise:
+                audio_path = _denoise_clip(audio_path)
             start_at = 0.0 if seg_id == "__manual__" else segment_timing.get(seg_id, 0.0)
             clip = Clip(source=audio_path)
             tl_vo.add(clip, track="voiceover", at=start_at, gain_db=0.0)
@@ -151,6 +157,18 @@ class AudioMixer:
         result = _mux_audio(video_path, mixed_wav, output_path)
         mixed_wav.unlink(missing_ok=True)
         return result
+
+
+def _denoise_clip(audio_path: Path) -> Path:
+    """Run noisereduce on a voiceover clip; return cleaned path (same file if failed)."""
+    try:
+        from video_compose.audio.denoise import denoise_audio
+        out = audio_path.with_stem(audio_path.stem + "_dn")
+        denoise_audio(audio_path, out)
+        return out
+    except Exception as exc:
+        logger.warning("Voiceover denoise failed for %s: %s — skipping", audio_path.name, exc)
+        return audio_path
 
 
 def _mux_audio(video_path: Path, audio_wav: Path, output_path: Path) -> Path:

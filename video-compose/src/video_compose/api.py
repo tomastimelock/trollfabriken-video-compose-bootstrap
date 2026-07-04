@@ -78,6 +78,11 @@ def compose(
 
     output_cfg = getattr(parsed_spec, "output", None)
 
+    # Two-pass target-size encode
+    target_mb = getattr(output_cfg, "target_size_mb", None)
+    if target_mb:
+        video_path = _two_pass_encode(video_path, float(target_mb), out_dir)
+
     # Multi-format export: WebM
     if getattr(output_cfg, "export_webm", False):
         _export_webm(video_path, out_dir)
@@ -87,6 +92,15 @@ def compose(
         gif_fps = int(getattr(output_cfg, "gif_fps", 15) or 15)
         gif_width = int(getattr(output_cfg, "gif_width", 640) or 640)
         _export_gif(video_path, out_dir, gif_fps, gif_width)
+
+    # Chapter export
+    if getattr(output_cfg, "export_chapters", False):
+        try:
+            from video_compose.tools.chapters import generate_chapters, export_chapters
+            chapters = generate_chapters(video_path)
+            export_chapters(chapters, out_dir / "chapters.txt", out_dir / "chapters.ffmeta")
+        except Exception as exc:
+            vr_warnings.append(f"Chapter export failed: {exc}")
 
     return ComposeResult(
         video_path=video_path,
@@ -138,6 +152,49 @@ def _load_raw(spec: dict | str | Path) -> dict:
     if text.strip().startswith("{") or text.strip().startswith("["):
         return json.loads(text)
     return json.loads(Path(text).read_text(encoding="utf-8"))
+
+
+def _two_pass_encode(video_path: Path, target_mb: float, out_dir: Path) -> Path:
+    import subprocess
+    out = out_dir / (video_path.stem + "_sized.mp4")
+    # Probe duration
+    probe = subprocess.run(
+        ["ffprobe", "-v", "error", "-show_entries", "format=duration",
+         "-of", "default=noprint_wrappers=1:nokey=1", str(video_path)],
+        capture_output=True, text=True,
+    )
+    try:
+        duration = float(probe.stdout.strip())
+    except ValueError:
+        return video_path
+
+    # audio ~128kbps, reserve the rest for video
+    audio_kbps = 128
+    total_kbps = int((target_mb * 8 * 1024) / duration)
+    video_kbps = max(100, total_kbps - audio_kbps)
+
+    import tempfile as _tf
+    passlog = _tf.mktemp()
+    r1 = subprocess.run([
+        "ffmpeg", "-y", "-i", str(video_path),
+        "-b:v", f"{video_kbps}k", "-pass", "1", "-passlogfile", passlog,
+        "-an", "-f", "null", "-",
+    ], capture_output=True, text=True)
+    if r1.returncode != 0:
+        return video_path
+
+    r2 = subprocess.run([
+        "ffmpeg", "-y", "-i", str(video_path),
+        "-b:v", f"{video_kbps}k", "-pass", "2", "-passlogfile", passlog,
+        "-c:a", "aac", "-b:a", f"{audio_kbps}k",
+        str(out),
+    ], capture_output=True, text=True)
+    for f in [passlog + "-0.log", passlog + ".log"]:
+        Path(f).unlink(missing_ok=True)
+
+    if r2.returncode != 0:
+        raise RuntimeError(f"Two-pass encode failed: {r2.stderr[-400:]}")
+    return out
 
 
 def _export_webm(video_path: Path, out_dir: Path) -> Path:

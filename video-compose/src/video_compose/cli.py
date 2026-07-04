@@ -675,6 +675,257 @@ def serve(host: str, port: int, reload: bool, workers: int) -> None:
 
 
 # ---------------------------------------------------------------------------
+# scene-detect
+# ---------------------------------------------------------------------------
+
+@main.command("scene-detect")
+@click.argument("video_file", type=click.Path(exists=True, path_type=Path))
+@click.option("--threshold", "-t", type=float, default=0.3, show_default=True,
+              help="Scene change sensitivity (0.0–1.0).")
+@click.option("--json", "as_json", is_flag=True, help="Output as JSON array.")
+def scene_detect(video_file: Path, threshold: float, as_json: bool) -> None:
+    """Detect scene cut timestamps in VIDEO_FILE."""
+    from video_compose.tools.scene_detect import detect_scenes
+
+    times = detect_scenes(video_file, threshold=threshold)
+    if as_json:
+        click.echo(json.dumps(times))
+    else:
+        click.echo(f"Detected {len(times)} scene(s):")
+        for t in times:
+            click.echo(f"  {t:.3f}s")
+
+
+# ---------------------------------------------------------------------------
+# chunk
+# ---------------------------------------------------------------------------
+
+@main.command()
+@click.argument("video_file", type=click.Path(exists=True, path_type=Path))
+@click.option("--output-dir", "-o", type=click.Path(path_type=Path), default=None)
+@click.option("--mode", type=click.Choice(["scene", "duration"]), default="scene", show_default=True)
+@click.option("--duration", "-d", type=float, default=30.0, show_default=True,
+              help="Chunk duration in seconds (duration mode only).")
+@click.option("--threshold", type=float, default=0.3, show_default=True,
+              help="Scene sensitivity (scene mode only).")
+def chunk(video_file: Path, output_dir: Path | None, mode: str, duration: float, threshold: float) -> None:
+    """Split VIDEO_FILE into chunks by scene or fixed duration."""
+    from video_compose.tools.chunker import chunk_by_scene, chunk_by_duration
+
+    out_dir = output_dir or Path("chunks") / video_file.stem
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    if mode == "scene":
+        clips = chunk_by_scene(video_file, out_dir, threshold=threshold)
+    else:
+        clips = chunk_by_duration(video_file, out_dir, duration=duration)
+
+    click.echo(f"Created {len(clips)} chunk(s) in {out_dir}:")
+    for c in clips:
+        click.echo(f"  {c.name}")
+
+
+# ---------------------------------------------------------------------------
+# beats
+# ---------------------------------------------------------------------------
+
+@main.command()
+@click.argument("audio_file", type=click.Path(exists=True, path_type=Path))
+@click.option("--json", "as_json", is_flag=True, help="Output beat times as JSON array.")
+def beats(audio_file: Path, as_json: bool) -> None:
+    """Detect BPM and beat timestamps in AUDIO_FILE."""
+    try:
+        from video_compose.audio.beats import detect_beats
+    except ImportError:
+        click.echo("librosa is required — pip install 'video-compose[audio-ai]'", err=True)
+        sys.exit(1)
+
+    result = detect_beats(audio_file)
+    if as_json:
+        click.echo(json.dumps({"bpm": result.bpm, "beats": result.beat_times.tolist()}))
+    else:
+        click.echo(f"BPM: {result.bpm:.1f}")
+        click.echo(f"Beats: {len(result.beat_times)} detected")
+        click.echo(f"First 10: {[round(t, 3) for t in result.beat_times[:10].tolist()]}")
+
+
+# ---------------------------------------------------------------------------
+# remove-bg
+# ---------------------------------------------------------------------------
+
+@main.command("remove-bg")
+@click.argument("input_file", type=click.Path(exists=True, path_type=Path))
+@click.option("--output", "-o", type=click.Path(path_type=Path), default=None)
+def remove_bg(input_file: Path, output: Path | None) -> None:
+    """Remove background from an image or video file."""
+    try:
+        from video_compose.tools.bg_remove import remove_bg_image, remove_bg_video
+    except ImportError:
+        click.echo("rembg is required — pip install 'video-compose[visual-ai]'", err=True)
+        sys.exit(1)
+
+    suffix = input_file.suffix.lower()
+    if suffix in (".mp4", ".mov", ".avi", ".webm", ".mkv"):
+        out = output or input_file.with_stem(input_file.stem + "_nobg").with_suffix(".webm")
+        click.echo(f"Removing background from video: {input_file.name}...")
+        remove_bg_video(input_file, out)
+    else:
+        out = output or input_file.with_stem(input_file.stem + "_nobg").with_suffix(".png")
+        click.echo(f"Removing background from image: {input_file.name}...")
+        remove_bg_image(input_file, out)
+
+    click.echo(f"  Done: {out}")
+
+
+# ---------------------------------------------------------------------------
+# highlight
+# ---------------------------------------------------------------------------
+
+@main.command()
+@click.argument("video_file", type=click.Path(exists=True, path_type=Path))
+@click.option("--output-dir", "-o", type=click.Path(path_type=Path), default=None)
+@click.option("--max-duration", type=float, default=60.0, show_default=True,
+              help="Target total highlight reel duration (seconds).")
+@click.option("--n-clips", type=int, default=None, help="Maximum number of highlight clips.")
+def highlight(video_file: Path, output_dir: Path | None, max_duration: float, n_clips: int | None) -> None:
+    """Extract a highlight reel from VIDEO_FILE using AI scoring."""
+    try:
+        from video_compose.tools.highlight import extract_highlights, render_highlight_reel
+    except ImportError as exc:
+        click.echo(f"Missing dependency: {exc}", err=True)
+        sys.exit(1)
+
+    out_dir = output_dir or Path("highlights") / video_file.stem
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    click.echo(f"Extracting highlights from {video_file.name}...")
+    clips = extract_highlights(video_file, max_duration=max_duration, n_clips=n_clips)
+    click.echo(f"  Selected {len(clips)} clip(s)")
+
+    reel = render_highlight_reel(video_file, clips, out_dir / "highlight_reel.mp4")
+    click.echo(f"  Reel: {reel}")
+
+
+# ---------------------------------------------------------------------------
+# repurpose
+# ---------------------------------------------------------------------------
+
+@main.command()
+@click.argument("video_file", type=click.Path(exists=True, path_type=Path))
+@click.option("--output-dir", "-o", type=click.Path(path_type=Path), default=None)
+@click.option("--n-clips", type=int, default=5, show_default=True,
+              help="Number of short clips to extract.")
+@click.option("--clip-duration", type=float, default=30.0, show_default=True,
+              help="Target duration per clip (seconds).")
+def repurpose(video_file: Path, output_dir: Path | None, n_clips: int, clip_duration: float) -> None:
+    """Repurpose a long video into N short-form clips with TVCS spec JSONs."""
+    try:
+        from video_compose.tools.repurpose import repurpose as _repurpose
+    except ImportError as exc:
+        click.echo(f"Missing dependency: {exc}", err=True)
+        sys.exit(1)
+
+    out_dir = output_dir or Path("repurposed") / video_file.stem
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    click.echo(f"Repurposing {video_file.name} → {n_clips} clip(s)...")
+    specs = _repurpose(video_file, out_dir, n_clips=n_clips, clip_duration=clip_duration)
+    click.echo(f"  Generated {len(specs)} spec file(s):")
+    for s in specs:
+        click.echo(f"    {s}")
+
+
+# ---------------------------------------------------------------------------
+# chapters
+# ---------------------------------------------------------------------------
+
+@main.command()
+@click.argument("video_file", type=click.Path(exists=True, path_type=Path))
+@click.option("--output-dir", "-o", type=click.Path(path_type=Path), default=None)
+@click.option("--embed", is_flag=True, default=False, help="Embed chapters into the MP4 file.")
+@click.option("--json", "as_json", is_flag=True, help="Output chapters as JSON.")
+def chapters(video_file: Path, output_dir: Path | None, embed: bool, as_json: bool) -> None:
+    """Generate chapter markers for VIDEO_FILE via AI transcript analysis."""
+    try:
+        from video_compose.tools.chapters import generate_chapters, export_chapters, embed_chapters_in_mp4
+    except ImportError as exc:
+        click.echo(f"Missing dependency: {exc}", err=True)
+        sys.exit(1)
+
+    click.echo(f"Generating chapters for {video_file.name}...")
+    chapter_list = generate_chapters(video_file)
+
+    if as_json:
+        click.echo(json.dumps([{"start": c.start_sec, "title": c.title} for c in chapter_list], indent=2))
+        return
+
+    out_dir = output_dir or video_file.parent
+    txt_out = out_dir / (video_file.stem + "_chapters.txt")
+    ffmeta_out = out_dir / (video_file.stem + "_chapters.ffmeta")
+    export_chapters(chapter_list, txt_out, ffmeta_out)
+    click.echo(f"  YouTube chapters: {txt_out}")
+    click.echo(f"  FFMETADATA:       {ffmeta_out}")
+
+    if embed:
+        embedded = embed_chapters_in_mp4(video_file, ffmeta_out)
+        click.echo(f"  Embedded in:      {embedded}")
+
+
+# ---------------------------------------------------------------------------
+# check-captions
+# ---------------------------------------------------------------------------
+
+@main.command("check-captions")
+@click.argument("srt_file", type=click.Path(exists=True, path_type=Path))
+@click.option("--max-cps", type=float, default=20.0, show_default=True,
+              help="Maximum characters per second.")
+@click.option("--max-line-length", type=int, default=42, show_default=True)
+@click.option("--json", "as_json", is_flag=True, help="Output violations as JSON.")
+def check_captions(srt_file: Path, max_cps: float, max_line_length: int, as_json: bool) -> None:
+    """Check SRT_FILE for caption compliance violations."""
+    from video_compose.tools.caption_check import check_srt_file
+
+    violations = check_srt_file(srt_file, max_cps=max_cps, max_line_length=max_line_length)
+
+    if as_json:
+        click.echo(json.dumps([
+            {"cue": v.cue_index, "type": v.violation_type, "message": v.message}
+            for v in violations
+        ], indent=2))
+        return
+
+    if not violations:
+        click.echo(f"OK  {srt_file.name}  — no compliance violations")
+    else:
+        click.echo(f"VIOLATIONS  {len(violations)} found in {srt_file.name}:", err=True)
+        for v in violations:
+            click.echo(f"  Cue {v.cue_index}: [{v.violation_type}] {v.message}", err=True)
+        sys.exit(1)
+
+
+# ---------------------------------------------------------------------------
+# translate-captions
+# ---------------------------------------------------------------------------
+
+@main.command("translate-captions")
+@click.argument("srt_file", type=click.Path(exists=True, path_type=Path))
+@click.option("--to", "target_lang", required=True, help="Target language (e.g. 'sv', 'de', 'fr').")
+@click.option("--output", "-o", type=click.Path(path_type=Path), default=None)
+def translate_captions(srt_file: Path, target_lang: str, output: Path | None) -> None:
+    """Translate SRT_FILE captions to another language via LLM."""
+    try:
+        from video_compose.audio.caption_translate import translate_srt_file
+    except ImportError as exc:
+        click.echo(f"Missing dependency: {exc}", err=True)
+        sys.exit(1)
+
+    out = output or srt_file.with_stem(srt_file.stem + f"_{target_lang}")
+    click.echo(f"Translating {srt_file.name} → {target_lang}...")
+    translate_srt_file(srt_file, out, target_lang=target_lang)
+    click.echo(f"  Done: {out}")
+
+
+# ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
 

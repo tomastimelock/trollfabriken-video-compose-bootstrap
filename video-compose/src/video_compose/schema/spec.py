@@ -117,6 +117,8 @@ class OutputConfig(BaseModel):
     export_webm: bool = Field(default=False, description="Also export a VP9 WebM alongside the MP4")
     gif_fps: int = Field(default=12, ge=1, le=30, description="Frame rate for GIF export")
     gif_width: int = Field(default=640, gt=0, description="Width for GIF export (height auto-scaled)")
+    target_size_mb: float | None = Field(default=None, gt=0.0, description="Target output file size in MB; triggers two-pass encode")
+    export_chapters: bool = Field(default=False, description="Export chapter markers as YouTube .txt and FFMETADATA .ini")
 
     @field_validator("formats")
     @classmethod
@@ -375,6 +377,7 @@ class ImageOverlay(BaseModel):
     chroma_key: ChromaKey | None = None
     keyframes: list[Keyframe] | None = None
     condition: str | None = None
+    remove_bg: bool = Field(default=False, description="Remove background from image before compositing (requires rembg)")
 
 
 class VideoOverlay(BaseModel):
@@ -399,6 +402,7 @@ class VideoOverlay(BaseModel):
     chroma_key: ChromaKey | None = None
     keyframes: list[Keyframe] | None = None
     condition: str | None = None
+    remove_bg: bool = Field(default=False, description="Remove background from video frames before compositing (requires rembg)")
 
 
 class AudiogramOverlay(BaseModel):
@@ -645,6 +649,34 @@ class WordHighlightOverlay(BaseModel):
     condition: str | None = None
 
 
+class FaceBlurOverlay(BaseModel):
+    """Detect faces in the underlying segment video and blur/pixelate them."""
+    type: Literal["face_blur"]
+    strength: int = Field(default=5, ge=1, le=20, description="Blur kernel size multiplier")
+    pixelate: bool = Field(default=False, description="Pixelate instead of Gaussian blur")
+    z_order: int = Field(default=500)
+    timing: OverlayTiming = Field(default_factory=OverlayTiming)
+    condition: str | None = None
+
+
+class AutoCaptionOverlay(BaseModel):
+    """Transcribe audio from source and render animated kinetic captions frame-by-frame."""
+    type: Literal["auto_caption"]
+    source: str = Field(description="Path to audio or video file to transcribe")
+    style: str = Field(default="karaoke", description="Caption style preset: karaoke, pop, typewriter, shake, glow, slide_up, fade, outline_pulse, color_wave, bold_highlight")
+    position: _POSITION_LITERALS = "bottom"
+    font_family: str | None = None
+    font_size_pct: float = Field(default=5.0, gt=0.0, le=20.0)
+    text_color: str = "#ffffff"
+    highlight_color: str = "#ffdd00"
+    highlight_bg: str | None = None
+    opacity: float = Field(default=1.0, ge=0.0, le=1.0)
+    z_order: int = Field(default=10)
+    timing: OverlayTiming = Field(default_factory=OverlayTiming)
+    language: str = "auto"
+    condition: str | None = None
+
+
 OverlayConfig = Annotated[
     Union[
         TextOverlay, BarOverlay, WebOverlay,
@@ -652,6 +684,7 @@ OverlayConfig = Annotated[
         SvgOverlay, ComponentOverlay, AiSvgOverlay, AiHtmlOverlay,
         RectangleOverlay, CircleOverlay, LineOverlay, ArrowOverlay,
         GifOverlay, QrCodeOverlay, LottieOverlay, WordHighlightOverlay,
+        FaceBlurOverlay, AutoCaptionOverlay,
     ],
     Field(discriminator="type"),
 ]
@@ -725,6 +758,9 @@ class AudioConfig(BaseModel):
     duck_ratio: float = Field(default=4.0, ge=1.0, le=20.0, description="Music reduction ratio when ducking")
     duck_attack_ms: float = Field(default=200.0, ge=10.0, description="Ducking attack time in milliseconds")
     duck_release_ms: float = Field(default=1000.0, ge=10.0, description="Ducking release time in milliseconds")
+    loudnorm_per_segment: bool = Field(default=False, description="Apply EBU R128 loudness normalization to each segment before concat")
+    denoise: bool = Field(default=False, description="Apply spectral noise reduction to voiceover audio (requires noisereduce)")
+    beat_sync: bool = Field(default=False, description="Snap segment durations to nearest beat boundary of the first music track (requires librosa)")
 
 
 # ---------------------------------------------------------------------------
@@ -761,6 +797,8 @@ class SubtitleConfig(BaseModel):
     )
     model: Literal["whisper-1"] = "whisper-1"
     style: SubtitleStyle = Field(default_factory=SubtitleStyle)
+    translate_to: str | None = Field(default=None, description="BCP-47 language code to translate captions into before burning (e.g. 'sv', 'de', 'fr')")
+    check_compliance: bool = Field(default=False, description="Warn on CPS > 17, line > 42 chars, or display < 1s")
 
     @model_validator(mode="after")
     def captions_required_for_burn(self) -> "SubtitleConfig":
@@ -936,6 +974,13 @@ class VideoSegment(BaseSegment):
     reverse: bool = Field(default=False, description="Reverse video playback")
     freeze_at: float | None = Field(default=None, ge=0.0, description="Freeze on frame at this timestamp (seconds from source start)")
     freeze_duration: float = Field(default=1.0, gt=0.0, description="Duration to hold the frozen frame")
+    speed_ramp: list[dict] | None = Field(default=None, description="Speed ramp keypoints: [{time: 0.0, speed: 1.0}, {time: 2.0, speed: 3.0}]")
+    stabilize: bool = Field(default=False, description="Stabilize shaky footage via libvidstab (two-pass ffmpeg)")
+    stabilize_smoothing: int = Field(default=10, ge=1, le=100, description="Stabilization smoothing radius")
+    remove_silence: bool = Field(default=False, description="Auto-detect and cut silent sections from source video")
+    silence_threshold_db: float = Field(default=-35.0, le=0.0, description="Silence detection threshold in dB")
+    silence_min_duration: float = Field(default=0.5, gt=0.0, description="Minimum silence gap to remove (seconds)")
+    smart_crop: bool = Field(default=False, description="Use face-detection to keep subject in frame when cropping to target resolution")
 
 
 class BlankSegment(BaseSegment):

@@ -45,6 +45,8 @@ def apply_overlays(
     from video_compose.overlays.qr_code import render_qr_code_overlay
     from video_compose.overlays.lottie import render_lottie_overlay
     from video_compose.overlays.word_highlight import render_word_highlight_overlay
+    from video_compose.overlays.face_blur import render_face_blur_overlay
+    from video_compose.overlays.auto_caption import render_auto_caption_overlay
 
     # Filter by condition first
     if condition_evaluator is not None:
@@ -63,6 +65,7 @@ def apply_overlays(
         for i, ov in enumerate(sorted_overlays):
             try:
                 ov_type = ov.type
+                clip_path = clip_path  # pass base clip to face_blur
                 if ov_type == "text":
                     layer = render_text_overlay(ov, segment_duration, width, height, fps, td, i)
                 elif ov_type == "bar":
@@ -99,6 +102,10 @@ def apply_overlays(
                     layer = render_lottie_overlay(ov, segment_duration, width, height, fps, td, i)
                 elif ov_type == "word_highlight":
                     layer = render_word_highlight_overlay(ov, segment_duration, width, height, fps, td, i)
+                elif ov_type == "face_blur":
+                    layer = render_face_blur_overlay(ov, segment_duration, width, height, fps, td, i, clip_path)
+                elif ov_type == "auto_caption":
+                    layer = render_auto_caption_overlay(ov, segment_duration, width, height, fps, td, i)
                 else:
                     logger.warning("Unknown overlay type %r — skipping", ov_type)
                     continue
