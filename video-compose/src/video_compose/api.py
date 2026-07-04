@@ -76,6 +76,18 @@ def compose(
         png_dir = out_dir / "frames"
         export_frames(video_path, png_dir)
 
+    output_cfg = getattr(parsed_spec, "output", None)
+
+    # Multi-format export: WebM
+    if getattr(output_cfg, "export_webm", False):
+        _export_webm(video_path, out_dir)
+
+    # Multi-format export: GIF
+    if getattr(output_cfg, "export_gif", False):
+        gif_fps = int(getattr(output_cfg, "gif_fps", 15) or 15)
+        gif_width = int(getattr(output_cfg, "gif_width", 640) or 640)
+        _export_gif(video_path, out_dir, gif_fps, gif_width)
+
     return ComposeResult(
         video_path=video_path,
         png_dir=png_dir,
@@ -126,3 +138,45 @@ def _load_raw(spec: dict | str | Path) -> dict:
     if text.strip().startswith("{") or text.strip().startswith("["):
         return json.loads(text)
     return json.loads(Path(text).read_text(encoding="utf-8"))
+
+
+def _export_webm(video_path: Path, out_dir: Path) -> Path:
+    import subprocess
+    out = out_dir / (video_path.stem + ".webm")
+    cmd = [
+        "ffmpeg", "-y", "-i", str(video_path),
+        "-c:v", "libvpx-vp9", "-b:v", "0", "-crf", "30",
+        "-c:a", "libopus", "-b:a", "128k",
+        str(out),
+    ]
+    r = subprocess.run(cmd, capture_output=True, text=True)
+    if r.returncode != 0:
+        raise RuntimeError(f"WebM export failed: {r.stderr[-400:]}")
+    return out
+
+
+def _export_gif(video_path: Path, out_dir: Path, fps: int, width: int) -> Path:
+    import subprocess
+    out = out_dir / (video_path.stem + ".gif")
+    palette = out_dir / "_palette.png"
+    scale = f"scale={width}:-1:flags=lanczos"
+    r1 = subprocess.run(
+        ["ffmpeg", "-y", "-i", str(video_path),
+         "-vf", f"{scale},palettegen",
+         str(palette)],
+        capture_output=True, text=True,
+    )
+    if r1.returncode != 0:
+        raise RuntimeError(f"GIF palettegen failed: {r1.stderr[-300:]}")
+
+    r2 = subprocess.run(
+        ["ffmpeg", "-y", "-i", str(video_path), "-i", str(palette),
+         "-filter_complex", f"{scale}[x];[x][1:v]paletteuse",
+         "-r", str(fps),
+         str(out)],
+        capture_output=True, text=True,
+    )
+    palette.unlink(missing_ok=True)
+    if r2.returncode != 0:
+        raise RuntimeError(f"GIF paletteuse failed: {r2.stderr[-300:]}")
+    return out

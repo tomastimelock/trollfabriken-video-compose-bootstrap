@@ -42,9 +42,21 @@ class Assembler:
         spec = self._spec
         output = spec.output
 
+        draft = bool(getattr(output, "draft", False)) if output else False
         width = output.width if output else 1920
         height = output.height if output else 1080
         fps = float(output.fps if output else 30)
+
+        if draft:
+            width = width // 2
+            height = height // 2
+            import os
+            os.environ["VC_DRAFT"] = "1"
+
+        # Font loading: install custom fonts before any rendering
+        fonts = list(getattr(spec, "fonts", None) or [])
+        if fonts:
+            _install_fonts(fonts)
 
         grade_slug_global: str | None = None
         if spec.theme:
@@ -57,6 +69,11 @@ class Assembler:
 
         # Global overlay elements (applied to every segment)
         global_elements = list(getattr(spec, "elements", None) or [])
+
+        # Watermark: convert WatermarkConfig to a persistent ImageOverlay on every segment
+        watermark = getattr(spec, "watermark", None)
+        if watermark:
+            global_elements = [_watermark_to_overlay(watermark)] + global_elements
 
         with tempfile.TemporaryDirectory() as td:
             work_dir = Path(td)
@@ -242,3 +259,58 @@ def _with_z_order_offset(overlay, offset: int):
     except Exception:
         pass
     return clone
+
+
+def _watermark_to_overlay(wm):
+    """Convert a WatermarkConfig into a duck-typed ImageOverlay dict-like object."""
+    from types import SimpleNamespace
+    from video_compose.schema.spec import OverlayTiming
+    return SimpleNamespace(
+        type="image_overlay",
+        src=wm.src,
+        position=wm.position,
+        x_pct=None,
+        y_pct=None,
+        width_pct=wm.width_pct,
+        height_pct=None,
+        opacity=wm.opacity,
+        z_order=9999,
+        timing=OverlayTiming(start=0.0, end=None),
+        keyframes=None,
+        condition=None,
+        color_correction=None,
+        chroma_key=None,
+        trim_end=None,
+        speed=1.0,
+        reverse=False,
+    )
+
+
+def _install_fonts(fonts: list) -> None:
+    """Download or copy custom fonts to ~/.video_compose/fonts/."""
+    import shutil
+    import urllib.request
+    font_dir = Path.home() / ".video_compose" / "fonts"
+    font_dir.mkdir(parents=True, exist_ok=True)
+
+    for font_cfg in fonts:
+        name = font_cfg.name
+        src = getattr(font_cfg, "src", None)
+        url = getattr(font_cfg, "url", None)
+
+        if src:
+            src_path = Path(src)
+            if src_path.exists():
+                dest = font_dir / src_path.name
+                if not dest.exists():
+                    shutil.copy2(src_path, dest)
+                    logger.info("Installed font: %s", dest)
+        elif url:
+            ext = url.rsplit(".", 1)[-1].lower()
+            dest = font_dir / f"{name}.{ext}"
+            if not dest.exists():
+                try:
+                    urllib.request.urlretrieve(url, dest)
+                    logger.info("Downloaded font: %s → %s", url, dest)
+                except Exception as exc:
+                    logger.warning("Font download failed for %s: %s", name, exc)

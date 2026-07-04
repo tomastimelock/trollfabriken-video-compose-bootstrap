@@ -638,6 +638,43 @@ def component_show(component_name: str) -> None:
 
 
 # ---------------------------------------------------------------------------
+# serve — REST API server
+# ---------------------------------------------------------------------------
+
+@main.command()
+@click.option("--host", default="0.0.0.0", show_default=True)
+@click.option("--port", default=8765, show_default=True, type=int)
+@click.option("--reload", is_flag=True, default=False, help="Enable auto-reload for development.")
+@click.option("--workers", default=1, show_default=True, type=int)
+def serve(host: str, port: int, reload: bool, workers: int) -> None:
+    """Start the video-compose REST API server.
+
+    The server exposes POST /render, GET /jobs/{id}, POST /validate, and more.
+
+    Examples:
+
+      video-compose serve --port 8765
+
+      video-compose serve --host 127.0.0.1 --port 9000 --workers 2
+    """
+    try:
+        import uvicorn
+    except ImportError:
+        click.echo("uvicorn is required — pip install 'video-compose[server]'", err=True)
+        sys.exit(1)
+
+    click.echo(f"Starting video-compose API server on http://{host}:{port}")
+    click.echo("  Docs: http://{}:{}/docs".format(host if host != "0.0.0.0" else "localhost", port))
+    uvicorn.run(
+        "video_compose.server.app:app",
+        host=host,
+        port=port,
+        reload=reload,
+        workers=workers if not reload else 1,
+    )
+
+
+# ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
 

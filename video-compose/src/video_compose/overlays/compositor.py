@@ -37,6 +37,14 @@ def apply_overlays(
     from video_compose.overlays.component import render_component_overlay
     from video_compose.overlays.ai_svg import render_ai_svg_overlay
     from video_compose.overlays.ai_html import render_ai_html_overlay
+    from video_compose.overlays.shapes import (
+        render_rectangle_overlay, render_circle_overlay,
+        render_line_overlay, render_arrow_overlay,
+    )
+    from video_compose.overlays.gif import render_gif_overlay
+    from video_compose.overlays.qr_code import render_qr_code_overlay
+    from video_compose.overlays.lottie import render_lottie_overlay
+    from video_compose.overlays.word_highlight import render_word_highlight_overlay
 
     # Filter by condition first
     if condition_evaluator is not None:
@@ -75,6 +83,22 @@ def apply_overlays(
                     layer = render_ai_svg_overlay(ov, segment_duration, width, height, fps, td, i)
                 elif ov_type == "ai_html":
                     layer = render_ai_html_overlay(ov, segment_duration, width, height, fps, td, i)
+                elif ov_type == "rectangle":
+                    layer = render_rectangle_overlay(ov, segment_duration, width, height, fps, td, i)
+                elif ov_type == "circle":
+                    layer = render_circle_overlay(ov, segment_duration, width, height, fps, td, i)
+                elif ov_type == "line":
+                    layer = render_line_overlay(ov, segment_duration, width, height, fps, td, i)
+                elif ov_type == "arrow":
+                    layer = render_arrow_overlay(ov, segment_duration, width, height, fps, td, i)
+                elif ov_type == "gif":
+                    layer = render_gif_overlay(ov, segment_duration, width, height, fps, td, i)
+                elif ov_type == "qr_code":
+                    layer = render_qr_code_overlay(ov, segment_duration, width, height, fps, td, i)
+                elif ov_type == "lottie":
+                    layer = render_lottie_overlay(ov, segment_duration, width, height, fps, td, i)
+                elif ov_type == "word_highlight":
+                    layer = render_word_highlight_overlay(ov, segment_duration, width, height, fps, td, i)
                 else:
                     logger.warning("Unknown overlay type %r — skipping", ov_type)
                     continue
