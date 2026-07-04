@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import copy
 import logging
 import tempfile
 from pathlib import Path
@@ -9,18 +10,21 @@ logger = logging.getLogger(__name__)
 
 
 class Assembler:
-    """Full render pipeline: segment render → overlays → grade → transitions → concat → audio.
+    """Full render pipeline: segment render → overlays → grade → transitions → concat → audio → subtitles.
 
     Pipeline per segment:
-        1. Render segment (via renderers.dispatcher)
-        2. Apply overlays (via overlays.compositor)
-        3. Apply per-segment grade (via grade.apply)
+        0. Expand iterated segments (before render loop)
+        1. Filter segments by condition
+        2. Render segment (via renderers.dispatcher)
+        3. Apply overlays — global elements merged first, then per-segment (via overlays.compositor)
+        4. Apply per-segment grade (via grade.apply)
 
     Then global pipeline:
-        4. Apply transitions between segments (via transition.apply)
-        5. Concatenate all segments
-        6. Apply global theme grade (if any, no per-segment grade yet applied)
-        7. Mix audio (via audio.pipeline)
+        5. Apply transitions between segments (via transition.apply)
+        6. Concatenate all segments
+        7. Apply global theme grade (if any)
+        8. Mix audio (via audio.pipeline)
+        9. Burn subtitles if configured (via audio.subtitles)
     """
 
     def __init__(
@@ -46,20 +50,35 @@ class Assembler:
         if spec.theme:
             grade_slug_global = getattr(spec.theme, "grade", None)
 
+        # Build condition evaluator from spec.variables
+        from video_compose.assembler.condition import ConditionEvaluator
+        spec_vars = dict(getattr(spec, "variables", {}) or {})
+        evaluator = ConditionEvaluator(spec_vars)
+
+        # Global overlay elements (applied to every segment)
+        global_elements = list(getattr(spec, "elements", None) or [])
+
         with tempfile.TemporaryDirectory() as td:
             work_dir = Path(td)
 
             from video_compose.data import DataResolver
             resolver = DataResolver(spec)
 
+            # ── Phase 0: Expand iterated segments ─────────────────────────────
+            from video_compose.assembler.iteration import IterationExpander
+            segments = IterationExpander(resolver).expand(list(spec.segments))
+
+            # ── Phase 0b: Filter by condition ─────────────────────────────────
+            segments = [seg for seg in segments if evaluator.evaluate(getattr(seg, "condition", None))]
+
             # ── Phase 1: Render each segment ──────────────────────────────────
             segment_clips: list[Path] = []
             segment_timing: dict[str, float] = {}
             current_time = 0.0
 
-            for i, seg in enumerate(spec.segments):
-                self._progress_cb(f"Rendering segment {seg.id}", i / len(spec.segments) * 0.6)
-                logger.info("[%d/%d] Rendering segment %r (type=%s)", i + 1, len(spec.segments), seg.id, seg.type)
+            for i, seg in enumerate(segments):
+                self._progress_cb(f"Rendering segment {seg.id}", i / len(segments) * 0.6)
+                logger.info("[%d/%d] Rendering segment %r (type=%s)", i + 1, len(segments), seg.id, seg.type)
 
                 segment_timing[seg.id] = current_time
 
@@ -72,12 +91,19 @@ class Assembler:
                 from video_compose.renderers.dispatcher import dispatch
                 dispatch(seg, data, clip_path, width=width, height=height, fps=fps)
 
-                # 1c. Apply overlays
-                overlays = getattr(seg, "overlays", None) or []
-                if overlays:
+                # 1c. Merge global elements + per-segment overlays; apply condition per overlay
+                per_seg_overlays = list(getattr(seg, "overlays", None) or [])
+                # Global elements get z_order offset so they stack below per-segment overlays by default
+                combined_overlays = [
+                    _with_z_order_offset(ov, -1000) for ov in global_elements
+                ] + per_seg_overlays
+
+                if combined_overlays:
                     from video_compose.overlays.compositor import apply_overlays
                     clip_path = apply_overlays(
-                        clip_path, overlays, seg.duration, width, height, fps
+                        clip_path, combined_overlays, seg.duration,
+                        width, height, fps,
+                        condition_evaluator=evaluator,
                     )
 
                 # 1d. Per-segment grade (prefer segment.grade, else global theme grade)
@@ -93,7 +119,7 @@ class Assembler:
 
             # ── Phase 2: Apply transitions ──────────────────────────────────
             self._progress_cb("Applying transitions", 0.65)
-            clips_with_transitions = self._apply_transitions(segment_clips, spec, work_dir)
+            clips_with_transitions = self._apply_transitions(segment_clips, spec, segments, work_dir)
 
             # ── Phase 3: Concatenate ─────────────────────────────────────────
             self._progress_cb("Concatenating", 0.75)
@@ -119,6 +145,17 @@ class Assembler:
                 work_dir=work_dir,
                 output_path=work_dir / "final_with_audio.mp4",
             )
+
+            # ── Phase 5: Subtitles ───────────────────────────────────────────
+            subtitle_cfg = getattr(spec, "subtitles", None)
+            if subtitle_cfg is not None:
+                self._progress_cb("Burning subtitles", 0.93)
+                from video_compose.audio.subtitles import apply_subtitles
+                subtitled = work_dir / "final_subtitled.mp4"
+                try:
+                    final_video = apply_subtitles(final_video, subtitle_cfg, work_dir, subtitled)
+                except Exception as exc:
+                    logger.error("Subtitle pass failed: %s — skipping subtitles", exc)
 
             # Copy final to output_dir
             import shutil
@@ -160,13 +197,10 @@ class Assembler:
         self,
         clips: list[Path],
         spec,
+        segments: list,
         work_dir: Path,
     ) -> list[Path]:
-        """Apply transitions between consecutive clips.
-
-        Returns a list of paths — may be shorter than *clips* if transitions
-        merge pairs, or same length if transitions use cut-fx's overlap mode.
-        """
+        """Apply transitions between consecutive clips."""
         if len(clips) <= 1:
             return clips
 
@@ -176,14 +210,10 @@ class Assembler:
         default_ref = transitions_block.default if transitions_block else None
         overrides_list = (transitions_block.overrides or []) if transitions_block else []
 
-        # Build override map: (from_id, to_id) → TransitionRef
         override_map: dict[tuple[str, str], Any] = {}
         for ov in overrides_list:
-            from_id = ov.from_segment
-            to_id = ov.to
-            override_map[(from_id, to_id)] = ov  # use ov as config (has .type and .duration)
+            override_map[(ov.from_segment, ov.to)] = ov
 
-        segments = spec.segments
         result_clips = [clips[0]]
 
         for i in range(len(clips) - 1):
@@ -194,10 +224,21 @@ class Assembler:
             joined = work_dir / f"joined_{i:03d}_{i+1:03d}.mp4"
             try:
                 joined_path = apply_transition(result_clips[-1], clips[i + 1], transition_config, joined)
-                # Replace last clip with the joined result
                 result_clips[-1] = joined_path
             except Exception as exc:
                 logger.warning("Transition %d→%d failed: %s — using hard cut", i, i + 1, exc)
                 result_clips.append(clips[i + 1])
 
         return result_clips
+
+
+def _with_z_order_offset(overlay, offset: int):
+    """Return overlay with z_order shifted by offset (to push global elements below per-segment)."""
+    if not hasattr(overlay, "z_order"):
+        return overlay
+    clone = copy.copy(overlay)
+    try:
+        object.__setattr__(clone, "z_order", overlay.z_order + offset)
+    except Exception:
+        pass
+    return clone

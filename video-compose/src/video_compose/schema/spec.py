@@ -72,16 +72,43 @@ class MetaConfig(BaseModel):
 
 
 # ---------------------------------------------------------------------------
-# Output
+# Output — resolution presets + async/webhook
 # ---------------------------------------------------------------------------
 
+RESOLUTION_PRESETS: dict[str, tuple[int, int]] = {
+    "sd": (854, 480),
+    "hd": (1280, 720),
+    "full-hd": (1920, 1080),
+    "4k": (3840, 2160),
+    "squared": (1080, 1080),
+    "instagram-story": (1080, 1920),
+    "tiktok": (1080, 1920),
+    "youtube-short": (1080, 1920),
+    "twitter-landscape": (1280, 720),
+    "facebook-story": (1080, 1920),
+    "linkedin-landscape": (1920, 1080),
+}
+
+
 class OutputConfig(BaseModel):
+    resolution: str | None = Field(
+        default=None,
+        description=f"Named preset; overrides width/height. Options: {sorted(RESOLUTION_PRESETS)}"
+    )
     width: int = Field(default=1280, gt=0)
     height: int = Field(default=720, gt=0)
     fps: int = Field(default=30, gt=0)
     formats: list[Literal["mp4", "png"]] = Field(default_factory=lambda: ["mp4"])
     path: str = "./output/video.mp4"
     quality: int = Field(default=22, ge=0, le=51, description="CRF value for x264/x265 (lower = better)")
+    webhook_url: str | None = Field(
+        default=None,
+        description="URL that receives a POST with the job result after async render completes"
+    )
+    async_mode: bool = Field(
+        default=False,
+        description="Return job ID immediately; render in background thread"
+    )
 
     @field_validator("formats")
     @classmethod
@@ -89,6 +116,17 @@ class OutputConfig(BaseModel):
         if not v:
             raise ValueError("output.formats must contain at least one format")
         return v
+
+    @model_validator(mode="after")
+    def apply_resolution_preset(self) -> "OutputConfig":
+        if self.resolution is not None:
+            if self.resolution not in RESOLUTION_PRESETS:
+                raise ValueError(
+                    f"Unknown resolution preset {self.resolution!r}. "
+                    f"Valid presets: {sorted(RESOLUTION_PRESETS)}"
+                )
+            self.width, self.height = RESOLUTION_PRESETS[self.resolution]
+        return self
 
 
 # ---------------------------------------------------------------------------
@@ -171,12 +209,53 @@ DataSourceConfig = Annotated[
 
 
 # ---------------------------------------------------------------------------
+# Overlay primitives — correction, chroma-key, keyframes
+# ---------------------------------------------------------------------------
+
+class ColorCorrection(BaseModel):
+    """Per-element brightness/contrast/saturation/gamma adjustments (ffmpeg eq filter)."""
+    brightness: float = Field(default=0.0, ge=-1.0, le=1.0)
+    contrast: float = Field(default=1.0, ge=0.0, le=3.0)
+    saturation: float = Field(default=1.0, ge=0.0, le=3.0)
+    gamma: float = Field(default=1.0, ge=0.1, le=10.0)
+
+
+class ChromaKey(BaseModel):
+    """Green-screen / chroma-key removal (ffmpeg chromakey filter)."""
+    color: str = Field(default="#00ff00", description="Color to key out (hex)")
+    similarity: float = Field(default=0.3, ge=0.01, le=1.0, description="How close a color must be to match")
+    blend: float = Field(default=0.1, ge=0.0, le=1.0, description="Blend range at key edges")
+
+
+class Keyframe(BaseModel):
+    """Single keyframe for overlay animation. Unset properties hold their previous value."""
+    time: float = Field(ge=0.0, description="Seconds from segment start")
+    x_pct: float | None = Field(default=None, ge=0.0, le=100.0, description="Canvas X position as %")
+    y_pct: float | None = Field(default=None, ge=0.0, le=100.0, description="Canvas Y position as %")
+    opacity: float | None = Field(default=None, ge=0.0, le=1.0)
+    scale: float | None = Field(default=None, ge=0.0, le=5.0, description="Uniform scale multiplier")
+    rotation: float | None = Field(
+        default=None, ge=-360.0, le=360.0,
+        description="Rotation in degrees; reserved — not yet composited by ffmpeg backend"
+    )
+
+
+# ---------------------------------------------------------------------------
 # Overlays
 # ---------------------------------------------------------------------------
 
 class OverlayTiming(BaseModel):
     start: float = Field(default=0.0, ge=0.0, description="Seconds from segment start")
     end: float | None = Field(default=None, description="Seconds from segment start; None = until segment end")
+
+
+_POSITION_LITERALS = Literal[
+    "center", "top", "bottom",
+    "top-left", "top-right", "bottom-left", "bottom-right",
+    "left", "right",
+    "lower_third", "lower_third_left", "lower_third_right",
+    "lower_third_2",
+]
 
 
 class TextOverlay(BaseModel):
@@ -187,13 +266,7 @@ class TextOverlay(BaseModel):
         default=None,
         description="Semantic role — drives default font size when font_size is unset"
     )
-    position: Literal[
-        "center", "top", "bottom",
-        "top-left", "top-right", "bottom-left", "bottom-right",
-        "left", "right",
-        "lower_third", "lower_third_left", "lower_third_right",
-        "lower_third_2",
-    ] = "center"
+    position: _POSITION_LITERALS = "center"
     timing: OverlayTiming = Field(default_factory=OverlayTiming)
     font_size: int | None = None
     color: str | None = None
@@ -229,16 +302,21 @@ class TextOverlay(BaseModel):
         default=0,
         description="Stacking order relative to other overlays on this segment; higher = on top"
     )
-    opacity: float = Field(
-        default=1.0, ge=0.0, le=1.0,
-        description="Overall overlay opacity (1.0 = fully opaque)"
-    )
+    opacity: float = Field(default=1.0, ge=0.0, le=1.0)
     easing: Literal[
         "linear", "ease-in", "ease-out", "ease-in-out",
         "ease-out-cubic", "ease-out-back", "ease-out-elastic",
         "spring", "bounce",
     ] = "ease-out-cubic"
     aa_mode: Literal["none", "supersample"] = "none"
+    keyframes: list[Keyframe] | None = Field(
+        default=None,
+        description="Keyframe animation; overrides x_pct/y_pct/opacity/scale at specified times"
+    )
+    condition: str | None = Field(
+        default=None,
+        description="Python expression; overlay is skipped when falsy. Use {{var}} for spec variables"
+    )
 
 
 class BarOverlay(BaseModel):
@@ -254,6 +332,8 @@ class BarOverlay(BaseModel):
     height_pct: float = Field(default=12.0, ge=0.5, le=50.0, description="Bar height as % of canvas")
     border_radius: int = Field(default=0, ge=0, description="Corner radius in pixels; 0=rectangle, >0=pill")
     timing: OverlayTiming = Field(default_factory=OverlayTiming)
+    keyframes: list[Keyframe] | None = Field(default=None)
+    condition: str | None = Field(default=None)
 
 
 class WebOverlay(BaseModel):
@@ -261,10 +341,74 @@ class WebOverlay(BaseModel):
     template: str = Field(description="Path to Jinja2 HTML template or web-overlay preset name")
     css_vars: dict[str, str] = Field(default_factory=dict)
     timing: OverlayTiming = Field(default_factory=OverlayTiming)
+    condition: str | None = Field(default=None)
+
+
+class ImageOverlay(BaseModel):
+    """Composite an external image (PNG/JPG/WebP) on top of the segment."""
+    type: Literal["image_overlay"]
+    src: str = Field(description="Path or URL to image file (PNG, JPG, WebP, GIF)")
+    position: _POSITION_LITERALS = "center"
+    x_pct: float | None = Field(default=None, ge=0.0, le=100.0)
+    y_pct: float | None = Field(default=None, ge=0.0, le=100.0)
+    width_pct: float | None = Field(default=None, ge=0.1, le=100.0, description="Width as % of canvas; None = natural size")
+    height_pct: float | None = Field(default=None, ge=0.1, le=100.0, description="Height as % of canvas; None = maintain aspect")
+    opacity: float = Field(default=1.0, ge=0.0, le=1.0)
+    z_order: int = Field(default=0)
+    timing: OverlayTiming = Field(default_factory=OverlayTiming)
+    correction: ColorCorrection | None = None
+    chroma_key: ChromaKey | None = None
+    keyframes: list[Keyframe] | None = None
+    condition: str | None = None
+
+
+class VideoOverlay(BaseModel):
+    """Composite an external video clip on top of the segment."""
+    type: Literal["video_overlay"]
+    src: str = Field(description="Path to video file")
+    position: _POSITION_LITERALS = "center"
+    x_pct: float | None = Field(default=None, ge=0.0, le=100.0)
+    y_pct: float | None = Field(default=None, ge=0.0, le=100.0)
+    width_pct: float | None = Field(default=None, ge=0.1, le=100.0)
+    height_pct: float | None = Field(default=None, ge=0.1, le=100.0)
+    opacity: float = Field(default=1.0, ge=0.0, le=1.0)
+    z_order: int = Field(default=0)
+    timing: OverlayTiming = Field(default_factory=OverlayTiming)
+    mute: bool = Field(default=False, description="Strip audio from the overlay video")
+    loop: bool = Field(default=False, description="Loop the overlay video if shorter than the segment")
+    start_time: float = Field(default=0.0, ge=0.0, description="Start offset into the source video")
+    correction: ColorCorrection | None = None
+    chroma_key: ChromaKey | None = None
+    keyframes: list[Keyframe] | None = None
+    condition: str | None = None
+
+
+class AudiogramOverlay(BaseModel):
+    """Animated audio waveform / frequency visualization."""
+    type: Literal["audiogram"]
+    style: Literal["bars", "waveform", "line"] = Field(
+        default="bars",
+        description="bars=frequency spectrum, waveform=oscilloscope, line=smooth waveform"
+    )
+    color: str = Field(default="#ffffff", description="Waveform color (hex)")
+    opacity: float = Field(default=0.85, ge=0.0, le=1.0)
+    width_pct: float = Field(default=80.0, ge=1.0, le=100.0)
+    height_pct: float = Field(default=15.0, ge=1.0, le=50.0)
+    position: Literal["center", "top", "bottom", "top-left", "top-right", "bottom-left", "bottom-right"] = "bottom"
+    x_pct: float | None = Field(default=None, ge=0.0, le=100.0)
+    y_pct: float | None = Field(default=None, ge=0.0, le=100.0)
+    amplitude: float = Field(default=5.0, ge=0.1, le=10.0, description="Wave amplitude scale (0.1–10)")
+    z_order: int = Field(default=0)
+    timing: OverlayTiming = Field(default_factory=OverlayTiming)
+    audio_source: str | None = Field(
+        default=None,
+        description="Path to audio file to visualize; defaults to the segment's own embedded audio"
+    )
+    condition: str | None = None
 
 
 OverlayConfig = Annotated[
-    Union[TextOverlay, BarOverlay, WebOverlay],
+    Union[TextOverlay, BarOverlay, WebOverlay, ImageOverlay, VideoOverlay, AudiogramOverlay],
     Field(discriminator="type"),
 ]
 
@@ -332,6 +476,48 @@ class AudioConfig(BaseModel):
 
 
 # ---------------------------------------------------------------------------
+# Subtitles
+# ---------------------------------------------------------------------------
+
+class SubtitleStyle(BaseModel):
+    font_family: str = Field(default="Inter", description="Font name (must be available on system)")
+    font_size: int = Field(default=40, gt=0)
+    color: str = Field(default="#ffffff", description="Primary text color (hex)")
+    outline_color: str = Field(default="#000000", description="Outline/border color (hex)")
+    outline_width: int = Field(default=2, ge=0)
+    box: bool = Field(default=False, description="Render a background box behind each line")
+    box_color: str = Field(default="#000000cc", description="Box fill color (supports alpha via 8-char hex)")
+    position: Literal["top", "center", "bottom"] = "bottom"
+    max_words_per_line: int = Field(default=7, gt=0)
+    uppercase: bool = False
+    shadow: bool = True
+    shadow_color: str = "#000000"
+
+
+class SubtitleConfig(BaseModel):
+    mode: Literal["burn", "auto"] = Field(
+        default="burn",
+        description="'burn' = use provided SRT/VTT/ASS file; 'auto' = transcribe via OpenAI Whisper API"
+    )
+    captions_path: str | None = Field(
+        default=None,
+        description="SRT/VTT/ASS file path — required when mode='burn'"
+    )
+    language: str = Field(
+        default="auto",
+        description="BCP-47 language code (e.g. 'en', 'sv') or 'auto' for Whisper detection"
+    )
+    model: Literal["whisper-1"] = "whisper-1"
+    style: SubtitleStyle = Field(default_factory=SubtitleStyle)
+
+    @model_validator(mode="after")
+    def captions_required_for_burn(self) -> "SubtitleConfig":
+        if self.mode == "burn" and not self.captions_path:
+            raise ValueError("subtitles.captions_path is required when mode='burn'")
+        return self
+
+
+# ---------------------------------------------------------------------------
 # Base segment (shared fields)
 # ---------------------------------------------------------------------------
 
@@ -352,6 +538,15 @@ class BaseSegment(BaseModel):
     )
     transition_in: TransitionRef | None = None
     transition_out: TransitionRef | None = None
+    condition: str | None = Field(
+        default=None,
+        description="Python expression; segment is skipped when falsy. Use {{var}} for spec variables"
+    )
+    iterate: str | None = Field(
+        default=None,
+        description="$sources.<id> ref or inline list — clones this segment once per item, "
+                    "injecting {{item.field}}, {{item_index}}, {{item_total}} into string fields"
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -531,8 +726,20 @@ class TVCSSpec(BaseModel):
     meta: MetaConfig = Field(default_factory=MetaConfig)
     output: OutputConfig = Field(default_factory=OutputConfig)
     theme: ThemeConfig = Field(default_factory=ThemeConfig)
+    variables: dict[str, Any] = Field(
+        default_factory=dict,
+        description="Movie-level variables usable in condition expressions and {{var}} interpolation"
+    )
     data_sources: dict[str, DataSourceConfig] = Field(default_factory=dict)
     audio: AudioConfig = Field(default_factory=AudioConfig)
+    elements: list[OverlayConfig] = Field(
+        default_factory=list,
+        description="Global overlays rendered on every segment (watermarks, persistent lower-thirds, etc.)"
+    )
+    subtitles: SubtitleConfig | None = Field(
+        default=None,
+        description="Movie-level subtitle burn-in (SRT/VTT/ASS) or auto-transcription via Whisper"
+    )
     segments: list[SegmentUnion] = Field(default_factory=list, min_length=1)
     transitions: TransitionsBlock = Field(default_factory=TransitionsBlock)
 

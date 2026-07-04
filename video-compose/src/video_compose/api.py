@@ -17,8 +17,20 @@ class ComposeResult:
         return f"ComposeResult(video={self.video_path}, warnings={len(self.warnings)})"
 
 
+def load_spec(spec: "dict | str | Path") -> "TVCSSpec":
+    """Parse and validate a TVCS spec, returning the TVCSSpec model object."""
+    from video_compose.schema.spec import TVCSSpec
+    from video_compose.schema.validator import validate as _validate
+
+    raw = _load_raw(spec)
+    vr = _validate(raw)
+    if vr.has_errors:
+        raise ValueError("Invalid TVCS spec:\n" + "\n".join(vr.errors))
+    return TVCSSpec.model_validate(raw)
+
+
 def compose(
-    spec: dict | str | Path,
+    spec,
     output_dir: str | Path | None = None,
     progress_cb: Callable[[str, float], None] | None = None,
     export_png: bool = False,
@@ -38,15 +50,19 @@ def compose(
         ValueError: If the spec fails structural or semantic validation.
     """
     from video_compose.schema.spec import TVCSSpec
-    from video_compose.schema.validator import validate as _validate
     from video_compose.assembler.assembler import Assembler
 
-    raw = _load_raw(spec)
-    vr = _validate(raw)
-    if vr.has_errors:
-        raise ValueError("Invalid TVCS spec:\n" + "\n".join(vr.errors))
-
-    parsed_spec = TVCSSpec.model_validate(raw)
+    if isinstance(spec, TVCSSpec):
+        parsed_spec = spec
+        vr_warnings: list[str] = []
+    else:
+        from video_compose.schema.validator import validate as _validate
+        raw = _load_raw(spec)
+        vr = _validate(raw)
+        if vr.has_errors:
+            raise ValueError("Invalid TVCS spec:\n" + "\n".join(vr.errors))
+        parsed_spec = TVCSSpec.model_validate(raw)
+        vr_warnings = vr.warnings
 
     out_dir = Path(output_dir) if output_dir else Path("video_compose_output")
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -63,7 +79,7 @@ def compose(
     return ComposeResult(
         video_path=video_path,
         png_dir=png_dir,
-        warnings=vr.warnings,
+        warnings=vr_warnings,
     )
 
 

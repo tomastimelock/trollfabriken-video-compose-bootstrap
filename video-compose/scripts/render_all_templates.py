@@ -286,6 +286,17 @@ def main() -> None:
             )
             filled = inject_audio(filled, ambient_music)
 
+            # Batch preview caps — prevents OOM in BackgroundScene (accumulates all frames)
+            if "output" in filled:
+                filled["output"]["width"] = 1280
+                filled["output"]["height"] = 720
+                # fps: honour what the template specifies — do NOT override
+
+            # Cap mathviz segment durations — 8s × 24fps × 720p ≈ 600MB vs 30s = ~2.2GB
+            for seg in filled.get("segments", []):
+                if seg.get("type") == "mathviz" and seg.get("duration", 0) > 8:
+                    seg["duration"] = 8.0
+
             with tempfile.TemporaryDirectory() as td:
                 result = compose(filled, output_dir=td)
                 shutil.copy2(result.video_path, out_path)
