@@ -1,0 +1,240 @@
+{
+  "tvcs": "1.0",
+  "template": {
+    "id": "product_launch_dark_portrait",
+    "name": "Product Launch — Dark Neon (Portrait 9:16)",
+    "category": "product_launch",
+    "tags": [
+      "reveal",
+      "cinematic",
+      "portrait",
+      "launch",
+      "vertical",
+      "9:16",
+      "neon",
+      "dark",
+      "product"
+    ],
+    "description": "High-impact product launch: matrix rain intro, product image reveal with Ken Burns, three feature callouts on shape-fx, bold CTA outro. Dark neon aesthetic.",
+    "preview_thumbnail": "previews/thumbnails/product_launch_dark.jpg",
+    "preview_full": "previews/full/product_launch_dark.jpg",
+    "author": "Trollfabriken",
+    "version": "1.0",
+    "variables": [
+      {
+        "name": "product_name",
+        "type": "string",
+        "label": "Product name",
+        "required": true,
+        "default": "PRODUCT X"
+      },
+      {
+        "name": "tagline",
+        "type": "string",
+        "label": "Tagline",
+        "required": false,
+        "default": "Redefining what's possible"
+      },
+      {
+        "name": "feature_1",
+        "type": "string",
+        "label": "Feature 1",
+        "required": false,
+        "default": "Blazing fast performance"
+      },
+      {
+        "name": "feature_2",
+        "type": "string",
+        "label": "Feature 2",
+        "required": false,
+        "default": "Built for scale"
+      },
+      {
+        "name": "feature_3",
+        "type": "string",
+        "label": "Feature 3",
+        "required": false,
+        "default": "Zero compromise"
+      },
+      {
+        "name": "cta_text",
+        "type": "string",
+        "label": "Call to action",
+        "required": false,
+        "default": "Available now"
+      },
+      {
+        "name": "product_image",
+        "type": "image_path",
+        "label": "Product image path",
+        "required": true
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Accent colour",
+        "required": false,
+        "default": "#e8c96d"
+      },
+      {
+        "name": "bg_color",
+        "type": "color",
+        "label": "Background colour",
+        "required": false,
+        "default": "#0a0a0a"
+      }
+    ]
+  },
+  "output": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "path": "./output/product_launch_dark.mp4"
+  },
+  "theme": {
+    "background": "{{bg_color}}",
+    "text_color": "#ffffff"
+  },
+  "segments": [
+    {
+      "id": "intro",
+      "type": "mathviz",
+      "duration": 4.0,
+      "effect": "matrix_rain",
+      "config": {
+        "color_scheme": "acid_neon",
+        "speed": 1.5,
+        "intensity": 1.8,
+        "complexity": 1.5
+      },
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{product_name}}",
+          "effect": "impact_slam",
+          "position": "center",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
+          "timing": {
+            "start": 0.3
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{tagline}}",
+          "effect": "punch_zoom_title",
+          "position": "bottom",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
+          "timing": {
+            "start": 1.2
+          }
+        }
+      ]
+    },
+    {
+      "id": "reveal",
+      "type": "still",
+      "duration": 5.0,
+      "source": "{{product_image}}",
+      "motion": "ken_burns"
+    },
+    {
+      "id": "features",
+      "type": "shape",
+      "duration": 8.0,
+      "effect": "constellation",
+      "config": {
+        "color": "{{accent_color}}"
+      },
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{feature_1}}",
+          "effect": "spring_words",
+          "position": "top",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
+          "timing": {
+            "start": 0.3,
+            "end": 3.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{feature_2}}",
+          "effect": "spring_words",
+          "position": "center",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
+          "timing": {
+            "start": 2.5,
+            "end": 5.5
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{feature_3}}",
+          "effect": "spring_words",
+          "position": "bottom",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
+          "timing": {
+            "start": 4.8
+          }
+        }
+      ]
+    },
+    {
+      "id": "cta",
+      "type": "blank",
+      "duration": 3.0,
+      "color": "{{bg_color}}",
+      "bg_style": "gradient_v_dark",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{product_name}}",
+          "effect": "impact_slam",
+          "position": "center",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
+          "timing": {
+            "start": 0.3
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{cta_text}}",
+          "effect": "punch_zoom_title",
+          "position": "bottom",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
+          "timing": {
+            "start": 0.8
+          }
+        }
+      ]
+    }
+  ],
+  "transitions": {
+    "default": {
+      "type": "dissolve_ii",
+      "duration": 0.5
+    }
+  }
+}

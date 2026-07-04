@@ -1,0 +1,201 @@
+{
+  "tvcs": "1.0",
+  "template": {
+    "id": "data_story_bar_chart_light",
+    "name": "Data Story — Bar Chart (Light Mode)",
+    "category": "data_story",
+    "tags": [
+      "chart",
+      "clean",
+      "kpi",
+      "light",
+      "white",
+      "business",
+      "report",
+      "corporate",
+      "bar",
+      "data"
+    ],
+    "description": "Three-act data story: animated mathviz intro, animated bar chart, closing statement card. Works with inline data or a $sources reference. Light mode variant with white/light backgrounds for corporate and presentation use.",
+    "preview_thumbnail": "previews/thumbnails/data_story_bar_chart.jpg",
+    "preview_full": "previews/full/data_story_bar_chart.jpg",
+    "author": "Trollfabriken",
+    "version": "1.0",
+    "variables": [
+      {
+        "name": "title",
+        "type": "string",
+        "label": "Video title",
+        "required": true,
+        "default": "Revenue Overview"
+      },
+      {
+        "name": "subtitle",
+        "type": "string",
+        "label": "Subtitle / period",
+        "required": false,
+        "default": "Q4 2025"
+      },
+      {
+        "name": "chart_data",
+        "type": "data_ref",
+        "label": "Chart data (inline dict or $sources.xxx)",
+        "required": true,
+        "default": {
+          "title": "Revenue by Region",
+          "x_categories": [
+            "North",
+            "South",
+            "East",
+            "West"
+          ],
+          "series": [
+            {
+              "name": "Revenue (MSEK)",
+              "values": [
+                148,
+                93,
+                112,
+                76
+              ]
+            }
+          ],
+          "y_label": "MSEK"
+        },
+        "description": "ChartData dict: {title, x_categories, series: [{name, values}], y_label} or '$sources.id'"
+      },
+      {
+        "name": "outro_text",
+        "type": "string",
+        "label": "Closing statement",
+        "required": false,
+        "default": "Data driven. Results proven."
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Accent colour",
+        "required": false,
+        "default": "#00ff88"
+      },
+      {
+        "name": "bg_color",
+        "type": "color",
+        "label": "Background colour",
+        "required": false,
+        "default": "#0d0d1a"
+      },
+      {
+        "name": "intro_duration",
+        "type": "duration",
+        "label": "Intro duration (s)",
+        "required": false,
+        "default": 3.0
+      },
+      {
+        "name": "chart_duration",
+        "type": "duration",
+        "label": "Chart duration (s)",
+        "required": false,
+        "default": 8.0
+      },
+      {
+        "name": "outro_duration",
+        "type": "duration",
+        "label": "Outro duration (s)",
+        "required": false,
+        "default": 3.0
+      }
+    ]
+  },
+  "output": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "path": "./output/data_story_bar_chart.mp4"
+  },
+  "theme": {
+    "background": "#f8f9fa",
+    "text_color": "#1a1a2e"
+  },
+  "segments": [
+    {
+      "id": "intro",
+      "type": "mathviz",
+      "duration": "{{intro_duration}}",
+      "effect": "matrix_rain",
+      "config": {
+        "speed": 1.5,
+        "intensity": 1.8,
+        "complexity": 1.5,
+        "color_scheme": "acid_neon"
+      },
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{title}}",
+          "effect": "word_reveal",
+          "position": "center",
+          "color": "#1a1a2e",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
+          "timing": {
+            "start": 0.5
+          },
+          "stroke_color": "#000000",
+          "stroke_width": 1
+        },
+        {
+          "type": "text",
+          "text": "{{subtitle}}",
+          "effect": "slide_up_text",
+          "position": "bottom",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
+          "timing": {
+            "start": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "chart",
+      "type": "chart",
+      "duration": "{{chart_duration}}",
+      "chart_type": "bar",
+      "data": "{{chart_data}}",
+      "config": {}
+    },
+    {
+      "id": "outro",
+      "type": "blank",
+      "duration": "{{outro_duration}}",
+      "color": "#f8f9fa",
+      "bg_style": "gradient_v",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{outro_text}}",
+          "effect": "typewriter",
+          "position": "center",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
+          "timing": {
+            "start": 0.5
+          }
+        }
+      ]
+    }
+  ],
+  "transitions": {
+    "default": {
+      "type": "dissolve_ii",
+      "duration": 0.5
+    }
+  }
+}

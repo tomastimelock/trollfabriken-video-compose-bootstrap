@@ -9,6 +9,7 @@ from typing import Any
 import numpy as np
 from PIL import Image
 
+from video_compose._codec import codec_params
 from video_compose.renderers.base import BaseRenderer
 
 
@@ -92,7 +93,7 @@ def _static_loop(
         "-t", str(duration),
         "-vf", f"scale={width}:{height}:force_original_aspect_ratio=decrease,"
                f"pad={width}:{height}:(ow-iw)/2:(oh-ih)/2",
-        "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "18",
+        *codec_params(crf=18),
         str(output),
     ]
     result = subprocess.run(cmd, capture_output=True, text=True)
@@ -124,7 +125,7 @@ def _ken_burns_pil(
         "-pix_fmt", "rgb24",
         "-r", str(fps),
         "-i", "pipe:0",
-        "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "18",
+        *codec_params(crf=18),
         str(output_path),
     ]
     proc = subprocess.Popen(cmd, stdin=subprocess.PIPE, stderr=subprocess.PIPE)

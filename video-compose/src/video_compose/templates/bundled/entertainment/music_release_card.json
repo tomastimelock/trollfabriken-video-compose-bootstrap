@@ -128,7 +128,7 @@
       "type": "blank",
       "duration": 5.0,
       "color": "{{bg_color}}",
-      "bg_style": "radial",
+      "bg_style": "gradient_v_dark",
       "overlays": [
         {
           "type": "text",
@@ -146,12 +146,12 @@
         {
           "type": "text",
           "text": "{{release_title}}",
-          "effect": "kinetic_pop",
+          "effect": "impact_slam",
           "position": "center",
           "color": "#ffffff",
           "font_family": "Inter",
           "shadow": true,
-          "intensity": 1.4,
+          "intensity": 1.6,
           "timing": {
             "start": 0.8
           }

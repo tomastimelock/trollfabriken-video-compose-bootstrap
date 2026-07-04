@@ -3,6 +3,8 @@ from __future__ import annotations
 import subprocess
 from pathlib import Path
 
+from video_compose._codec import codec_params
+
 
 def remux_mp4(source: Path, output: Path, *, width: int, height: int, fps: float) -> Path:
     """Re-encode *source* to a clean H.264 MP4 at the specified resolution and fps."""
@@ -10,7 +12,7 @@ def remux_mp4(source: Path, output: Path, *, width: int, height: int, fps: float
         "ffmpeg", "-y", "-i", str(source),
         "-vf", f"scale={width}:{height}",
         "-r", str(fps),
-        "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "20",
+        *codec_params(crf=20),
         "-c:a", "copy",
         str(output),
     ]

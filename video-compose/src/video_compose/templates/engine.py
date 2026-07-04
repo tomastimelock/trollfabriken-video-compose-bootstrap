@@ -18,6 +18,8 @@ import re
 from dataclasses import dataclass
 from typing import Any
 
+from video_compose.assets.placeholders import auto_placeholder
+
 _WHOLE_RE = re.compile(r"^\{\{(\w+)\}\}$")
 _SLOT_RE = re.compile(r"\{\{(\w+)\}\}")
 
@@ -125,6 +127,11 @@ class TemplateEngine:
                 merged[name] = user[name]
             elif decl.get("default") is not None:
                 merged[name] = decl["default"]
+            else:
+                # Auto-fill image_path / audio_path vars with bundled placeholder
+                ph = auto_placeholder(name, decl.get("type", "string"))
+                if ph is not None:
+                    merged[name] = ph
         # Also include any extra user-supplied keys (undeclared overrides)
         for name, value in user.items():
             if name not in merged:

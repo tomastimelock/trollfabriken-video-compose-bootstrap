@@ -8,6 +8,8 @@ from pathlib import Path
 
 import numpy as np
 
+from video_compose._codec import codec_params
+
 logger = logging.getLogger(__name__)
 
 
@@ -68,7 +70,7 @@ def apply_grade(clip_path: Path, grade_slug: str | None) -> Path:
                 "ffmpeg", "-y",
                 "-framerate", str(fps),
                 "-i", str(td / "f%06d.png"),
-                "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "20",
+                *codec_params(crf=20),
                 str(output_path),
             ],
             capture_output=True, text=True,

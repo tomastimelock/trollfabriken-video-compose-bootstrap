@@ -114,19 +114,21 @@
           "intensity": 1.4,
           "timing": {
             "start": 0.8
-          }
+          },
+          "stroke_color": "#000000",
+          "stroke_width": 1
         },
         {
           "type": "text",
           "text": "{{tagline}}",
-          "effect": "kinetic_pop",
+          "effect": "spring_words",
           "position": "bottom",
           "color": "{{accent_color}}",
           "font_family": "Inter",
           "shadow": true,
           "intensity": 1.0,
           "timing": {
-            "start": 1.8
+            "start": 1.3
           }
         },
         {

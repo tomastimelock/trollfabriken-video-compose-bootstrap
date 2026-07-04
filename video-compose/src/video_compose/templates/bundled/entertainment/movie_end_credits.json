@@ -31,42 +31,42 @@
         "type": "string",
         "label": "Credit line 1",
         "required": true,
-        "default": "Directed by  Anna Lindström"
+        "default": "Directed by — Anna Lindström"
       },
       {
         "name": "credit_2",
         "type": "string",
         "label": "Credit line 2",
         "required": false,
-        "default": "Produced by  Erik Svensson"
+        "default": "Produced by — Erik Svensson"
       },
       {
         "name": "credit_3",
         "type": "string",
         "label": "Credit line 3",
         "required": false,
-        "default": "Screenplay by  Maria Eklund"
+        "default": "Screenplay by — Maria Eklund"
       },
       {
         "name": "credit_4",
         "type": "string",
         "label": "Credit line 4",
         "required": false,
-        "default": "Director of Photography  Johan Berg"
+        "default": "Director of Photography — Johan Berg"
       },
       {
         "name": "credit_5",
         "type": "string",
         "label": "Credit line 5",
         "required": false,
-        "default": "Original Score  Nils Holmgren"
+        "default": "Original Score — Nils Holmgren"
       },
       {
         "name": "credit_6",
         "type": "string",
         "label": "Credit line 6",
         "required": false,
-        "default": "Visual Effects  Trollfabriken VFX"
+        "default": "Visual Effects — Trollfabriken VFX"
       },
       {
         "name": "closing_line",
@@ -107,7 +107,7 @@
       "type": "blank",
       "duration": 3.0,
       "color": "{{bg_color}}",
-      "bg_style": "radial",
+      "bg_style": "gradient_v_dark",
       "overlays": [
         {
           "type": "text",
@@ -129,7 +129,7 @@
       "type": "blank",
       "duration": 14.0,
       "color": "{{bg_color}}",
-      "bg_style": "radial",
+      "bg_style": "gradient_v_dark",
       "overlays": [
         {
           "type": "text",
@@ -221,14 +221,14 @@
       "type": "blank",
       "duration": 3.0,
       "color": "{{bg_color}}",
-      "bg_style": "radial",
+      "bg_style": "gradient_v_dark",
       "overlays": [
         {
           "type": "text",
           "text": "{{closing_line}}",
           "effect": "fade_in",
           "position": "bottom",
-          "color": "#555555",
+          "color": "#888888",
           "font_family": "Inter",
           "shadow": true,
           "intensity": 1.0,

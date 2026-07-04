@@ -1,0 +1,253 @@
+{
+  "tvcs": "1.0",
+  "template": {
+    "id": "pricing_card",
+    "name": "Pricing Card",
+    "category": "product",
+    "tags": [
+      "product",
+      "pricing",
+      "saas",
+      "plan",
+      "subscription",
+      "cta",
+      "dark",
+      "purple"
+    ],
+    "description": "Premium dark-purple pricing card: mathviz intro with plan title, pricing hero with plan name, price, and three feature bullets, then a bold CTA outro. Ideal for SaaS and subscription product pages.",
+    "preview_thumbnail": "previews/thumbnails/pricing_card.jpg",
+    "preview_full": "previews/full/pricing_card.jpg",
+    "author": "Trollfabriken",
+    "version": "1.0",
+    "variables": [
+      {
+        "name": "plan_name",
+        "type": "string",
+        "label": "Plan name",
+        "required": true,
+        "default": "Pro"
+      },
+      {
+        "name": "price",
+        "type": "string",
+        "label": "Price amount",
+        "required": true,
+        "default": "49"
+      },
+      {
+        "name": "currency",
+        "type": "string",
+        "label": "Currency symbol",
+        "required": false,
+        "default": "$"
+      },
+      {
+        "name": "billing_period",
+        "type": "string",
+        "label": "Billing period",
+        "required": false,
+        "default": "per month"
+      },
+      {
+        "name": "feature_1",
+        "type": "string",
+        "label": "Feature 1",
+        "required": false,
+        "default": "Unlimited projects"
+      },
+      {
+        "name": "feature_2",
+        "type": "string",
+        "label": "Feature 2",
+        "required": false,
+        "default": "Priority support"
+      },
+      {
+        "name": "feature_3",
+        "type": "string",
+        "label": "Feature 3",
+        "required": false,
+        "default": "Advanced analytics"
+      },
+      {
+        "name": "cta_text",
+        "type": "string",
+        "label": "Call to action",
+        "required": false,
+        "default": "Get Started"
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Accent colour",
+        "required": false,
+        "default": "#a855f7"
+      }
+    ]
+  },
+  "output": {
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "formats": ["mp4"],
+    "path": "./output/video.mp4",
+    "quality": 22
+  },
+  "theme": {
+    "background": "#1a0a2e",
+    "text_color": "#ffffff"
+  },
+  "segments": [
+    {
+      "id": "intro",
+      "type": "mathviz",
+      "duration": 3.0,
+      "effect": "starfield_3d",
+      "config": {
+        "color_scheme": "electric",
+        "speed": 1.2,
+        "intensity": 1.4,
+        "complexity": 1.2
+      },
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{plan_name}}",
+          "effect": "word_reveal",
+          "position": "center",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
+          "timing": {
+            "start": 0.6,
+            "end": 3.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "pricing_hero",
+      "type": "blank",
+      "duration": 8.0,
+      "color": "#1a0a2e",
+      "bg_style": "radial",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{plan_name}}",
+          "effect": "kinetic_pop",
+          "position": "top",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 2.0,
+          "timing": {
+            "start": 0.3,
+            "end": 8.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{currency}}{{price}} {{billing_period}}",
+          "effect": "punch_zoom_title",
+          "position": "center",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 2.0,
+          "timing": {
+            "start": 0.8,
+            "end": 8.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{feature_1}}",
+          "effect": "word_reveal",
+          "position": "lower_third_left",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
+          "timing": {
+            "start": 2.0,
+            "end": 8.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{feature_2}}",
+          "effect": "word_reveal",
+          "position": "lower_third",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
+          "timing": {
+            "start": 3.0,
+            "end": 8.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{feature_3}}",
+          "effect": "word_reveal",
+          "position": "lower_third_right",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
+          "timing": {
+            "start": 4.0,
+            "end": 8.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "cta",
+      "type": "blank",
+      "duration": 3.0,
+      "color": "#1a0a2e",
+      "bg_style": "gradient_v_dark",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{cta_text}}",
+          "effect": "impact_slam",
+          "position": "center",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.8,
+          "timing": {
+            "start": 0.4,
+            "end": 3.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{plan_name}} — {{currency}}{{price}} {{billing_period}}",
+          "effect": "fade_in",
+          "position": "bottom",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
+          "timing": {
+            "start": 1.0,
+            "end": 3.0
+          }
+        }
+      ]
+    }
+  ],
+  "transitions": {
+    "default": {
+      "type": "dissolve_ii",
+      "duration": 0.5
+    },
+    "overrides": []
+  }
+}

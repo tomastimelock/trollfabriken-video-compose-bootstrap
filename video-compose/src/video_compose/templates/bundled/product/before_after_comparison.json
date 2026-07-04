@@ -1,0 +1,205 @@
+{
+  "tvcs": "1.0",
+  "template": {
+    "id": "before_after_comparison",
+    "name": "Before / After Comparison",
+    "category": "product",
+    "tags": [
+      "product",
+      "before-after",
+      "comparison",
+      "transformation",
+      "marketing",
+      "dark",
+      "cinematic"
+    ],
+    "description": "Dark cinematic Before / After comparison: hook title slam, Before card with problem description, After card with solution and improvement stat. Ideal for product transformations and case studies.",
+    "preview_thumbnail": "previews/thumbnails/before_after_comparison.jpg",
+    "preview_full": "previews/full/before_after_comparison.jpg",
+    "author": "Trollfabriken",
+    "version": "1.0",
+    "variables": [
+      {
+        "name": "product_name",
+        "type": "string",
+        "label": "Product name",
+        "required": true,
+        "default": "Acme Platform"
+      },
+      {
+        "name": "before_label",
+        "type": "string",
+        "label": "Before label",
+        "required": false,
+        "default": "Before"
+      },
+      {
+        "name": "after_label",
+        "type": "string",
+        "label": "After label",
+        "required": false,
+        "default": "After"
+      },
+      {
+        "name": "before_description",
+        "type": "string",
+        "label": "Before description",
+        "required": true,
+        "default": "Hours wasted on manual work every single day."
+      },
+      {
+        "name": "after_description",
+        "type": "string",
+        "label": "After description",
+        "required": true,
+        "default": "Fully automated. Done in seconds."
+      },
+      {
+        "name": "improvement_stat",
+        "type": "string",
+        "label": "Improvement stat",
+        "required": true,
+        "default": "10× faster"
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Accent colour",
+        "required": false,
+        "default": "#00e5ff"
+      }
+    ]
+  },
+  "output": {
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "formats": ["mp4"],
+    "path": "./output/video.mp4",
+    "quality": 22
+  },
+  "theme": {
+    "background": "#0d0d1a",
+    "text_color": "#ffffff"
+  },
+  "segments": [
+    {
+      "id": "hook_title",
+      "type": "blank",
+      "duration": 3.0,
+      "color": "#0d0d1a",
+      "bg_style": "gradient_v_dark",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{product_name}}",
+          "effect": "impact_slam",
+          "position": "center",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.6,
+          "timing": {
+            "start": 0.3,
+            "end": 3.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "before_card",
+      "type": "blank",
+      "duration": 5.0,
+      "color": "#0d0d1a",
+      "bg_style": "gradient_v_dark",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{before_label}}",
+          "effect": "slide_right_text",
+          "position": "top",
+          "color": "#aaaaaa",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
+          "timing": {
+            "start": 0.3,
+            "end": 5.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{before_description}}",
+          "effect": "fade_in",
+          "position": "center",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
+          "timing": {
+            "start": 0.8,
+            "end": 5.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "after_card",
+      "type": "blank",
+      "duration": 5.0,
+      "color": "#141428",
+      "bg_style": "gradient_d",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{after_label}}",
+          "effect": "slide_right_text",
+          "position": "top",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
+          "timing": {
+            "start": 0.3,
+            "end": 5.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{after_description}}",
+          "effect": "fade_in",
+          "position": "center",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
+          "timing": {
+            "start": 0.8,
+            "end": 5.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{improvement_stat}}",
+          "effect": "punch_zoom_title",
+          "position": "bottom",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 2.0,
+          "timing": {
+            "start": 1.8,
+            "end": 5.0
+          }
+        }
+      ]
+    }
+  ],
+  "transitions": {
+    "default": {
+      "type": "dissolve_ii",
+      "duration": 0.5
+    },
+    "overrides": []
+  }
+}

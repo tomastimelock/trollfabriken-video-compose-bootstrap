@@ -1,0 +1,148 @@
+{
+  "tvcs": "1.0",
+  "template": {
+    "id": "youtube_end_screen",
+    "name": "YouTube End Screen",
+    "category": "creator",
+    "tags": [
+      "creator",
+      "youtube",
+      "end-screen",
+      "subscribe",
+      "cta",
+      "branding",
+      "dark"
+    ],
+    "description": "YouTube end-screen sequence: high-energy subscribe prompt with channel name and video count, followed by a warm thank-you card. Optimised for 10-second end-screen placement.",
+    "preview_thumbnail": "previews/thumbnails/youtube_end_screen.jpg",
+    "preview_full": "previews/full/youtube_end_screen.jpg",
+    "author": "Trollfabriken",
+    "version": "1.0",
+    "variables": [
+      {
+        "name": "channel_name",
+        "type": "string",
+        "label": "Channel name",
+        "required": true
+      },
+      {
+        "name": "video_count",
+        "type": "string",
+        "label": "Video count",
+        "required": false,
+        "default": "100+"
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Accent colour",
+        "required": false,
+        "default": "#ff0000"
+      }
+    ]
+  },
+  "output": {
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "formats": ["mp4"],
+    "path": "./output/video.mp4",
+    "quality": 22
+  },
+  "theme": {
+    "background": "#121212",
+    "text_color": "#ffffff"
+  },
+  "segments": [
+    {
+      "id": "subscribe_prompt",
+      "type": "blank",
+      "duration": 5.0,
+      "color": "#0f0f0f",
+      "bg_style": "radial",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{channel_name}}",
+          "effect": "impact_slam",
+          "position": "top",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.6,
+          "timing": {
+            "start": 0.3
+          }
+        },
+        {
+          "type": "text",
+          "text": "Subscribe for more!",
+          "effect": "punch_zoom_title",
+          "position": "center",
+          "color": "#ff0000",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 2.0,
+          "timing": {
+            "start": 0.8
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{video_count}} videos",
+          "effect": "fade_in",
+          "position": "lower_third",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 0.9,
+          "timing": {
+            "start": 1.5
+          }
+        }
+      ]
+    },
+    {
+      "id": "thank_you",
+      "type": "blank",
+      "duration": 5.0,
+      "color": "#121212",
+      "bg_style": "gradient_v_dark",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "Thanks for watching!",
+          "effect": "word_reveal",
+          "position": "center",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
+          "timing": {
+            "start": 0.3
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{channel_name}}",
+          "effect": "fade_in",
+          "position": "lower_third_2",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
+          "timing": {
+            "start": 1.2
+          }
+        }
+      ]
+    }
+  ],
+  "transitions": {
+    "default": {
+      "type": "dissolve_ii",
+      "duration": 0.5
+    },
+    "overrides": []
+  }
+}

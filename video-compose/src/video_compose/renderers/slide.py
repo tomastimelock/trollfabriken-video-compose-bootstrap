@@ -6,6 +6,7 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
+from video_compose._codec import codec_params
 from video_compose.renderers.base import BaseRenderer
 
 
@@ -96,7 +97,7 @@ def _static_loop(source: Path, output: Path, width: int, height: int, fps: float
         "-t", str(duration),
         "-vf", f"scale={width}:{height}:force_original_aspect_ratio=decrease,"
                f"pad={width}:{height}:(ow-iw)/2:(oh-ih)/2",
-        "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "20",
+        *codec_params(crf=20),
         str(output),
     ]
     result = subprocess.run(cmd, capture_output=True, text=True)

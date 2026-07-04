@@ -1,0 +1,189 @@
+{
+  "tvcs": "1.0",
+  "template": {
+    "id": "bullet_point_list",
+    "name": "Explainer — Bullet Point List",
+    "category": "explainer",
+    "tags": [
+      "explainer",
+      "bullets",
+      "list",
+      "points",
+      "overview",
+      "summary",
+      "education",
+      "tech"
+    ],
+    "description": "Dark-tech bullet reveal: title card with mathviz background, three bullet points staggered word-by-word onto a deep gradient, clean outro. Ideal for feature highlights, key takeaways, and quick summaries.",
+    "preview_thumbnail": "previews/thumbnails/bullet_point_list.jpg",
+    "preview_full": "previews/full/bullet_point_list.jpg",
+    "author": "Trollfabriken",
+    "version": "1.0",
+    "variables": [
+      {
+        "name": "title",
+        "type": "string",
+        "label": "Title",
+        "description": "Main heading shown on the title card",
+        "required": true,
+        "default": "Key Takeaways"
+      },
+      {
+        "name": "bullet_1",
+        "type": "string",
+        "label": "Bullet point 1",
+        "description": "First bullet text, revealed at 0.5 s",
+        "required": true,
+        "default": "Automate repetitive tasks instantly"
+      },
+      {
+        "name": "bullet_2",
+        "type": "string",
+        "label": "Bullet point 2",
+        "description": "Second bullet text, revealed at 2.5 s",
+        "required": true,
+        "default": "Cut costs by up to 40%"
+      },
+      {
+        "name": "bullet_3",
+        "type": "string",
+        "label": "Bullet point 3",
+        "description": "Third bullet text, revealed at 4.5 s",
+        "required": true,
+        "default": "Scale without hiring extra staff"
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Accent colour",
+        "description": "Highlight colour used for bullets and outro text",
+        "required": false,
+        "default": "#00e5ff"
+      }
+    ]
+  },
+  "meta": {
+    "schema_version": "1.0",
+    "created_by": "Trollfabriken",
+    "license": "proprietary"
+  },
+  "output": {
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "formats": ["mp4"],
+    "path": "./output/bullet_point_list.mp4",
+    "quality": 22
+  },
+  "theme": {
+    "background": "#0d0d1a",
+    "text_color": "#ffffff"
+  },
+  "segments": [
+    {
+      "id": "title_card",
+      "type": "mathviz",
+      "duration": 4.0,
+      "config": {
+        "expression": "sin(x) * cos(y)",
+        "color": "#00e5ff",
+        "opacity": 0.25,
+        "animate": true
+      },
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{title}}",
+          "effect": "impact_slam",
+          "position": "center",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.6,
+          "timing": {
+            "start": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "id": "bullets",
+      "type": "blank",
+      "duration": 8.0,
+      "color": "#0d0d1a",
+      "bg_style": "gradient_v_dark",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "— {{bullet_1}}",
+          "effect": "word_reveal",
+          "position": "center",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.1,
+          "timing": {
+            "start": 0.5,
+            "end": 2.4
+          }
+        },
+        {
+          "type": "text",
+          "text": "— {{bullet_2}}",
+          "effect": "word_reveal",
+          "position": "center",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.1,
+          "timing": {
+            "start": 2.5,
+            "end": 4.4
+          }
+        },
+        {
+          "type": "text",
+          "text": "— {{bullet_3}}",
+          "effect": "word_reveal",
+          "position": "center",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
+          "timing": {
+            "start": 4.5
+          }
+        }
+      ]
+    },
+    {
+      "id": "outro",
+      "type": "blank",
+      "duration": 3.0,
+      "color": "#0d0d1a",
+      "bg_style": "gradient_v_dark",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{title}}",
+          "effect": "fade_in",
+          "position": "center",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
+          "timing": {
+            "start": 0.5
+          }
+        }
+      ]
+    }
+  ],
+  "transitions": {
+    "default": {
+      "type": "dissolve_ii",
+      "duration": 0.5
+    },
+    "overrides": []
+  }
+}

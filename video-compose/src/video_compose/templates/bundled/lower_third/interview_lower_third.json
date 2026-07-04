@@ -1,0 +1,119 @@
+{
+  "tvcs": "1.0",
+  "template": {
+    "id": "interview_lower_third",
+    "name": "Interview Lower Third",
+    "category": "lower_third",
+    "tags": [
+      "lower-third",
+      "interview",
+      "broadcast",
+      "news",
+      "chyron",
+      "documentary",
+      "guest"
+    ],
+    "description": "Broadcast news-style interview lower third: guest name slides in, followed by title and organisation. Designed for documentary interviews, news segments, and corporate talking-head videos.",
+    "preview_thumbnail": "previews/thumbnails/interview_lower_third.jpg",
+    "preview_full": "previews/full/interview_lower_third.jpg",
+    "author": "Trollfabriken",
+    "version": "1.0",
+    "variables": [
+      {
+        "name": "guest_name",
+        "type": "string",
+        "label": "Guest name",
+        "required": true
+      },
+      {
+        "name": "guest_title",
+        "type": "string",
+        "label": "Guest title / role",
+        "required": true
+      },
+      {
+        "name": "organization",
+        "type": "string",
+        "label": "Organisation",
+        "required": false,
+        "default": "Independent"
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Accent colour",
+        "required": false,
+        "default": "#3b82f6"
+      }
+    ]
+  },
+  "output": {
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "formats": ["mp4"],
+    "path": "./output/video.mp4",
+    "quality": 22
+  },
+  "theme": {
+    "background": "#0d1117",
+    "text_color": "#ffffff"
+  },
+  "segments": [
+    {
+      "id": "lower_third",
+      "type": "blank",
+      "duration": 6.0,
+      "color": "#0d1117",
+      "bg_style": "gradient_v_dark",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{guest_name}}",
+          "effect": "slide_right_text",
+          "position": "lower_third_left",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
+          "timing": {
+            "start": 0.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{guest_title}}",
+          "effect": "slide_right_text",
+          "position": "lower_third_2",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
+          "timing": {
+            "start": 0.3
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{organization}}",
+          "effect": "fade_in",
+          "position": "bottom-right",
+          "color": "#aaaaaa",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 0.8,
+          "timing": {
+            "start": 0.6
+          }
+        }
+      ]
+    }
+  ],
+  "transitions": {
+    "default": {
+      "type": "dissolve_ii",
+      "duration": 0.5
+    },
+    "overrides": []
+  }
+}

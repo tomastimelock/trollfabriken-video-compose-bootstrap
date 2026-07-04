@@ -1,0 +1,169 @@
+{
+  "tvcs": "1.0",
+  "template": {
+    "id": "breaking_news_alert",
+    "name": "Breaking News Alert",
+    "category": "news",
+    "tags": [
+      "news",
+      "breaking",
+      "alert",
+      "broadcast",
+      "urgent",
+      "red",
+      "impact",
+      "journalism"
+    ],
+    "description": "Red-alert breaking news template: glitch-flash BREAKING label with headline impact on a deep-red card, followed by a dark details segment with sub-headline, body copy, and source attribution. Ideal for broadcast-style news announcements.",
+    "preview_thumbnail": "previews/thumbnails/breaking_news_alert.jpg",
+    "preview_full": "previews/full/breaking_news_alert.jpg",
+    "author": "Trollfabriken",
+    "version": "1.0",
+    "variables": [
+      {
+        "name": "headline",
+        "type": "string",
+        "label": "Main headline",
+        "required": true,
+        "default": "Major Development Shakes Global Markets"
+      },
+      {
+        "name": "sub_headline",
+        "type": "string",
+        "label": "Sub-headline",
+        "required": true,
+        "default": "Experts weigh in on the unfolding situation"
+      },
+      {
+        "name": "details",
+        "type": "string",
+        "label": "Details / body text",
+        "required": true,
+        "default": "Full coverage continues as the story develops. More updates to follow."
+      },
+      {
+        "name": "source_name",
+        "type": "string",
+        "label": "Source / channel name",
+        "required": false,
+        "default": "Breaking News"
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Accent colour",
+        "required": false,
+        "default": "#ff2020"
+      }
+    ]
+  },
+  "output": {
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "formats": ["mp4"],
+    "path": "./output/video.mp4",
+    "quality": 22
+  },
+  "theme": {
+    "background": "#0a0000",
+    "text_color": "#ffffff"
+  },
+  "segments": [
+    {
+      "id": "alert_flash",
+      "type": "blank",
+      "duration": 4.0,
+      "color": "#1a0000",
+      "bg_style": "solid",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "BREAKING",
+          "effect": "glitch_flash",
+          "position": "top",
+          "color": "#ff0000",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 2.0,
+          "timing": {
+            "start": 0.0,
+            "end": 4.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{headline}}",
+          "effect": "impact_slam",
+          "position": "center",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.8,
+          "timing": {
+            "start": 0.5,
+            "end": 4.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "details_card",
+      "type": "blank",
+      "duration": 5.0,
+      "color": "#0a0000",
+      "bg_style": "gradient_v_dark",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{sub_headline}}",
+          "effect": "drop_in",
+          "position": "top",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
+          "timing": {
+            "start": 0.3,
+            "end": 5.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{details}}",
+          "effect": "word_reveal",
+          "position": "center",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
+          "timing": {
+            "start": 0.8,
+            "end": 5.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{source_name}}",
+          "effect": "fade_in",
+          "position": "lower_third",
+          "color": "#cccccc",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 0.8,
+          "timing": {
+            "start": 1.5,
+            "end": 5.0
+          }
+        }
+      ]
+    }
+  ],
+  "transitions": {
+    "default": {
+      "type": "dissolve_ii",
+      "duration": 0.5
+    },
+    "overrides": []
+  }
+}

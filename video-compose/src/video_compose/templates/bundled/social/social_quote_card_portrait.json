@@ -1,0 +1,116 @@
+{
+  "tvcs": "1.0",
+  "template": {
+    "id": "social_quote_card_portrait",
+    "name": "Social Quote Card (Portrait 9:16)",
+    "category": "social",
+    "tags": [
+      "instagram",
+      "reels",
+      "social",
+      "quote",
+      "portrait",
+      "short",
+      "linkedin",
+      "9:16",
+      "stories",
+      "vertical",
+      "text"
+    ],
+    "description": "Animated quote card for Instagram/LinkedIn. Bold quote text with author attribution on a solid-colour background. Adapted for vertical (9:16) video — Instagram Reels, TikTok, YouTube Shorts.",
+    "preview_thumbnail": "previews/thumbnails/social_quote_card.jpg",
+    "preview_full": "previews/full/social_quote_card.jpg",
+    "author": "Trollfabriken",
+    "version": "1.0",
+    "variables": [
+      {
+        "name": "quote_text",
+        "type": "string",
+        "label": "Quote text",
+        "required": true,
+        "default": "The future belongs to those who believe in the beauty of their dreams."
+      },
+      {
+        "name": "author_name",
+        "type": "string",
+        "label": "Author name",
+        "required": true,
+        "default": "Eleanor Roosevelt"
+      },
+      {
+        "name": "bg_color",
+        "type": "color",
+        "label": "Background colour",
+        "required": false,
+        "default": "#0d0d1a"
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Accent colour",
+        "required": false,
+        "default": "#f5c842"
+      },
+      {
+        "name": "clip_duration",
+        "type": "duration",
+        "label": "Duration (seconds)",
+        "required": false,
+        "default": 6.0
+      }
+    ]
+  },
+  "output": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "path": "./output/social_quote_card.mp4"
+  },
+  "theme": {
+    "background": "{{bg_color}}",
+    "text_color": "#ffffff"
+  },
+  "segments": [
+    {
+      "id": "card",
+      "type": "blank",
+      "duration": "{{clip_duration}}",
+      "color": "{{bg_color}}",
+      "bg_style": "gradient_d",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "\"{{quote_text}}\"",
+          "effect": "word_reveal",
+          "position": "center",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.5,
+          "timing": {
+            "start": 0.4
+          }
+        },
+        {
+          "type": "text",
+          "text": "— {{author_name}}",
+          "effect": "neon_glow_text",
+          "position": "bottom",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
+          "timing": {
+            "start": 1.2
+          }
+        }
+      ]
+    }
+  ],
+  "transitions": {
+    "default": {
+      "type": "dissolve_ii",
+      "duration": 0.4
+    }
+  }
+}

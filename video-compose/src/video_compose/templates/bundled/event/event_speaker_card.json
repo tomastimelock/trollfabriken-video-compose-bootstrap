@@ -119,11 +119,11 @@
           "type": "text",
           "text": "{{speaker_name}}",
           "effect": "slide_right_text",
-          "position": "bottom",
+          "position": "bottom-left",
           "color": "#ffffff",
           "font_family": "Inter",
           "shadow": true,
-          "intensity": 1.4,
+          "intensity": 1.2,
           "timing": {
             "start": 0.8
           }
@@ -132,7 +132,7 @@
           "type": "text",
           "text": "{{speaker_title}}",
           "effect": "neon_glow_text",
-          "position": "bottom",
+          "position": "bottom-left",
           "color": "{{accent_color}}",
           "font_family": "Inter",
           "shadow": true,
@@ -145,7 +145,7 @@
           "type": "text",
           "text": "{{talk_title}}",
           "effect": "slide_up_text",
-          "position": "bottom",
+          "position": "bottom-left",
           "color": "#cccccc",
           "font_family": "Inter",
           "shadow": true,

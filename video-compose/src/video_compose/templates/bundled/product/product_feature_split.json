@@ -1,0 +1,199 @@
+{
+  "tvcs": "1.0",
+  "template": {
+    "id": "product_feature_split",
+    "name": "Product Feature Split",
+    "category": "product",
+    "tags": [
+      "product",
+      "feature",
+      "split-screen",
+      "marketing",
+      "dark",
+      "kinetic"
+    ],
+    "description": "Dark split-screen product feature showcase: dramatic name slam intro, then two dedicated feature cards with kinetic titles and word-reveal descriptions. Ideal for SaaS and consumer product launches.",
+    "preview_thumbnail": "previews/thumbnails/product_feature_split.jpg",
+    "preview_full": "previews/full/product_feature_split.jpg",
+    "author": "Trollfabriken",
+    "version": "1.0",
+    "variables": [
+      {
+        "name": "product_name",
+        "type": "string",
+        "label": "Product name",
+        "required": true
+      },
+      {
+        "name": "tagline",
+        "type": "string",
+        "label": "Feature tagline",
+        "required": true
+      },
+      {
+        "name": "feature_1_title",
+        "type": "string",
+        "label": "Feature 1 title",
+        "required": true
+      },
+      {
+        "name": "feature_1_desc",
+        "type": "string",
+        "label": "Feature 1 description",
+        "required": true
+      },
+      {
+        "name": "feature_2_title",
+        "type": "string",
+        "label": "Feature 2 title",
+        "required": true
+      },
+      {
+        "name": "feature_2_desc",
+        "type": "string",
+        "label": "Feature 2 description",
+        "required": true
+      },
+      {
+        "name": "accent_color_a",
+        "type": "color",
+        "label": "Accent colour A",
+        "required": false,
+        "default": "#7c3aed"
+      },
+      {
+        "name": "accent_color_b",
+        "type": "color",
+        "label": "Accent colour B",
+        "required": false,
+        "default": "#0ea5e9"
+      }
+    ]
+  },
+  "output": {
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "formats": ["mp4"],
+    "path": "./output/video.mp4",
+    "quality": 22
+  },
+  "theme": {
+    "background": "#0d0d1a",
+    "text_color": "#ffffff"
+  },
+  "segments": [
+    {
+      "id": "intro",
+      "type": "blank",
+      "duration": 3.0,
+      "color": "#0d0d1a",
+      "bg_style": "gradient_v_dark",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{product_name}}",
+          "effect": "impact_slam",
+          "position": "center",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.6,
+          "timing": {
+            "start": 0.3
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{tagline}}",
+          "effect": "fade_in",
+          "position": "lower_third",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
+          "timing": {
+            "start": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "feature_1",
+      "type": "blank",
+      "duration": 5.0,
+      "color": "{{accent_color_a}}",
+      "bg_style": "gradient_d",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{feature_1_title}}",
+          "effect": "kinetic_pop",
+          "position": "top",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
+          "timing": {
+            "start": 0.3
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{feature_1_desc}}",
+          "effect": "word_reveal",
+          "position": "center",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
+          "timing": {
+            "start": 0.9
+          }
+        }
+      ]
+    },
+    {
+      "id": "feature_2",
+      "type": "blank",
+      "duration": 5.0,
+      "color": "{{accent_color_b}}",
+      "bg_style": "gradient_d",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{feature_2_title}}",
+          "effect": "kinetic_pop",
+          "position": "top",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
+          "timing": {
+            "start": 0.3
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{feature_2_desc}}",
+          "effect": "word_reveal",
+          "position": "center",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
+          "timing": {
+            "start": 0.9
+          }
+        }
+      ]
+    }
+  ],
+  "transitions": {
+    "default": {
+      "type": "dissolve_ii",
+      "duration": 0.5
+    },
+    "overrides": []
+  }
+}

@@ -1,0 +1,241 @@
+{
+  "tvcs": "1.0",
+  "template": {
+    "id": "app_store_review",
+    "name": "App Store Review",
+    "category": "product",
+    "tags": [
+      "product",
+      "app",
+      "review",
+      "social-proof",
+      "rating",
+      "testimonial",
+      "mobile",
+      "marketing"
+    ],
+    "description": "Social proof app review card: app identity intro with name and category, animated review card with reviewer, star rating, review text, and date, then summary stats showing downloads and average rating.",
+    "preview_thumbnail": "previews/thumbnails/app_store_review.jpg",
+    "preview_full": "previews/full/app_store_review.jpg",
+    "author": "Trollfabriken",
+    "version": "1.0",
+    "variables": [
+      {
+        "name": "app_name",
+        "type": "string",
+        "label": "App name",
+        "required": true,
+        "default": "MyApp"
+      },
+      {
+        "name": "app_category",
+        "type": "string",
+        "label": "App category",
+        "required": false,
+        "default": "Productivity"
+      },
+      {
+        "name": "reviewer_name",
+        "type": "string",
+        "label": "Reviewer name",
+        "required": true,
+        "default": "Sarah K."
+      },
+      {
+        "name": "review_text",
+        "type": "string",
+        "label": "Review text",
+        "required": true,
+        "default": "Absolutely love this app. It has completely changed how I manage my day. Can't imagine life without it."
+      },
+      {
+        "name": "review_date",
+        "type": "string",
+        "label": "Review date",
+        "required": false,
+        "default": "Today"
+      },
+      {
+        "name": "download_count",
+        "type": "string",
+        "label": "Download count",
+        "required": true,
+        "default": "500 000+ downloads"
+      },
+      {
+        "name": "avg_rating",
+        "type": "string",
+        "label": "Average rating",
+        "required": false,
+        "default": "4.8"
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Accent colour",
+        "required": false,
+        "default": "#ff6b35"
+      }
+    ]
+  },
+  "output": {
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "formats": ["mp4"],
+    "path": "./output/video.mp4",
+    "quality": 22
+  },
+  "theme": {
+    "background": "#111111",
+    "text_color": "#ffffff"
+  },
+  "segments": [
+    {
+      "id": "app_identity",
+      "type": "blank",
+      "duration": 4.0,
+      "color": "#111111",
+      "bg_style": "gradient_v_dark",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{app_name}}",
+          "effect": "impact_slam",
+          "position": "center",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.6,
+          "timing": {
+            "start": 0.3,
+            "end": 4.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{app_category}}",
+          "effect": "fade_in",
+          "position": "bottom",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
+          "timing": {
+            "start": 1.0,
+            "end": 4.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "review_card",
+      "type": "blank",
+      "duration": 7.0,
+      "color": "#111111",
+      "bg_style": "gradient_v_dark",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{reviewer_name}}",
+          "effect": "slide_right_text",
+          "position": "top-left",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
+          "timing": {
+            "start": 0.3,
+            "end": 7.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{avg_rating}} ★",
+          "effect": "drop_in",
+          "position": "top-right",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
+          "timing": {
+            "start": 0.5,
+            "end": 7.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{review_text}}",
+          "effect": "word_reveal",
+          "position": "center",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
+          "timing": {
+            "start": 1.2,
+            "end": 7.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{review_date}}",
+          "effect": "fade_in",
+          "position": "bottom-right",
+          "color": "#888888",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
+          "timing": {
+            "start": 2.0,
+            "end": 7.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "summary_stats",
+      "type": "blank",
+      "duration": 4.0,
+      "color": "#111111",
+      "bg_style": "radial",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{download_count}}",
+          "effect": "kinetic_pop",
+          "position": "center",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.6,
+          "timing": {
+            "start": 0.3,
+            "end": 4.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{avg_rating}} ★",
+          "effect": "punch_zoom_title",
+          "position": "bottom",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.8,
+          "timing": {
+            "start": 1.2,
+            "end": 4.0
+          }
+        }
+      ]
+    }
+  ],
+  "transitions": {
+    "default": {
+      "type": "dissolve_ii",
+      "duration": 0.5
+    },
+    "overrides": []
+  }
+}

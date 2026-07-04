@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "video-compose"
-version = "0.2.0"
+version = "0.3.0"
 description = "JSON-driven video composition engine for the Trollfabriken FX ecosystem"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -75,9 +75,14 @@ Issues     = "https://github.com/tomastimelock/trollfabriken-video-compose-boots
 
 [project.scripts]
 video-compose = "video_compose.cli:main"
+vc-thumbnail = "video_compose.tools.thumbnail:main"
+vc-report = "video_compose.tools.report:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/video_compose"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"src/video_compose/assets/placeholders" = "video_compose/assets/placeholders"
 
 [tool.hatch.version]
 path = "src/video_compose/__init__.py"

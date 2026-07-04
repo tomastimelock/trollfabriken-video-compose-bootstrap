@@ -42,7 +42,7 @@
         "type": "color",
         "label": "Accent / bar colour",
         "required": false,
-        "default": "#cc0000"
+        "default": "#e82020"
       },
       {
         "name": "clip_duration",
@@ -82,7 +82,7 @@
         {
           "type": "text",
           "text": "{{ticker_text}}",
-          "effect": "slide_left_text",
+          "effect": "scroll_ticker",
           "position": "bottom",
           "color": "{{accent_color}}",
           "font_family": "Inter",

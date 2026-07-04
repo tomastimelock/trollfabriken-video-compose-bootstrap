@@ -1,0 +1,198 @@
+{
+  "tvcs": "1.0",
+  "template": {
+    "id": "testimonial_review_portrait",
+    "name": "Testimonial / Review (Portrait 9:16)",
+    "category": "people",
+    "tags": [
+      "reels",
+      "customer",
+      "quote",
+      "portrait",
+      "review",
+      "9:16",
+      "social-proof",
+      "people",
+      "vertical",
+      "testimonial",
+      "marketing",
+      "stories"
+    ],
+    "description": "Customer testimonial or review video: customer photo with name + company, animated quote reveal, star rating + CTA. Ideal for social proof in marketing. Adapted for vertical (9:16) video — Instagram Reels, TikTok, YouTube Shorts.",
+    "preview_thumbnail": "previews/thumbnails/testimonial_review.jpg",
+    "preview_full": "previews/full/testimonial_review.jpg",
+    "author": "Trollfabriken",
+    "version": "1.0",
+    "variables": [
+      {
+        "name": "customer_name",
+        "type": "string",
+        "label": "Customer name",
+        "required": true,
+        "default": "Sofia Bergström"
+      },
+      {
+        "name": "customer_title",
+        "type": "string",
+        "label": "Title / company",
+        "required": false,
+        "default": "CEO, Bergström Consulting"
+      },
+      {
+        "name": "quote",
+        "type": "string",
+        "label": "Testimonial quote",
+        "required": true,
+        "default": "This product completely transformed how our team works. I can't imagine going back."
+      },
+      {
+        "name": "star_rating",
+        "type": "string",
+        "label": "Star rating display",
+        "required": false,
+        "default": "* * * * *"
+      },
+      {
+        "name": "product_name",
+        "type": "string",
+        "label": "Product / service name",
+        "required": false,
+        "default": "Acme Platform"
+      },
+      {
+        "name": "customer_photo",
+        "type": "image_path",
+        "label": "Customer photo",
+        "required": false
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Brand colour",
+        "required": false,
+        "default": "#f4a261"
+      },
+      {
+        "name": "bg_color",
+        "type": "color",
+        "label": "Background colour",
+        "required": false,
+        "default": "#1a1a2e"
+      }
+    ]
+  },
+  "output": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "path": "./output/testimonial_review.mp4"
+  },
+  "theme": {
+    "background": "{{bg_color}}",
+    "text_color": "#ffffff"
+  },
+  "segments": [
+    {
+      "id": "quote_card",
+      "type": "blank",
+      "duration": 7.0,
+      "color": "{{bg_color}}",
+      "bg_style": "gradient_v_dark",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{star_rating}}",
+          "effect": "drop_in",
+          "position": "top",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 2.0,
+          "timing": {
+            "start": 0.5
+          }
+        },
+        {
+          "type": "text",
+          "text": "\"{{quote}}\"",
+          "effect": "word_reveal",
+          "position": "center",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
+          "timing": {
+            "start": 1.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{customer_name}}",
+          "effect": "slide_up_text",
+          "position": "bottom",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
+          "timing": {
+            "start": 2.5
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{customer_title}}",
+          "effect": "fade_in",
+          "position": "bottom",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
+          "timing": {
+            "start": 3.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "cta",
+      "type": "blank",
+      "duration": 3.0,
+      "color": "{{bg_color}}",
+      "bg_style": "gradient_v_dark",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{product_name}}",
+          "effect": "drop_in",
+          "position": "center",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
+          "timing": {
+            "start": 0.5
+          }
+        },
+        {
+          "type": "text",
+          "text": "See why customers love us",
+          "effect": "typewriter",
+          "position": "bottom",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
+          "timing": {
+            "start": 1.2
+          }
+        }
+      ]
+    }
+  ],
+  "transitions": {
+    "default": {
+      "type": "dissolve_ii",
+      "duration": 0.6
+    }
+  }
+}

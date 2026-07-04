@@ -149,7 +149,9 @@
           "intensity": 1.4,
           "timing": {
             "start": 0.4
-          }
+          },
+          "stroke_color": "#000000",
+          "stroke_width": 1
         },
         {
           "type": "text",
@@ -197,7 +199,9 @@
           "intensity": 1.4,
           "timing": {
             "start": 0.8
-          }
+          },
+          "stroke_color": "#000000",
+          "stroke_width": 1
         },
         {
           "type": "text",
@@ -245,7 +249,9 @@
           "intensity": 1.4,
           "timing": {
             "start": 0.8
-          }
+          },
+          "stroke_color": "#000000",
+          "stroke_width": 1
         },
         {
           "type": "text",
@@ -293,7 +299,9 @@
           "intensity": 1.4,
           "timing": {
             "start": 0.8
-          }
+          },
+          "stroke_color": "#000000",
+          "stroke_width": 1
         },
         {
           "type": "text",

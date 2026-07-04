@@ -78,7 +78,9 @@
       "type": "shape",
       "duration": "{{clip_duration}}",
       "effect": "{{shape_effect}}",
-      "config": {},
+      "config": {
+        "color": "{{accent_color}}"
+      },
       "overlays": [
         {
           "type": "text",

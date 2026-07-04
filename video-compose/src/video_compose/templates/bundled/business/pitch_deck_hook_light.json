@@ -1,0 +1,249 @@
+{
+  "tvcs": "1.0",
+  "template": {
+    "id": "pitch_deck_hook_light",
+    "name": "Pitch Deck Hook (Light Mode)",
+    "category": "business",
+    "tags": [
+      "clean",
+      "traction",
+      "startup",
+      "deck",
+      "pitch",
+      "problem",
+      "business",
+      "solution",
+      "light",
+      "white",
+      "corporate",
+      "investor"
+    ],
+    "description": "3-card startup pitch hook: starfield intro, Problem card with bold pain-point stat, Solution card with your tagline, Traction card with key metric. 9 seconds of investor attention-grabbing before the full deck. Light mode variant with white/light backgrounds for corporate and presentation use.",
+    "preview_thumbnail": "previews/thumbnails/pitch_deck_hook.jpg",
+    "preview_full": "previews/full/pitch_deck_hook.jpg",
+    "author": "Trollfabriken",
+    "version": "1.0",
+    "variables": [
+      {
+        "name": "company_name",
+        "type": "string",
+        "label": "Company name",
+        "required": true,
+        "default": "Acme AI"
+      },
+      {
+        "name": "problem_stat",
+        "type": "string",
+        "label": "Problem / pain-point stat",
+        "required": true,
+        "default": "73% of teams waste 6+ hours/week on manual reporting"
+      },
+      {
+        "name": "solution_tag",
+        "type": "string",
+        "label": "Your solution tagline",
+        "required": true,
+        "default": "We automate it in 30 seconds."
+      },
+      {
+        "name": "traction_metric",
+        "type": "string",
+        "label": "Key traction metric",
+        "required": true,
+        "default": "1 200 teams. $2.4M ARR. Growing 22% MoM."
+      },
+      {
+        "name": "cta_text",
+        "type": "string",
+        "label": "Closing CTA",
+        "required": false,
+        "default": "Let us show you."
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Brand accent colour",
+        "required": false,
+        "default": "#6366f1"
+      },
+      {
+        "name": "bg_color",
+        "type": "color",
+        "label": "Base background colour",
+        "required": false,
+        "default": "#0a1628"
+      }
+    ]
+  },
+  "output": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "path": "./output/pitch_deck_hook.mp4"
+  },
+  "theme": {
+    "background": "#f1f5f9",
+    "text_color": "#0f172a"
+  },
+  "segments": [
+    {
+      "id": "intro",
+      "type": "mathviz",
+      "duration": 2.5,
+      "effect": "starfield_3d",
+      "config": {
+        "color_scheme": "electric",
+        "speed": 1.5,
+        "intensity": 1.8,
+        "complexity": 1.5
+      },
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{company_name}}",
+          "effect": "word_reveal",
+          "position": "center",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
+          "timing": {
+            "start": 0.8
+          },
+          "stroke_color": "#000000",
+          "stroke_width": 1
+        }
+      ]
+    },
+    {
+      "id": "problem",
+      "type": "blank",
+      "duration": 4.0,
+      "color": "#f1f5f9",
+      "bg_style": "gradient_v",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "The problem.",
+          "effect": "typewriter",
+          "position": "top",
+          "color": "#ef4444",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
+          "timing": {
+            "start": 0.3
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{problem_stat}}",
+          "effect": "drop_in",
+          "position": "center",
+          "color": "#0f172a",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
+          "timing": {
+            "start": 0.7
+          },
+          "stroke_color": "#000000",
+          "stroke_width": 1
+        }
+      ]
+    },
+    {
+      "id": "solution",
+      "type": "blank",
+      "duration": 4.0,
+      "color": "#f1f5f9",
+      "bg_style": "gradient_v",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{company_name}}",
+          "effect": "fade_in",
+          "position": "top",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
+          "timing": {
+            "start": 0.3
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{solution_tag}}",
+          "effect": "word_reveal",
+          "position": "center",
+          "color": "#0f172a",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
+          "timing": {
+            "start": 0.7
+          },
+          "stroke_color": "#000000",
+          "stroke_width": 1
+        }
+      ]
+    },
+    {
+      "id": "traction",
+      "type": "blank",
+      "duration": 4.0,
+      "color": "#f1f5f9",
+      "bg_style": "gradient_v",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "Traction.",
+          "effect": "typewriter",
+          "position": "top",
+          "color": "#22c55e",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
+          "timing": {
+            "start": 0.3
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{traction_metric}}",
+          "effect": "drop_in",
+          "position": "center",
+          "color": "#0f172a",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
+          "timing": {
+            "start": 0.7
+          },
+          "stroke_color": "#000000",
+          "stroke_width": 1
+        },
+        {
+          "type": "text",
+          "text": "{{cta_text}}",
+          "effect": "slide_up_text",
+          "position": "bottom",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
+          "timing": {
+            "start": 1.8
+          }
+        }
+      ]
+    }
+  ],
+  "transitions": {
+    "default": {
+      "type": "dissolve_ii",
+      "duration": 0.4
+    }
+  }
+}

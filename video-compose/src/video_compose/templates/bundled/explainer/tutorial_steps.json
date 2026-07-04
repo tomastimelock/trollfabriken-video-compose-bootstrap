@@ -1,0 +1,206 @@
+{
+  "tvcs": "1.0",
+  "template": {
+    "id": "tutorial_steps",
+    "name": "Tutorial Steps",
+    "category": "explainer",
+    "tags": [
+      "explainer",
+      "tutorial",
+      "steps",
+      "how-to",
+      "education",
+      "process",
+      "clean",
+      "dark-blue"
+    ],
+    "description": "Clean dark-blue 3-step tutorial: impact title card, staggered step reveal with slides from the side, and a CTA summary outro. Ideal for quick how-to content and onboarding sequences.",
+    "preview_thumbnail": "previews/thumbnails/tutorial_steps.jpg",
+    "preview_full": "previews/full/tutorial_steps.jpg",
+    "author": "Trollfabriken",
+    "version": "1.0",
+    "variables": [
+      {
+        "name": "title",
+        "type": "string",
+        "label": "Tutorial title",
+        "required": true,
+        "default": "How To Get Started"
+      },
+      {
+        "name": "subtitle",
+        "type": "string",
+        "label": "Subtitle",
+        "required": false,
+        "default": "Step by Step"
+      },
+      {
+        "name": "step_1",
+        "type": "string",
+        "label": "Step 1",
+        "required": true,
+        "default": "Create your free account in 60 seconds"
+      },
+      {
+        "name": "step_2",
+        "type": "string",
+        "label": "Step 2",
+        "required": true,
+        "default": "Configure your workspace and invite your team"
+      },
+      {
+        "name": "step_3",
+        "type": "string",
+        "label": "Step 3",
+        "required": true,
+        "default": "Launch your first project and track results"
+      },
+      {
+        "name": "cta_text",
+        "type": "string",
+        "label": "CTA / key takeaway",
+        "required": false,
+        "default": "Now you know!"
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Accent colour",
+        "required": false,
+        "default": "#60a5fa"
+      }
+    ]
+  },
+  "output": {
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "formats": ["mp4"],
+    "path": "./output/video.mp4",
+    "quality": 22
+  },
+  "theme": {
+    "background": "#0f172a",
+    "text_color": "#ffffff"
+  },
+  "segments": [
+    {
+      "id": "title_card",
+      "type": "blank",
+      "duration": 3.0,
+      "color": "#0f172a",
+      "bg_style": "gradient_v_dark",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{title}}",
+          "effect": "impact_slam",
+          "position": "center",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
+          "timing": {
+            "start": 0.3,
+            "end": 3.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{subtitle}}",
+          "effect": "fade_in",
+          "position": "bottom",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
+          "timing": {
+            "start": 0.9,
+            "end": 3.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "steps_card",
+      "type": "blank",
+      "duration": 9.0,
+      "color": "#0f172a",
+      "bg_style": "gradient_v",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "1  {{step_1}}",
+          "effect": "slide_right_text",
+          "position": "top",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.1,
+          "timing": {
+            "start": 0.5,
+            "end": 9.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "2  {{step_2}}",
+          "effect": "slide_right_text",
+          "position": "center",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.1,
+          "timing": {
+            "start": 3.5,
+            "end": 9.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "3  {{step_3}}",
+          "effect": "slide_right_text",
+          "position": "bottom",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.1,
+          "timing": {
+            "start": 6.5,
+            "end": 9.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "summary_card",
+      "type": "blank",
+      "duration": 3.0,
+      "color": "#0f172a",
+      "bg_style": "gradient_v_dark",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{cta_text}}",
+          "effect": "word_reveal",
+          "position": "center",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.3,
+          "timing": {
+            "start": 0.4,
+            "end": 3.0
+          }
+        }
+      ]
+    }
+  ],
+  "transitions": {
+    "default": {
+      "type": "dissolve_ii",
+      "duration": 0.5
+    },
+    "overrides": []
+  }
+}

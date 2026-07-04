@@ -71,7 +71,7 @@
         "type": "color",
         "label": "Accent colour",
         "required": false,
-        "default": "#00ff88"
+        "default": "#e8c96d"
       },
       {
         "name": "bg_color",
@@ -115,7 +115,7 @@
           "shadow": true,
           "intensity": 1.4,
           "timing": {
-            "start": 1.0
+            "start": 0.3
           }
         },
         {
@@ -128,7 +128,7 @@
           "shadow": true,
           "intensity": 1.0,
           "timing": {
-            "start": 2.0
+            "start": 1.2
           }
         }
       ]
@@ -145,26 +145,28 @@
       "type": "shape",
       "duration": 8.0,
       "effect": "constellation",
-      "config": {},
+      "config": {
+        "color": "{{accent_color}}"
+      },
       "overlays": [
         {
           "type": "text",
           "text": "{{feature_1}}",
-          "effect": "kinetic_pop",
+          "effect": "spring_words",
           "position": "top",
           "color": "{{accent_color}}",
           "font_family": "Inter",
           "shadow": true,
           "intensity": 1.2,
           "timing": {
-            "start": 0.5,
-            "end": 3.5
+            "start": 0.3,
+            "end": 3.0
           }
         },
         {
           "type": "text",
           "text": "{{feature_2}}",
-          "effect": "kinetic_pop",
+          "effect": "spring_words",
           "position": "center",
           "color": "{{accent_color}}",
           "font_family": "Inter",
@@ -178,14 +180,14 @@
         {
           "type": "text",
           "text": "{{feature_3}}",
-          "effect": "kinetic_pop",
+          "effect": "spring_words",
           "position": "bottom",
           "color": "{{accent_color}}",
           "font_family": "Inter",
           "shadow": true,
           "intensity": 1.2,
           "timing": {
-            "start": 4.5
+            "start": 4.8
           }
         }
       ]

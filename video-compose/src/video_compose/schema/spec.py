@@ -183,11 +183,16 @@ class TextOverlay(BaseModel):
     type: Literal["text"]
     text: str
     effect: str = "fade_in"
+    role: Literal["title", "subtitle", "body", "caption", "label"] | None = Field(
+        default=None,
+        description="Semantic role — drives default font size when font_size is unset"
+    )
     position: Literal[
         "center", "top", "bottom",
         "top-left", "top-right", "bottom-left", "bottom-right",
         "left", "right",
         "lower_third", "lower_third_left", "lower_third_right",
+        "lower_third_2",
     ] = "center"
     timing: OverlayTiming = Field(default_factory=OverlayTiming)
     font_size: int | None = None
@@ -198,9 +203,57 @@ class TextOverlay(BaseModel):
     stroke_color: str | None = None
     stroke_width: int = Field(default=0, ge=0)
     shadow: bool = True
+    shadow_dx: int = Field(default=0, description="Shadow horizontal offset in pixels")
+    shadow_dy: int = Field(default=4, description="Shadow vertical offset in pixels")
+    shadow_blur: int = Field(default=8, ge=0, description="Shadow blur radius in pixels")
+    shadow_opacity: float = Field(default=0.5, ge=0.0, le=1.0, description="Shadow opacity")
     intensity: float = Field(default=1.0, ge=0.0, le=2.0)
     margin_x: int = Field(default=60, ge=0)
     margin_y: int = Field(default=50, ge=0)
+    max_width_pct: float | None = Field(
+        default=None, ge=1.0, le=100.0,
+        description="Max text block width as % of video width; enables word-wrap"
+    )
+    text_align: Literal["left", "center", "right"] = Field(
+        default="center", description="Text alignment within the text block"
+    )
+    x_pct: float | None = Field(
+        default=None, ge=0.0, le=100.0,
+        description="Absolute X position as % of canvas width; overrides position preset"
+    )
+    y_pct: float | None = Field(
+        default=None, ge=0.0, le=100.0,
+        description="Absolute Y position as % of canvas height; overrides position preset"
+    )
+    z_order: int = Field(
+        default=0,
+        description="Stacking order relative to other overlays on this segment; higher = on top"
+    )
+    opacity: float = Field(
+        default=1.0, ge=0.0, le=1.0,
+        description="Overall overlay opacity (1.0 = fully opaque)"
+    )
+    easing: Literal[
+        "linear", "ease-in", "ease-out", "ease-in-out",
+        "ease-out-cubic", "ease-out-back", "ease-out-elastic",
+        "spring", "bounce",
+    ] = "ease-out-cubic"
+    aa_mode: Literal["none", "supersample"] = "none"
+
+
+class BarOverlay(BaseModel):
+    """Solid-color background bar or pill — for lower-third backing strips."""
+    type: Literal["bar"]
+    color: str = Field(default="#000000", description="Fill color (hex)")
+    opacity: float = Field(default=0.7, ge=0.0, le=1.0)
+    position: Literal[
+        "center", "top", "bottom",
+        "lower_third", "lower_third_left", "lower_third_right", "lower_third_2",
+    ] = "lower_third"
+    width_pct: float = Field(default=100.0, ge=1.0, le=100.0, description="Bar width as % of canvas")
+    height_pct: float = Field(default=12.0, ge=0.5, le=50.0, description="Bar height as % of canvas")
+    border_radius: int = Field(default=0, ge=0, description="Corner radius in pixels; 0=rectangle, >0=pill")
+    timing: OverlayTiming = Field(default_factory=OverlayTiming)
 
 
 class WebOverlay(BaseModel):
@@ -211,7 +264,7 @@ class WebOverlay(BaseModel):
 
 
 OverlayConfig = Annotated[
-    Union[TextOverlay, WebOverlay],
+    Union[TextOverlay, BarOverlay, WebOverlay],
     Field(discriminator="type"),
 ]
 
@@ -389,6 +442,15 @@ class StillSegment(BaseSegment):
     source: str = Field(description="Path or URL to source image")
     motion: Literal["ken_burns", "zoom_in", "zoom_out", "pan_left", "pan_right", "static"] = "ken_burns"
     motion_config: dict[str, Any] = Field(default_factory=dict)
+    motion_easing: Literal["linear", "ease-in-out", "ease-out-cubic", "ease-out-back"] = "ease-in-out"
+    mask: Literal["none", "circle", "ellipse"] = Field(
+        default="none",
+        description="Shape mask applied after render — 'circle' for headshots, 'ellipse' for portraits"
+    )
+    mask_outline_color: str = Field(default="#ffffff", description="Outline/ring color around mask")
+    mask_outline_width: int = Field(default=4, ge=0, description="Outline width in pixels")
+    mask_feather: int = Field(default=8, ge=0, description="Gaussian feather radius on mask edge")
+    mask_shadow: bool = Field(default=True, description="Add drop shadow behind masked circle")
 
 
 class ImageSegment(BaseSegment):
@@ -415,10 +477,27 @@ class BlankSegment(BaseSegment):
         default=None,
         description="Hex colour; falls back to theme.background"
     )
-    bg_style: Literal["gradient_v", "gradient_v_dark", "gradient_d", "radial", "solid"] = Field(
+    bg_style: Literal["gradient_v", "gradient_v_dark", "gradient_d", "radial", "solid", "gradient_anim"] = Field(
         default="gradient_v",
-        description="Background style: gradient_v (default), gradient_v_dark, gradient_d (diagonal), radial, solid"
+        description="Background style: gradient_v, gradient_v_dark, gradient_d (diagonal), radial, solid, gradient_anim (slow breathing gradient)"
     )
+
+
+class SplitScreenSegment(BaseSegment):
+    """Side-by-side (or top/bottom) compositor — ideal for before/after comparisons."""
+    type: Literal["split_screen"]
+    source_a: str = Field(description="Path to the left (or top) image or video")
+    source_b: str = Field(description="Path to the right (or bottom) image or video")
+    split_direction: Literal["horizontal", "vertical"] = Field(
+        default="horizontal",
+        description="'horizontal' = left/right; 'vertical' = top/bottom",
+    )
+    label_a: str | None = Field(default=None, description="Label shown on source_a side (e.g. 'BEFORE')")
+    label_b: str | None = Field(default=None, description="Label shown on source_b side (e.g. 'AFTER')")
+    label_color: str = Field(default="#ffffff", description="Label text colour")
+    label_font_size: int = Field(default=48, gt=0)
+    divider_color: str = Field(default="#ffffff", description="Colour of the centre divider line")
+    divider_width: int = Field(default=4, ge=0, description="Divider line width in pixels; 0 = no divider")
 
 
 # Discriminated union — the 'type' field routes to the correct model
@@ -434,6 +513,7 @@ SegmentUnion = Annotated[
         ImageSegment,
         VideoSegment,
         BlankSegment,
+        SplitScreenSegment,
     ],
     Field(discriminator="type"),
 ]

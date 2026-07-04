@@ -44,7 +44,7 @@
         "type": "color",
         "label": "Accent colour",
         "required": false,
-        "default": "#00ff88"
+        "default": "#f5c842"
       },
       {
         "name": "clip_duration",
@@ -76,12 +76,12 @@
         {
           "type": "text",
           "text": "\"{{quote_text}}\"",
-          "effect": "kinetic_pop",
+          "effect": "word_reveal",
           "position": "center",
           "color": "#ffffff",
           "font_family": "Inter",
           "shadow": true,
-          "intensity": 1.2,
+          "intensity": 1.5,
           "timing": {
             "start": 0.4
           }
@@ -94,7 +94,7 @@
           "color": "{{accent_color}}",
           "font_family": "Inter",
           "shadow": true,
-          "intensity": 1.0,
+          "intensity": 1.2,
           "timing": {
             "start": 1.2
           }

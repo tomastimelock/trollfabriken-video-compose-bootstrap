@@ -114,8 +114,10 @@
           "shadow": true,
           "intensity": 1.4,
           "timing": {
-            "start": 1.5
-          }
+            "start": 0.8
+          },
+          "stroke_color": "#000000",
+          "stroke_width": 1
         },
         {
           "type": "text",
@@ -127,7 +129,7 @@
           "shadow": true,
           "intensity": 1.0,
           "timing": {
-            "start": 2.5
+            "start": 1.8
           }
         }
       ]

@@ -1,9 +1,17 @@
 from __future__ import annotations
 
+import subprocess
+import tempfile
 from pathlib import Path
 from typing import Any
 
+from video_compose._codec import codec_params
 from video_compose.renderers.base import BaseRenderer
+
+# Color schemes that render at near-full saturation and need aggressive desaturation
+_SATURATED_SCHEMES: frozenset[str] = frozenset({
+    "neon", "rainbow", "fire", "electric", "cyberpunk",
+})
 
 # Remap invalid color scheme names to valid ColorSchemeType values
 _SCHEME_REMAP: dict[str, str] = {
@@ -15,6 +23,19 @@ _SCHEME_REMAP: dict[str, str] = {
     "green":        "matrix_green",
     "blue":         "ocean",
     "purple":       "synthwave",
+}
+
+# Per-effect blur sigma overrides (1.5 is the default).
+# Dot-grid effects like starfield need higher blur to soften square pixel artifacts.
+_EFFECT_SIGMA: dict[str, float] = {
+    "starfield_3d":          2.5,
+    "geometric_grid":        2.0,
+    "lissajous_curves":      2.0,
+    "phyllotaxis_spiral":    2.0,
+    "matrix_rain":           0.8,
+    "waveform_oscilloscope": 0.8,
+    "perlin_noise":          1.0,
+    "noise_flow_field":      1.0,
 }
 
 # Maps effect → (animation_type, color_scheme) defaults for visual impact
@@ -45,6 +66,37 @@ _EFFECT_DEFAULTS: dict[str, tuple[str, str]] = {
     "vector_field":          ("flow",    "neon"),
     "phase_portrait":        ("orbit",   "cyberpunk"),
 }
+
+
+def _apply_cinematic_grade(
+    src: Path, dst: Path, *, saturation: float = 0.72, sigma: float = 1.5
+) -> None:
+    """Post-process mathviz output: adaptive blur + softer vignette + desaturation.
+
+    Adaptive sigma: starfield/geometric effects get higher blur (2.5) to soften
+    square pixel dot artifacts; oscilloscope/noise keep it low (0.8–1.0) to
+    preserve line sharpness. Vignette uses PI/4.5 (≈0.70 rad) for a softer,
+    more cinematic look than the previous PI/3.5 (≈0.90 rad).
+    Loop crossfade: fade=in:d=0.3 ensures the animation opens smoothly; the
+    tail naturally cuts back to the loop point in the compositor.
+    """
+    vf = (
+        f"gblur=sigma={sigma:.2f},"
+        f"eq=brightness=-0.03:contrast=1.05:saturation={saturation:.3f},"
+        "vignette=PI/4.5:eval=frame,"
+        "fade=in:st=0:d=0.3"
+    )
+    cmd = [
+        "ffmpeg", "-y", "-i", str(src),
+        "-vf", vf,
+        *codec_params(crf=18, profile="high"),
+        "-colorspace", "bt709", "-color_primaries", "bt709", "-color_trc", "bt709",
+        str(dst),
+    ]
+    result = subprocess.run(cmd, capture_output=True, text=True)
+    if result.returncode != 0:
+        import shutil
+        shutil.copy2(src, dst)
 
 
 class MathvizRenderer(BaseRenderer):
@@ -107,6 +159,14 @@ class MathvizRenderer(BaseRenderer):
         }
 
         output_path = Path(output_path)
-        scene = BackgroundScene(spec)
-        scene.render_to_video(str(output_path))
+
+        saturation = 0.32 if color_scheme in _SATURATED_SCHEMES else 0.72
+        sigma = _EFFECT_SIGMA.get(effect, 1.5)
+
+        with tempfile.TemporaryDirectory() as td:
+            raw_path = Path(td) / "mathviz_raw.mp4"
+            scene = BackgroundScene(spec)
+            scene.render_to_video(str(raw_path))
+            _apply_cinematic_grade(raw_path, output_path, saturation=saturation, sigma=sigma)
+
         return output_path

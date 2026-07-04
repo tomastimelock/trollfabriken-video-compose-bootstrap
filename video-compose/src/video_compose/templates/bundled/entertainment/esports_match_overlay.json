@@ -42,17 +42,17 @@
       },
       {
         "name": "score_a",
-        "type": "number",
+        "type": "string",
         "label": "Team A score",
         "required": true,
-        "default": 16
+        "default": "16"
       },
       {
         "name": "score_b",
-        "type": "number",
+        "type": "string",
         "label": "Team B score",
         "required": true,
-        "default": 9
+        "default": "9"
       },
       {
         "name": "map_name",
@@ -151,7 +151,7 @@
           "type": "text",
           "text": "{{map_name}}",
           "effect": "neon_glow_text",
-          "position": "bottom",
+          "position": "bottom-left",
           "color": "{{accent_color}}",
           "font_family": "Inter",
           "shadow": true,
@@ -177,11 +177,11 @@
           "type": "text",
           "text": "{{stat_line}}",
           "effect": "glitch_flash",
-          "position": "bottom",
+          "position": "bottom-right",
           "color": "#ffffff",
           "font_family": "Inter",
           "shadow": true,
-          "intensity": 1.2,
+          "intensity": 1.0,
           "timing": {
             "start": 4.0
           }

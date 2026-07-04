@@ -1,0 +1,228 @@
+{
+  "tvcs": "1.0",
+  "template": {
+    "id": "numbered_step_list",
+    "name": "Explainer — Numbered Step List",
+    "category": "explainer",
+    "tags": [
+      "explainer",
+      "steps",
+      "numbered",
+      "process",
+      "how-to",
+      "tutorial",
+      "onboarding",
+      "professional"
+    ],
+    "description": "Professional dark-blue 4-step walkthrough: intro title card, four numbered steps slide in sequentially on a gradient background (3 s apart), CTA outro. Ideal for onboarding, SaaS how-tos, and instructional content.",
+    "preview_thumbnail": "previews/thumbnails/numbered_step_list.jpg",
+    "preview_full": "previews/full/numbered_step_list.jpg",
+    "author": "Trollfabriken",
+    "version": "1.0",
+    "variables": [
+      {
+        "name": "title",
+        "type": "string",
+        "label": "Section title",
+        "description": "Heading shown on the intro card and as a persistent label on the steps segment",
+        "required": true,
+        "default": "How It Works"
+      },
+      {
+        "name": "step_1",
+        "type": "string",
+        "label": "Step 1",
+        "description": "Text for step 1, appears at 0.5 s",
+        "required": true,
+        "default": "Create your free account"
+      },
+      {
+        "name": "step_2",
+        "type": "string",
+        "label": "Step 2",
+        "description": "Text for step 2, appears at 3.5 s",
+        "required": true,
+        "default": "Connect your data source"
+      },
+      {
+        "name": "step_3",
+        "type": "string",
+        "label": "Step 3",
+        "description": "Text for step 3, appears at 6.5 s",
+        "required": true,
+        "default": "Configure your dashboard"
+      },
+      {
+        "name": "step_4",
+        "type": "string",
+        "label": "Step 4",
+        "description": "Text for step 4, appears at 9.5 s",
+        "required": true,
+        "default": "Go live and invite your team"
+      },
+      {
+        "name": "cta_text",
+        "type": "string",
+        "label": "Outro CTA",
+        "description": "Call-to-action text shown on the final card",
+        "required": false,
+        "default": "Start your free trial today"
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Accent colour",
+        "description": "Colour used for step numbers and CTA text",
+        "required": false,
+        "default": "#4a9eff"
+      }
+    ]
+  },
+  "meta": {
+    "schema_version": "1.0",
+    "created_by": "Trollfabriken",
+    "license": "proprietary"
+  },
+  "output": {
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "formats": ["mp4"],
+    "path": "./output/numbered_step_list.mp4",
+    "quality": 22
+  },
+  "theme": {
+    "background": "#0a0f1e",
+    "text_color": "#ffffff"
+  },
+  "segments": [
+    {
+      "id": "intro",
+      "type": "blank",
+      "duration": 4.0,
+      "color": "#0a0f1e",
+      "bg_style": "gradient_v_dark",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{title}}",
+          "effect": "word_reveal",
+          "position": "center",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
+          "timing": {
+            "start": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "id": "steps",
+      "type": "blank",
+      "duration": 12.0,
+      "color": "#0a0f1e",
+      "bg_style": "gradient_v_dark",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{title}}",
+          "effect": "fade_in",
+          "position": "top",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 0.9,
+          "timing": {
+            "start": 0.3
+          }
+        },
+        {
+          "type": "text",
+          "text": "01  {{step_1}}",
+          "effect": "slide_right_text",
+          "position": "center",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
+          "timing": {
+            "start": 0.5,
+            "end": 3.4
+          }
+        },
+        {
+          "type": "text",
+          "text": "02  {{step_2}}",
+          "effect": "slide_right_text",
+          "position": "center",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
+          "timing": {
+            "start": 3.5,
+            "end": 6.4
+          }
+        },
+        {
+          "type": "text",
+          "text": "03  {{step_3}}",
+          "effect": "slide_right_text",
+          "position": "center",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
+          "timing": {
+            "start": 6.5,
+            "end": 9.4
+          }
+        },
+        {
+          "type": "text",
+          "text": "04  {{step_4}}",
+          "effect": "slide_right_text",
+          "position": "center",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
+          "timing": {
+            "start": 9.5
+          }
+        }
+      ]
+    },
+    {
+      "id": "cta_outro",
+      "type": "blank",
+      "duration": 3.0,
+      "color": "#0a0f1e",
+      "bg_style": "gradient_v_dark",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{cta_text}}",
+          "effect": "kinetic_pop",
+          "position": "center",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
+          "timing": {
+            "start": 0.5
+          }
+        }
+      ]
+    }
+  ],
+  "transitions": {
+    "default": {
+      "type": "dissolve_ii",
+      "duration": 0.5
+    },
+    "overrides": []
+  }
+}

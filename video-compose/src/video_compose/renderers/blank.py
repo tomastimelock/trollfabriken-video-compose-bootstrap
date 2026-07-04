@@ -8,6 +8,7 @@ from typing import Any
 import numpy as np
 from PIL import Image
 
+from video_compose._codec import codec_params
 from video_compose.renderers.base import BaseRenderer
 
 
@@ -95,12 +96,66 @@ def _png_to_video(png_path: Path, output_path: Path, duration: float, fps: float
         "-i", str(png_path),
         "-t", str(duration),
         "-vf", f"scale={width}:{height}",
-        "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "18",
+        *codec_params(crf=16, profile="high"),
+        "-colorspace", "bt709", "-color_primaries", "bt709", "-color_trc", "bt709",
         str(output_path),
     ]
     result = subprocess.run(cmd, capture_output=True, text=True)
     if result.returncode != 0:
         raise RuntimeError(f"ffmpeg blank encode failed: {result.stderr[:500]}")
+
+
+def _animated_gradient_video(
+    color: str,
+    output_path: Path,
+    duration: float,
+    fps: float,
+    width: int,
+    height: int,
+) -> None:
+    """Encode a slow-breathing animated gradient by piping raw RGB frames to ffmpeg.
+
+    The gradient breathes with a sine-wave luminance oscillation over the duration,
+    cycling once per ~3 seconds so it reads as alive rather than looping.
+    """
+    import math
+
+    rgb = _hex_to_rgb(color) if color.startswith("#") else (13, 13, 26)
+    total_frames = max(1, int(duration * fps))
+
+    col = np.linspace(0, 1, height)[:, None, None]
+    top_base = np.array(_lighter(rgb, 0.42), dtype=np.float32)
+    bot_base = np.array(_darker(rgb, 0.25), dtype=np.float32)
+
+    cmd = [
+        "ffmpeg", "-y",
+        "-f", "rawvideo", "-vcodec", "rawvideo",
+        "-s", f"{width}x{height}",
+        "-pix_fmt", "rgb24",
+        "-r", str(fps),
+        "-i", "pipe:0",
+        "-t", str(duration),
+        *codec_params(crf=18, profile="high"),
+        "-colorspace", "bt709", "-color_primaries", "bt709", "-color_trc", "bt709",
+        str(output_path),
+    ]
+    proc = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    rng = np.random.default_rng(seed=17)
+
+    for i in range(total_frames):
+        t_norm = i / max(total_frames - 1, 1)
+        pulse = 0.08 * math.sin(2 * math.pi * t_norm * (duration / 3.0))
+        top_c = np.clip(top_base * (1.0 + pulse), 0, 255)
+        bot_c = np.clip(bot_base * (1.0 - pulse * 0.5), 0, 255)
+        frame = (top_c * (1 - col) + bot_c * col).astype(np.float32)
+        grain = rng.normal(0, 6.0, frame.shape).astype(np.float32)
+        frame = np.clip(frame + grain * 0.09, 0, 255).astype(np.uint8)
+        proc.stdin.write(np.broadcast_to(frame, (height, width, 3)).tobytes())
+
+    proc.stdin.close()
+    proc.wait()
+    if proc.returncode not in (0, None):
+        raise RuntimeError(f"Animated gradient encode failed (code {proc.returncode})")
 
 
 class BlankRenderer(BaseRenderer):
@@ -121,10 +176,13 @@ class BlankRenderer(BaseRenderer):
 
         output_path = Path(output_path)
 
-        with tempfile.TemporaryDirectory() as td:
-            png_path = Path(td) / "bg.png"
-            arr = _make_background(width, height, color, bg_style)
-            Image.fromarray(arr, "RGB").save(str(png_path))
-            _png_to_video(png_path, output_path, segment.duration, fps, width, height)
+        if bg_style == "gradient_anim":
+            _animated_gradient_video(color, output_path, segment.duration, fps, width, height)
+        else:
+            with tempfile.TemporaryDirectory() as td:
+                png_path = Path(td) / "bg.png"
+                arr = _make_background(width, height, color, bg_style)
+                Image.fromarray(arr, "RGB").save(str(png_path))
+                _png_to_video(png_path, output_path, segment.duration, fps, width, height)
 
         return output_path

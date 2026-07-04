@@ -1,0 +1,105 @@
+{
+  "tvcs": "1.0",
+  "template": {
+    "id": "social_motivational_portrait",
+    "name": "Social Motivational Short (Portrait 9:16)",
+    "category": "social",
+    "tags": [
+      "tiktok",
+      "reels",
+      "social",
+      "portrait",
+      "short",
+      "9:16",
+      "vertical",
+      "motivational",
+      "stories"
+    ],
+    "description": "High-energy short motivational video with a shape-fx background and bold text. Ideal for Reels and TikTok. Adapted for vertical (9:16) video — Instagram Reels, TikTok, YouTube Shorts.",
+    "preview_thumbnail": "previews/thumbnails/social_motivational.jpg",
+    "preview_full": "previews/full/social_motivational.jpg",
+    "author": "Trollfabriken",
+    "version": "1.0",
+    "variables": [
+      {
+        "name": "message",
+        "type": "string",
+        "label": "Message",
+        "required": true,
+        "default": "Push through. Every champion was once a contender who refused to give up."
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Accent colour",
+        "required": false,
+        "default": "#ffcc00"
+      },
+      {
+        "name": "bg_color",
+        "type": "color",
+        "label": "Background colour",
+        "required": false,
+        "default": "#0a0a0a"
+      },
+      {
+        "name": "shape_effect",
+        "type": "string",
+        "label": "Shape FX effect",
+        "required": false,
+        "default": "constellation",
+        "choices": [
+          "constellation",
+          "pulse",
+          "ripple",
+          "orbit",
+          "stars",
+          "flow"
+        ]
+      },
+      {
+        "name": "clip_duration",
+        "type": "duration",
+        "label": "Duration (seconds)",
+        "required": false,
+        "default": 8.0
+      }
+    ]
+  },
+  "output": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "path": "./output/social_motivational.mp4"
+  },
+  "theme": {
+    "background": "{{bg_color}}",
+    "text_color": "#ffffff"
+  },
+  "segments": [
+    {
+      "id": "bg",
+      "type": "shape",
+      "duration": "{{clip_duration}}",
+      "effect": "{{shape_effect}}",
+      "config": {
+        "color": "{{accent_color}}"
+      },
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{message}}",
+          "effect": "spring_words",
+          "position": "center",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
+          "timing": {
+            "start": 0.5
+          }
+        }
+      ]
+    }
+  ]
+}

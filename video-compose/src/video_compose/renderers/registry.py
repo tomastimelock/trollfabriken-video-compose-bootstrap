@@ -45,6 +45,7 @@ def _load_defaults() -> None:
     from video_compose.renderers.geomap import GeomapRenderer
     from video_compose.renderers.shape import ShapeRenderer
     from video_compose.renderers.fractal import FractalRenderer
+    from video_compose.renderers.split_screen import SplitScreenRenderer
 
     for type_name, cls in [
         ("blank", BlankRenderer),
@@ -57,5 +58,6 @@ def _load_defaults() -> None:
         ("geomap", GeomapRenderer),
         ("shape", ShapeRenderer),
         ("fractal", FractalRenderer),
+        ("split_screen", SplitScreenRenderer),
     ]:
         _REGISTRY[type_name] = cls

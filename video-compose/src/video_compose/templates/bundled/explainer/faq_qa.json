@@ -1,0 +1,191 @@
+{
+  "tvcs": "1.0",
+  "template": {
+    "id": "faq_qa",
+    "name": "Explainer — FAQ Q&A",
+    "category": "explainer",
+    "tags": [
+      "explainer",
+      "faq",
+      "qa",
+      "question",
+      "answer",
+      "support",
+      "education",
+      "clean"
+    ],
+    "description": "Clean dark FAQ format: section title card, then two Q&A cards each showing a question drop-in at the top and an answer word-reveal at centre. Ideal for product FAQs, customer support, and educational explainers.",
+    "preview_thumbnail": "previews/thumbnails/faq_qa.jpg",
+    "preview_full": "previews/full/faq_qa.jpg",
+    "author": "Trollfabriken",
+    "version": "1.0",
+    "variables": [
+      {
+        "name": "section_title",
+        "type": "string",
+        "label": "Section title",
+        "description": "Heading shown on the opening title card",
+        "required": true,
+        "default": "Frequently Asked Questions"
+      },
+      {
+        "name": "question_1",
+        "type": "string",
+        "label": "Question 1",
+        "description": "First question text",
+        "required": true,
+        "default": "How does pricing work?"
+      },
+      {
+        "name": "answer_1",
+        "type": "string",
+        "label": "Answer 1",
+        "description": "Answer to the first question",
+        "required": true,
+        "default": "We charge a flat monthly fee with no hidden costs."
+      },
+      {
+        "name": "question_2",
+        "type": "string",
+        "label": "Question 2",
+        "description": "Second question text",
+        "required": true,
+        "default": "Can I cancel at any time?"
+      },
+      {
+        "name": "answer_2",
+        "type": "string",
+        "label": "Answer 2",
+        "description": "Answer to the second question",
+        "required": true,
+        "default": "Yes — cancel online in under 60 seconds, no questions asked."
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Accent colour",
+        "description": "Colour used for question text and title highlights",
+        "required": false,
+        "default": "#f59e0b"
+      }
+    ]
+  },
+  "meta": {
+    "schema_version": "1.0",
+    "created_by": "Trollfabriken",
+    "license": "proprietary"
+  },
+  "output": {
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "formats": ["mp4"],
+    "path": "./output/faq_qa.mp4",
+    "quality": 22
+  },
+  "theme": {
+    "background": "#111827",
+    "text_color": "#ffffff"
+  },
+  "segments": [
+    {
+      "id": "title_card",
+      "type": "blank",
+      "duration": 3.0,
+      "color": "#111827",
+      "bg_style": "gradient_v_dark",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{section_title}}",
+          "effect": "impact_slam",
+          "position": "center",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
+          "timing": {
+            "start": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "id": "qa_card_1",
+      "type": "blank",
+      "duration": 7.0,
+      "color": "#111827",
+      "bg_style": "gradient_v_dark",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{question_1}}",
+          "effect": "drop_in",
+          "position": "top",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
+          "timing": {
+            "start": 0.4
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{answer_1}}",
+          "effect": "word_reveal",
+          "position": "center",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
+          "timing": {
+            "start": 1.2
+          }
+        }
+      ]
+    },
+    {
+      "id": "qa_card_2",
+      "type": "blank",
+      "duration": 7.0,
+      "color": "#111827",
+      "bg_style": "gradient_v_dark",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{question_2}}",
+          "effect": "drop_in",
+          "position": "top",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.4,
+          "timing": {
+            "start": 0.4
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{answer_2}}",
+          "effect": "word_reveal",
+          "position": "center",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.0,
+          "timing": {
+            "start": 1.2
+          }
+        }
+      ]
+    }
+  ],
+  "transitions": {
+    "default": {
+      "type": "dissolve_ii",
+      "duration": 0.5
+    },
+    "overrides": []
+  }
+}

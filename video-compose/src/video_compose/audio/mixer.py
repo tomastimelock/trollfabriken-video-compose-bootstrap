@@ -81,13 +81,16 @@ class AudioMixer:
         audio_out = output_path.with_suffix(".audio.wav")
         tl.render(audio_out, format="wav")
 
-        # Mux audio onto video
+        # Mux audio onto video with loudness normalisation (EBU R128 single-pass)
         cmd = [
             "ffmpeg", "-y",
             "-i", str(video_path),
             "-i", str(audio_out),
             "-c:v", "copy",
+            # Preserve BT.709 colour metadata written by renderers (pass-through only)
+            "-movflags", "+write_colr",
             "-c:a", "aac", "-b:a", "192k",
+            "-af", "loudnorm=I=-16:TP=-1.5:LRA=11:linear=true",
             "-shortest",
             str(output_path),
         ]

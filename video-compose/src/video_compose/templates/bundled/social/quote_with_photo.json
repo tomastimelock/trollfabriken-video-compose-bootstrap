@@ -1,0 +1,161 @@
+{
+  "tvcs": "1.0",
+  "template": {
+    "id": "quote_with_photo",
+    "name": "Quote with Photo",
+    "category": "social",
+    "tags": [
+      "quote",
+      "social",
+      "photo",
+      "instagram",
+      "linkedin",
+      "cinematic",
+      "attribution",
+      "warm"
+    ],
+    "description": "Warm cinematic quote card: Ken Burns photo reveal with word-by-word quote animation, speaker attribution lower-third, and a clean dark outro card. Ideal for inspirational social posts.",
+    "preview_thumbnail": "previews/thumbnails/quote_with_photo.jpg",
+    "preview_full": "previews/full/quote_with_photo.jpg",
+    "author": "Trollfabriken",
+    "version": "1.0",
+    "variables": [
+      {
+        "name": "photo_path",
+        "type": "image_path",
+        "label": "Speaker / subject photo",
+        "required": true
+      },
+      {
+        "name": "quote_text",
+        "type": "string",
+        "label": "Quote",
+        "required": true,
+        "default": "The only way to do great work is to love what you do."
+      },
+      {
+        "name": "attribution",
+        "type": "string",
+        "label": "Speaker / Author",
+        "required": true,
+        "default": "Steve Jobs"
+      },
+      {
+        "name": "accent_color",
+        "type": "color",
+        "label": "Accent colour",
+        "required": false,
+        "default": "#f59e0b"
+      }
+    ]
+  },
+  "output": {
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "formats": ["mp4"],
+    "path": "./output/video.mp4",
+    "quality": 22
+  },
+  "theme": {
+    "background": "#1a0f0a",
+    "text_color": "#ffffff"
+  },
+  "segments": [
+    {
+      "id": "photo_reveal",
+      "type": "still",
+      "duration": 8.0,
+      "source": "{{photo_path}}",
+      "motion": "ken_burns",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "“",
+          "effect": "fade_in",
+          "position": "top-left",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 2.0,
+          "timing": {
+            "start": 0.3,
+            "end": 8.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{quote_text}}",
+          "effect": "word_reveal",
+          "position": "center",
+          "color": "#ffffff",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.2,
+          "timing": {
+            "start": 0.8,
+            "end": 8.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "— {{attribution}}",
+          "effect": "slide_right_text",
+          "position": "lower_third",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 0.9,
+          "timing": {
+            "start": 3.0,
+            "end": 8.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "outro_card",
+      "type": "blank",
+      "duration": 3.0,
+      "color": "#1a0f0a",
+      "bg_style": "gradient_v_dark",
+      "overlays": [
+        {
+          "type": "text",
+          "text": "{{attribution}}",
+          "effect": "fade_in",
+          "position": "center",
+          "color": "{{accent_color}}",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 1.1,
+          "timing": {
+            "start": 0.4,
+            "end": 3.0
+          }
+        },
+        {
+          "type": "text",
+          "text": "{{quote_text}}",
+          "effect": "fade_in",
+          "position": "bottom",
+          "color": "#cccccc",
+          "font_family": "Inter",
+          "shadow": true,
+          "intensity": 0.8,
+          "timing": {
+            "start": 0.8,
+            "end": 3.0
+          }
+        }
+      ]
+    }
+  ],
+  "transitions": {
+    "default": {
+      "type": "dissolve_ii",
+      "duration": 0.5
+    },
+    "overrides": []
+  }
+}
