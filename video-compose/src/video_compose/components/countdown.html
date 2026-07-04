@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #000; width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: 'Arial', 'Helvetica Neue', sans-serif; overflow: hidden; }
+  .container { text-align: center; animation: fade-in 0.4s ease-out both; }
+  @keyframes fade-in { from { opacity:0; transform:scale(1.1); } to { opacity:1; transform:scale(1); } }
+  .label { font-size: {{label_size|default:22px}}; font-weight: 500; letter-spacing: 4px; text-transform: uppercase; color: {{text_color|default:rgba(255,255,255,0.6)}}; margin-bottom: 16px; }
+  .number { font-size: {{number_size|default:200px}}; font-weight: 900; color: {{accent|default:#ff4444}}; line-height: 1; letter-spacing: -8px; text-shadow: 0 0 80px {{glow|default:rgba(255,68,68,0.5)}}; }
+  .sub { font-size: {{sub_size|default:26px}}; font-weight: 400; color: {{text_color|default:rgba(255,255,255,0.6)}}; margin-top: 16px; letter-spacing: 2px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="label">{{label|default:DAYS REMAINING}}</div>
+  <div class="number">{{number|default:7}}</div>
+  <div class="sub">{{sub|default:}}</div>
+</div>
+</body>
+</html>

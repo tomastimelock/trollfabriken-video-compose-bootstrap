@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #000; width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: 'Arial', 'Helvetica Neue', sans-serif; overflow: hidden; }
+  .wrap { width: {{bar_width|default:70%}}; animation: fade-in 0.4s ease-out both; }
+  @keyframes fade-in { from { opacity:0; } to { opacity:1; } }
+  .top-row { display: flex; justify-content: space-between; margin-bottom: 12px; }
+  .bar-label { font-size: {{label_size|default:24px}}; font-weight: 600; color: {{text_color|default:#ffffff}}; }
+  .pct-label { font-size: {{label_size|default:24px}}; font-weight: 700; color: {{accent|default:#4caf50}}; }
+  .track { width: 100%; height: {{height|default:12px}}; background: {{track_color|default:rgba(255,255,255,0.15)}}; border-radius: 100px; overflow: hidden; }
+  .fill {
+    height: 100%;
+    width: 0;
+    background: {{accent|default:#4caf50}};
+    border-radius: 100px;
+    animation: fill-bar 0.8s 0.2s cubic-bezier(0.4,0,0.2,1) forwards;
+  }
+  @keyframes fill-bar { to { width: {{value|default:75}}%; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top-row">
+    <span class="bar-label">{{label|default:Progress}}</span>
+    <span class="pct-label">{{value|default:75}}%</span>
+  </div>
+  <div class="track"><div class="fill"></div></div>
+</div>
+</body>
+</html>

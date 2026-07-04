@@ -33,6 +33,10 @@ def apply_overlays(
     from video_compose.overlays.web import render_web_overlay
     from video_compose.overlays.image import render_image_overlay, render_video_overlay
     from video_compose.overlays.audiogram import render_audiogram_overlay
+    from video_compose.overlays.svg import render_svg_overlay
+    from video_compose.overlays.component import render_component_overlay
+    from video_compose.overlays.ai_svg import render_ai_svg_overlay
+    from video_compose.overlays.ai_html import render_ai_html_overlay
 
     # Filter by condition first
     if condition_evaluator is not None:
@@ -63,6 +67,14 @@ def apply_overlays(
                     layer = render_video_overlay(ov, segment_duration, width, height, fps, td, i)
                 elif ov_type == "audiogram":
                     layer = render_audiogram_overlay(ov, clip_path, segment_duration, width, height, fps, td, i)
+                elif ov_type == "svg":
+                    layer = render_svg_overlay(ov, segment_duration, width, height, fps, td, i)
+                elif ov_type == "component":
+                    layer = render_component_overlay(ov, segment_duration, width, height, fps, td, i)
+                elif ov_type == "ai_svg":
+                    layer = render_ai_svg_overlay(ov, segment_duration, width, height, fps, td, i)
+                elif ov_type == "ai_html":
+                    layer = render_ai_html_overlay(ov, segment_duration, width, height, fps, td, i)
                 else:
                     logger.warning("Unknown overlay type %r — skipping", ov_type)
                     continue

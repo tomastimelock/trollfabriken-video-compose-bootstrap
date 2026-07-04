@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #000; width: 100vw; height: 100vh; overflow: hidden; font-family: 'Arial', 'Helvetica Neue', sans-serif; }
+  .ticker-wrap {
+    position: fixed;
+    bottom: {{bottom|default:0}};
+    left: 0; right: 0;
+    background: {{bg_color|default:#1a1a2e}};
+    border-top: 3px solid {{accent|default:#e94560}};
+  }
+  .ticker-tag {
+    display: inline-block;
+    background: {{accent|default:#e94560}};
+    color: {{tag_text|default:#ffffff}};
+    font-size: {{tag_size|default:20px}};
+    font-weight: 800;
+    padding: 10px 20px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    float: left;
+    height: {{height|default:48px}};
+    line-height: calc({{height|default:48px}} - 20px);
+  }
+  .ticker-content { overflow: hidden; margin-left: {{tag_offset|default:130px}}; height: {{height|default:48px}}; }
+  .ticker-text {
+    display: inline-block;
+    white-space: nowrap;
+    font-size: {{font_size|default:22px}};
+    font-weight: 500;
+    color: {{text_color|default:#ffffff}};
+    padding: 0 30px;
+    line-height: {{height|default:48px}};
+    animation: scroll-left {{speed|default:18s}} linear infinite;
+  }
+  @keyframes scroll-left { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
+</style>
+</head>
+<body>
+<div class="ticker-wrap">
+  <div class="ticker-tag">{{tag|default:LIVE}}</div>
+  <div class="ticker-content">
+    <span class="ticker-text">{{text|default:Breaking news — your ticker text goes here • More updates to follow • Stay tuned for more information}}</span>
+  </div>
+</div>
+</body>
+</html>

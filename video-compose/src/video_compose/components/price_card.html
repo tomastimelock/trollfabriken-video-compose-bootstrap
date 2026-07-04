@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #000; width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; font-family: 'Arial', 'Helvetica Neue', sans-serif; overflow: hidden; }
+  .card {
+    background: {{card_bg|default:rgba(255,255,255,0.06)}};
+    border: 1px solid {{border_color|default:rgba(255,255,255,0.15)}};
+    border-radius: 20px;
+    padding: 44px 52px;
+    text-align: center;
+    min-width: 340px;
+    backdrop-filter: blur(12px);
+    animation: pop-in 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+  }
+  @keyframes pop-in { from { opacity:0; transform:scale(0.85); } to { opacity:1; transform:scale(1); } }
+  .plan { font-size: {{plan_size|default:18px}}; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: {{accent|default:#7eb8f7}}; margin-bottom: 20px; }
+  .price-row { display: flex; align-items: flex-start; justify-content: center; line-height: 1; }
+  .currency { font-size: {{currency_size|default:32px}}; font-weight: 700; color: {{text_color|default:#ffffff}}; margin-top: 14px; margin-right: 4px; }
+  .amount { font-size: {{amount_size|default:96px}}; font-weight: 900; color: {{text_color|default:#ffffff}}; letter-spacing: -4px; }
+  .period { font-size: {{period_size|default:18px}}; color: {{muted|default:rgba(255,255,255,0.5)}}; margin-top: auto; margin-bottom: 12px; margin-left: 4px; }
+  .description { font-size: {{desc_size|default:18px}}; color: {{muted|default:rgba(255,255,255,0.6)}}; margin-top: 16px; margin-bottom: 28px; }
+  .feature { font-size: {{feat_size|default:17px}}; color: {{text_color|default:rgba(255,255,255,0.85)}}; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .feature:last-child { border-bottom: none; }
+  .check { color: {{accent|default:#7eb8f7}}; margin-right: 8px; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="plan">{{plan|default:PRO}}</div>
+  <div class="price-row">
+    <span class="currency">{{currency|default:$}}</span>
+    <span class="amount">{{amount|default:49}}</span>
+    <span class="period">/{{period|default:mo}}</span>
+  </div>
+  <div class="description">{{description|default:Everything you need to grow}}</div>
+  <div class="feature"><span class="check">✓</span>{{feature1|default:Unlimited projects}}</div>
+  <div class="feature"><span class="check">✓</span>{{feature2|default:Priority support}}</div>
+  <div class="feature"><span class="check">✓</span>{{feature3|default:Advanced analytics}}</div>
+</div>
+</body>
+</html>

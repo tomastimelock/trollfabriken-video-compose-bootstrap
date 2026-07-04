@@ -531,6 +531,113 @@ def jobs_cancel(job_id: str) -> None:
 
 
 # ---------------------------------------------------------------------------
+# component group — HTML component library management
+# ---------------------------------------------------------------------------
+
+@main.group()
+def component() -> None:
+    """Browse and generate reusable HTML overlay components."""
+
+
+@component.command("list")
+@click.option("--json", "as_json", is_flag=True, help="Output as JSON.")
+def component_list(as_json: bool) -> None:
+    """List all available bundled and user-saved components."""
+    from video_compose.overlays.component import list_components
+
+    items = list_components()
+    if not items:
+        click.echo("No components found.")
+        return
+
+    if as_json:
+        click.echo(json.dumps(items, indent=2))
+        return
+
+    for c in items:
+        source_tag = f"[{c['source']}]"
+        click.echo(f"  {c['name']:<30}  {source_tag}")
+
+
+@component.command("generate")
+@click.argument("description")
+@click.option("--name", "-n", default=None, help="Component slug to save as (default: slugified description).")
+@click.option("--style", "-s", default=None, help="Visual style hint, e.g. 'neon', 'glassmorphism', 'minimal'.")
+@click.option("--model", default="claude-opus-4-7", show_default=True)
+@click.option("--overwrite", is_flag=True, default=False)
+def component_generate(
+    description: str,
+    name: str | None,
+    style: str | None,
+    model: str,
+    overwrite: bool,
+) -> None:
+    """Generate a new HTML component via Claude and save to user library.
+
+    Examples:
+
+      video-compose component generate "sports lower third with team colours"
+
+      video-compose component generate "glassmorphism price card" --style glassmorphism --name price_glass
+    """
+    import re as _re
+    from auth_api_key import get_key
+    import anthropic
+    from video_compose.overlays.ai_html import _SYSTEM
+
+    user_dir = Path.home() / ".video_compose" / "components"
+    user_dir.mkdir(parents=True, exist_ok=True)
+
+    slug = name or _re.sub(r"[^\w]+", "_", description.lower()).strip("_")[:40]
+    out_path = user_dir / f"{slug}.html"
+
+    if out_path.exists() and not overwrite:
+        click.echo(f"Component {slug!r} already exists at {out_path}")
+        click.echo("Use --overwrite to replace it.")
+        sys.exit(1)
+
+    prompt = description
+    if style:
+        prompt += f" Visual style: {style}."
+    prompt += " Canvas is 1920×1080px. Make it versatile — use CSS variables for easy customisation."
+
+    click.echo(f"Generating component {slug!r} via {model}…")
+
+    client = anthropic.Anthropic(api_key=get_key("ANTHROPIC_API_KEY"))
+    response = client.messages.create(
+        model=model,
+        max_tokens=8192,
+        system=_SYSTEM,
+        messages=[{"role": "user", "content": prompt}],
+    )
+    raw = "".join(b.text for b in response.content if hasattr(b, "text"))
+
+    # Strip code fences if present
+    import re as _re2
+    fence_m = _re2.search(r"```(?:html)?\s*([\s\S]*?)```", raw, _re2.IGNORECASE)
+    html = fence_m.group(1).strip() if fence_m else raw.strip()
+
+    out_path.write_text(html, encoding="utf-8")
+    click.echo(f"  Saved: {out_path}")
+    click.echo(f"\nUse in a spec:")
+    click.echo(f'  {{ "type": "component", "name": "{slug}", "props": {{}} }}')
+
+
+@component.command("show")
+@click.argument("component_name")
+def component_show(component_name: str) -> None:
+    """Print the HTML source of COMPONENT_NAME."""
+    from video_compose.overlays.component import _find_component
+
+    try:
+        html = _find_component(component_name)
+        click.echo(html)
+    except FileNotFoundError as exc:
+        click.echo(str(exc), err=True)
+        sys.exit(1)
+
+
+# ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
 

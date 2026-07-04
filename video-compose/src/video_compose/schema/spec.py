@@ -338,10 +338,17 @@ class BarOverlay(BaseModel):
 
 class WebOverlay(BaseModel):
     type: Literal["web"]
-    template: str = Field(description="Path to Jinja2 HTML template or web-overlay preset name")
+    template: str | None = Field(default=None, description="Path to HTML file or web-overlay preset name")
+    html_content: str | None = Field(default=None, description="Inline HTML/CSS string; takes priority over template")
     css_vars: dict[str, str] = Field(default_factory=dict)
     timing: OverlayTiming = Field(default_factory=OverlayTiming)
     condition: str | None = Field(default=None)
+
+    @model_validator(mode="after")
+    def require_template_or_content(self) -> "WebOverlay":
+        if not self.template and not self.html_content:
+            raise ValueError("WebOverlay requires either 'template' or 'html_content'")
+        return self
 
 
 class ImageOverlay(BaseModel):
@@ -407,8 +414,82 @@ class AudiogramOverlay(BaseModel):
     condition: str | None = None
 
 
+class SvgOverlay(BaseModel):
+    """Composite a static or animated SVG (via cairosvg → PNG → alpha channel)."""
+    type: Literal["svg"]
+    src: str | None = Field(default=None, description="Path to .svg file")
+    content: str | None = Field(default=None, description="Inline SVG string (<svg>...</svg>)")
+    position: _POSITION_LITERALS = "center"
+    x_pct: float | None = Field(default=None, ge=0.0, le=100.0)
+    y_pct: float | None = Field(default=None, ge=0.0, le=100.0)
+    width_pct: float | None = Field(default=None, ge=0.1, le=100.0, description="Scale to % of canvas width")
+    height_pct: float | None = Field(default=None, ge=0.1, le=100.0, description="Scale to % of canvas height")
+    opacity: float = Field(default=1.0, ge=0.0, le=1.0)
+    z_order: int = Field(default=0)
+    timing: OverlayTiming = Field(default_factory=OverlayTiming)
+    condition: str | None = None
+
+    @model_validator(mode="after")
+    def require_src_or_content(self) -> "SvgOverlay":
+        if not self.src and not self.content:
+            raise ValueError("SvgOverlay requires either 'src' or 'content'")
+        return self
+
+
+class ComponentOverlay(BaseModel):
+    """Bundled or user-saved HTML component, parameterised via props."""
+    type: Literal["component"]
+    name: str = Field(description="Component slug — bundled (e.g. 'lower_third') or user-saved ('user.my_comp')")
+    props: dict[str, Any] = Field(default_factory=dict, description="Template variables injected via {{prop_name}}")
+    position: _POSITION_LITERALS = Field(
+        default="center",
+        description="Canvas position; components handle internal layout via CSS — position sets ffmpeg composite point"
+    )
+    x_pct: float | None = Field(default=None, ge=0.0, le=100.0)
+    y_pct: float | None = Field(default=None, ge=0.0, le=100.0)
+    opacity: float = Field(default=1.0, ge=0.0, le=1.0)
+    z_order: int = Field(default=0)
+    timing: OverlayTiming = Field(default_factory=OverlayTiming)
+    condition: str | None = None
+
+
+class AiSvgOverlay(BaseModel):
+    """AI-generated SVG overlay — Claude produces an SVG from a text prompt."""
+    type: Literal["ai_svg"]
+    prompt: str = Field(description="Natural-language description of the SVG to generate")
+    style: str | None = Field(default=None, description="Style hint, e.g. 'neon', 'minimal', 'corporate'")
+    model: str = Field(default="claude-opus-4-7", description="Anthropic model for generation")
+    position: _POSITION_LITERALS = "center"
+    x_pct: float | None = Field(default=None, ge=0.0, le=100.0)
+    y_pct: float | None = Field(default=None, ge=0.0, le=100.0)
+    width_pct: float | None = Field(default=None, ge=0.1, le=100.0)
+    height_pct: float | None = Field(default=None, ge=0.1, le=100.0)
+    opacity: float = Field(default=1.0, ge=0.0, le=1.0)
+    z_order: int = Field(default=0)
+    timing: OverlayTiming = Field(default_factory=OverlayTiming)
+    cache: bool = Field(default=True, description="Cache generated SVG to disk; same prompt reuses cached result")
+    condition: str | None = None
+
+
+class AiHtmlOverlay(BaseModel):
+    """AI-generated HTML/CSS overlay — Claude produces a full HTML string from a text prompt."""
+    type: Literal["ai_html"]
+    prompt: str = Field(description="Natural-language description of the overlay to generate")
+    style: str | None = Field(default=None, description="Style hint, e.g. 'glassmorphism', 'neon', 'minimal'")
+    model: str = Field(default="claude-opus-4-7", description="Anthropic model for generation")
+    opacity: float = Field(default=1.0, ge=0.0, le=1.0)
+    z_order: int = Field(default=0)
+    timing: OverlayTiming = Field(default_factory=OverlayTiming)
+    cache: bool = Field(default=True, description="Cache generated HTML to disk; same prompt reuses cached result")
+    condition: str | None = None
+
+
 OverlayConfig = Annotated[
-    Union[TextOverlay, BarOverlay, WebOverlay, ImageOverlay, VideoOverlay, AudiogramOverlay],
+    Union[
+        TextOverlay, BarOverlay, WebOverlay,
+        ImageOverlay, VideoOverlay, AudiogramOverlay,
+        SvgOverlay, ComponentOverlay, AiSvgOverlay, AiHtmlOverlay,
+    ],
     Field(discriminator="type"),
 ]
 

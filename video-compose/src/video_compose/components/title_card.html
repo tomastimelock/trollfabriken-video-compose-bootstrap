@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #000; width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; font-family: 'Arial', 'Helvetica Neue', sans-serif; overflow: hidden; }
+  .card { text-align: center; animation: fade-in 0.5s ease-out both; max-width: 80%; }
+  @keyframes fade-in { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+  .eyebrow { font-size: {{eyebrow_size|default:18px}}; font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: {{accent|default:#7eb8f7}}; margin-bottom: 18px; }
+  .title { font-size: {{title_size|default:72px}}; font-weight: 900; color: {{text_color|default:#ffffff}}; line-height: 1.05; letter-spacing: -1px; text-shadow: 0 4px 24px rgba(0,0,0,0.5); }
+  .subtitle { font-size: {{subtitle_size|default:28px}}; font-weight: 300; color: {{subtitle_color|default:rgba(255,255,255,0.7)}}; margin-top: 20px; line-height: 1.5; }
+  .divider { width: 60px; height: 3px; background: {{accent|default:#7eb8f7}}; margin: 24px auto; border-radius: 2px; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="eyebrow">{{eyebrow|default:}}</div>
+  <div class="title">{{title|default:Your Title Here}}</div>
+  <div class="divider"></div>
+  <div class="subtitle">{{subtitle|default:}}</div>
+</div>
+</body>
+</html>

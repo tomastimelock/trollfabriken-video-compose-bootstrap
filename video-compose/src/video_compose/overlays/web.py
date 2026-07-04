@@ -30,11 +30,14 @@ def render_web_overlay(
 
     out_path = output_dir / f"web_overlay_{index}.webm"
 
-    template_path = Path(overlay.template)
-    if template_path.exists():
-        html_content = template_path.read_text(encoding="utf-8")
+    # Prefer explicit html_content; fall back to template (path or raw HTML string)
+    if getattr(overlay, "html_content", None):
+        html_content = overlay.html_content
+    elif overlay.template:
+        template_path = Path(overlay.template)
+        html_content = template_path.read_text(encoding="utf-8") if template_path.exists() else overlay.template
     else:
-        html_content = overlay.template  # treat as raw HTML / inline HTML string
+        raise ValueError("WebOverlay has neither html_content nor template")
 
     # Inject css_vars as CSS custom properties via <style> block
     if overlay.css_vars:
