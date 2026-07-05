@@ -47,6 +47,7 @@ def apply_overlays(
     from video_compose.overlays.word_highlight import render_word_highlight_overlay
     from video_compose.overlays.face_blur import render_face_blur_overlay
     from video_compose.overlays.auto_caption import render_auto_caption_overlay
+    from video_compose.overlays.blur_region import render_blur_region_overlay
 
     # Filter by condition first
     if condition_evaluator is not None:
@@ -106,6 +107,8 @@ def apply_overlays(
                     layer = render_face_blur_overlay(ov, segment_duration, width, height, fps, td, i, clip_path)
                 elif ov_type == "auto_caption":
                     layer = render_auto_caption_overlay(ov, segment_duration, width, height, fps, td, i)
+                elif ov_type == "blur_region":
+                    layer = render_blur_region_overlay(ov, segment_duration, width, height, fps, td, i, clip_path)
                 else:
                     logger.warning("Unknown overlay type %r — skipping", ov_type)
                     continue

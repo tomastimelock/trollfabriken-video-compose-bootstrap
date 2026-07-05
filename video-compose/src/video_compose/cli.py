@@ -675,6 +675,82 @@ def serve(host: str, port: int, reload: bool, workers: int) -> None:
 
 
 # ---------------------------------------------------------------------------
+# brand group — persistent brand kit
+# ---------------------------------------------------------------------------
+
+@main.group()
+def brand() -> None:
+    """Manage the persistent brand kit (colors, fonts, logo)."""
+
+
+@brand.command("show")
+def brand_show() -> None:
+    """Show the current brand kit settings."""
+    from video_compose.brand import load_brand, _BRAND_PATH
+
+    kit = load_brand()
+    if kit is None:
+        click.echo(f"No brand kit set. File: {_BRAND_PATH}")
+        click.echo("Use: video-compose brand set --help")
+        return
+
+    click.echo(f"Brand kit ({_BRAND_PATH}):")
+    for k, v in kit.model_dump().items():
+        click.echo(f"  {k:<20} {v}")
+
+
+@brand.command("set")
+@click.option("--primary", default=None, help="Primary text color (hex)")
+@click.option("--accent", default=None, help="Accent color (hex)")
+@click.option("--bg", default=None, help="Background color (hex)")
+@click.option("--font", default=None, help="Default font family")
+@click.option("--logo", default=None, help="Path to logo PNG")
+@click.option("--logo-position", default=None, help="Logo position preset")
+@click.option("--logo-opacity", type=float, default=None, help="Logo opacity (0.0–1.0)")
+@click.option("--logo-scale", type=float, default=None, help="Logo width as % of canvas")
+def brand_set(
+    primary: str | None, accent: str | None, bg: str | None,
+    font: str | None, logo: str | None, logo_position: str | None,
+    logo_opacity: float | None, logo_scale: float | None,
+) -> None:
+    """Set brand kit properties. Unspecified fields keep their current values."""
+    from video_compose.brand import load_brand, save_brand, BrandKit
+
+    kit = load_brand() or BrandKit()
+
+    if primary:
+        kit = kit.model_copy(update={"primary_color": primary})
+    if accent:
+        kit = kit.model_copy(update={"accent_color": accent})
+    if bg:
+        kit = kit.model_copy(update={"background_color": bg})
+    if font:
+        kit = kit.model_copy(update={"font_family": font})
+    if logo:
+        kit = kit.model_copy(update={"logo_path": logo})
+    if logo_position:
+        kit = kit.model_copy(update={"logo_position": logo_position})
+    if logo_opacity is not None:
+        kit = kit.model_copy(update={"logo_opacity": logo_opacity})
+    if logo_scale is not None:
+        kit = kit.model_copy(update={"logo_scale_pct": logo_scale})
+
+    save_brand(kit)
+    click.echo("Brand kit saved:")
+    for k, v in kit.model_dump().items():
+        click.echo(f"  {k:<20} {v}")
+
+
+@brand.command("reset")
+@click.confirmation_option(prompt="Reset brand kit to defaults?")
+def brand_reset() -> None:
+    """Delete the brand kit, reverting to system defaults."""
+    from video_compose.brand import reset_brand
+    reset_brand()
+    click.echo("Brand kit reset.")
+
+
+# ---------------------------------------------------------------------------
 # scene-detect
 # ---------------------------------------------------------------------------
 

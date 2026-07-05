@@ -183,6 +183,13 @@ def render_video_overlay(
     if ov.opacity < 1.0:
         filters.append(f"colorchannelmixer=aa={ov.opacity}")
 
+    # PiP border: drawbox drawn after scaling/correction
+    border_width = getattr(ov, "border_width", 0) or 0
+    border_color = getattr(ov, "border_color", None)
+    if border_width > 0 and border_color:
+        color_hex = border_color.lstrip("#")
+        filters.append(f"drawbox=0:0:iw:ih:color=0x{color_hex}:t={border_width}")
+
     filters.append("format=yuva420p")
     vf = ",".join(filters)
 

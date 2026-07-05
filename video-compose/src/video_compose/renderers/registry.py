@@ -47,6 +47,7 @@ def _load_defaults() -> None:
     from video_compose.renderers.fractal import FractalRenderer
     from video_compose.renderers.split_screen import SplitScreenRenderer
     from video_compose.renderers.screenshot import ScreenshotRenderer
+    from video_compose.renderers.tts import TTSRenderer
 
     for type_name, cls in [
         ("blank", BlankRenderer),
@@ -61,5 +62,6 @@ def _load_defaults() -> None:
         ("fractal", FractalRenderer),
         ("split_screen", SplitScreenRenderer),
         ("screenshot", ScreenshotRenderer),
+        ("tts", TTSRenderer),
     ]:
         _REGISTRY[type_name] = cls

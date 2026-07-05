@@ -53,6 +53,15 @@ class Assembler:
             import os
             os.environ["VC_DRAFT"] = "1"
 
+        # Brand kit: apply persistent defaults before render
+        try:
+            from video_compose.brand import load_brand, apply_brand_to_spec
+            brand = load_brand()
+            if brand:
+                apply_brand_to_spec(spec, brand)
+        except Exception as _be:
+            logger.debug("Brand kit skipped: %s", _be)
+
         # Font loading: install custom fonts before any rendering
         fonts = list(getattr(spec, "fonts", None) or [])
         if fonts:
@@ -146,7 +155,8 @@ class Assembler:
                     clip_path = apply_grade(clip_path, grade_slug)
 
                 # 1e. Per-segment loudness normalization
-                loudnorm_per_seg = getattr(output, "loudnorm_per_segment", False) if output else False
+                _audio_cfg = getattr(spec, "audio", None)
+                loudnorm_per_seg = bool(getattr(_audio_cfg, "loudnorm_per_segment", False)) if _audio_cfg else False
                 if loudnorm_per_seg:
                     clip_path = _loudnorm_clip(clip_path, work_dir, i)
 

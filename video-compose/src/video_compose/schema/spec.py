@@ -403,6 +403,8 @@ class VideoOverlay(BaseModel):
     keyframes: list[Keyframe] | None = None
     condition: str | None = None
     remove_bg: bool = Field(default=False, description="Remove background from video frames before compositing (requires rembg)")
+    border_color: str | None = Field(default=None, description="PiP border/outline color (hex). None = no border")
+    border_width: int = Field(default=0, ge=0, le=50, description="PiP border width in pixels")
 
 
 class AudiogramOverlay(BaseModel):
@@ -677,6 +679,20 @@ class AutoCaptionOverlay(BaseModel):
     condition: str | None = None
 
 
+class BlurRegionOverlay(BaseModel):
+    """Blur or pixelate an arbitrary rectangular region for privacy/redaction."""
+    type: Literal["blur_region"]
+    x_pct: float = Field(ge=0.0, le=100.0, description="Left edge of region as % of canvas width")
+    y_pct: float = Field(ge=0.0, le=100.0, description="Top edge of region as % of canvas height")
+    width_pct: float = Field(ge=0.1, le=100.0, description="Region width as % of canvas width")
+    height_pct: float = Field(ge=0.1, le=100.0, description="Region height as % of canvas height")
+    radius: int = Field(default=20, ge=1, le=100, description="Gaussian blur radius (ignored when pixelate=True)")
+    pixelate: bool = Field(default=False, description="Pixelate (mosaic) instead of Gaussian blur")
+    z_order: int = Field(default=500)
+    timing: OverlayTiming = Field(default_factory=OverlayTiming)
+    condition: str | None = None
+
+
 OverlayConfig = Annotated[
     Union[
         TextOverlay, BarOverlay, WebOverlay,
@@ -684,7 +700,7 @@ OverlayConfig = Annotated[
         SvgOverlay, ComponentOverlay, AiSvgOverlay, AiHtmlOverlay,
         RectangleOverlay, CircleOverlay, LineOverlay, ArrowOverlay,
         GifOverlay, QrCodeOverlay, LottieOverlay, WordHighlightOverlay,
-        FaceBlurOverlay, AutoCaptionOverlay,
+        FaceBlurOverlay, AutoCaptionOverlay, BlurRegionOverlay,
     ],
     Field(discriminator="type"),
 ]
@@ -1024,6 +1040,23 @@ class ScreenshotSegment(BaseSegment):
     motion: Literal["ken_burns", "zoom_in", "zoom_out", "pan_left", "pan_right", "static"] = "static"
 
 
+class TTSSegment(BaseSegment):
+    """Generate a video segment from text via OpenAI TTS — audio over a background."""
+    type: Literal["tts"]
+    text: str = Field(description="Text to synthesize")
+    voice: str = Field(
+        default="alloy",
+        description="OpenAI TTS voice: alloy, echo, fable, onyx, nova, shimmer"
+    )
+    model: Literal["tts-1", "tts-1-hd"] = Field(default="tts-1")
+    speed: float = Field(default=1.0, ge=0.25, le=4.0, description="TTS playback speed")
+    language: str | None = Field(default=None, description="BCP-47 language hint (e.g. 'en', 'sv')")
+    color: str = Field(default="#000000", description="Background color")
+    bg_style: Literal[
+        "solid", "gradient_v", "gradient_v_dark", "gradient_d", "radial", "gradient_anim"
+    ] = Field(default="solid", description="Background visual style")
+
+
 # Discriminated union — the 'type' field routes to the correct model
 SegmentUnion = Annotated[
     Union[
@@ -1039,6 +1072,7 @@ SegmentUnion = Annotated[
         BlankSegment,
         SplitScreenSegment,
         ScreenshotSegment,
+        TTSSegment,
     ],
     Field(discriminator="type"),
 ]
