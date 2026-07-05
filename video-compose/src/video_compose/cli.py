@@ -27,12 +27,15 @@ def main() -> None:
 @click.option("--async", "async_mode", is_flag=True, default=False,
               help="Submit job for background render; returns job ID immediately.")
 @click.option("--quiet", "-q", is_flag=True, help="Suppress progress output.")
+@click.option("--social-preset", default=None,
+              help="Social platform preset: reels, tiktok, shorts, instagram-post, twitter, linkedin, youtube.")
 def render(
     spec_file: Path,
     output_dir: Path | None,
     resolution: str | None,
     async_mode: bool,
     quiet: bool,
+    social_preset: str | None,
 ) -> None:
     """Render SPEC_FILE to video.
 
@@ -51,6 +54,15 @@ def render(
             sys.exit(1)
         w, h = RESOLUTION_PRESETS[resolution]
         spec.output.width, spec.output.height = w, h
+
+    # Apply social platform preset (overrides resolution + injects loudnorm target)
+    if social_preset:
+        try:
+            from video_compose.social import apply_social_to_spec
+            apply_social_to_spec(spec, social_preset)
+        except ValueError as exc:
+            click.echo(str(exc), err=True)
+            sys.exit(1)
 
     if async_mode or getattr(spec.output, "async_mode", False):
         from video_compose.jobs.runner import submit_async
@@ -987,7 +999,7 @@ def check_captions(srt_file: Path, max_cps: float, max_line_length: int, as_json
 @click.argument("srt_file", type=click.Path(exists=True, path_type=Path))
 @click.option("--to", "target_lang", required=True, help="Target language (e.g. 'sv', 'de', 'fr').")
 @click.option("--output", "-o", type=click.Path(path_type=Path), default=None)
-def translate_captions(srt_file: Path, target_lang: str, output: Path | None) -> None:
+def translate_captions(srt_file: Path, target_lang: str, output: Path | None) -> None:  # noqa: F811
     """Translate SRT_FILE captions to another language via LLM."""
     try:
         from video_compose.audio.caption_translate import translate_srt_file
@@ -999,6 +1011,166 @@ def translate_captions(srt_file: Path, target_lang: str, output: Path | None) ->
     click.echo(f"Translating {srt_file.name} → {target_lang}...")
     translate_srt_file(srt_file, out, target_lang=target_lang)
     click.echo(f"  Done: {out}")
+
+
+# ---------------------------------------------------------------------------
+# batch — parallel multi-spec render
+# ---------------------------------------------------------------------------
+
+@main.command()
+@click.argument("spec_dir", type=click.Path(exists=True, file_okay=False, path_type=Path))
+@click.option("--output-dir", "-o", type=click.Path(path_type=Path), default=None,
+              help="Root output directory; each spec gets its own sub-folder.")
+@click.option("--workers", "-w", type=int, default=1, show_default=True,
+              help="Number of parallel render workers.")
+@click.option("--pattern", default="*.json", show_default=True,
+              help="Glob pattern to match spec files inside SPEC_DIR.")
+@click.option("--fail-fast", is_flag=True, default=False,
+              help="Abort the batch on the first failure.")
+@click.option("--social-preset", default=None,
+              help="Apply a social platform preset to every spec: reels, tiktok, shorts, ...")
+def batch(
+    spec_dir: Path,
+    output_dir: Path | None,
+    workers: int,
+    pattern: str,
+    fail_fast: bool,
+    social_preset: str | None,
+) -> None:
+    """Render all spec JSON files found in SPEC_DIR.
+
+    Each spec is rendered into its own sub-folder inside OUTPUT_DIR (or
+    ./batch_output/<spec_stem>/ by default).
+
+    Examples:
+
+      video-compose batch ./specs/ --workers 4
+
+      video-compose batch ./specs/ --social-preset reels -o ./reels_output/
+    """
+    import concurrent.futures
+    import time
+    from video_compose.api import compose, load_spec
+
+    specs = sorted(spec_dir.glob(pattern))
+    if not specs:
+        click.echo(f"No files matching {pattern!r} found in {spec_dir}.", err=True)
+        sys.exit(1)
+
+    root_out = output_dir or Path("batch_output")
+    click.echo(f"Batch rendering {len(specs)} spec(s) with {workers} worker(s)...")
+
+    results: list[dict] = []
+    lock = __import__("threading").Lock()
+
+    def _render_one(spec_path: Path) -> dict:
+        t0 = time.monotonic()
+        out_dir = root_out / spec_path.stem
+        try:
+            spec = load_spec(spec_path)
+            if social_preset:
+                from video_compose.social import apply_social_to_spec
+                apply_social_to_spec(spec, social_preset)
+            result = compose(spec, output_dir=out_dir)
+            elapsed = round(time.monotonic() - t0, 1)
+            return {"spec": spec_path.name, "status": "ok", "elapsed_s": elapsed,
+                    "output": str(result.video_path), "warnings": result.warnings}
+        except Exception as exc:
+            elapsed = round(time.monotonic() - t0, 1)
+            return {"spec": spec_path.name, "status": "error", "elapsed_s": elapsed,
+                    "error": str(exc)}
+
+    failed = 0
+    with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as pool:
+        futures = {pool.submit(_render_one, s): s for s in specs}
+        for future in concurrent.futures.as_completed(futures):
+            r = future.result()
+            with lock:
+                results.append(r)
+                if r["status"] == "ok":
+                    click.echo(f"  OK   {r['spec']}  ({r['elapsed_s']}s)")
+                    for w in r.get("warnings", []):
+                        click.echo(f"       warn: {w}", err=True)
+                else:
+                    failed += 1
+                    click.echo(f"  FAIL {r['spec']}  — {r['error']}", err=True)
+                    if fail_fast:
+                        pool.shutdown(wait=False, cancel_futures=True)
+                        click.echo("Aborted (--fail-fast).", err=True)
+                        sys.exit(1)
+
+    ok = len(results) - failed
+    click.echo(f"\nDone: {ok}/{len(specs)} succeeded, {failed} failed → {root_out}")
+    if failed:
+        sys.exit(1)
+
+
+# ---------------------------------------------------------------------------
+# report — quality report for a single rendered video
+# ---------------------------------------------------------------------------
+
+@main.command("report")
+@click.argument("video_file", type=click.Path(exists=True, path_type=Path))
+@click.option("--output", "-o", type=click.Path(path_type=Path), default=None,
+              help="Save report JSON to this path.")
+@click.option("--json", "as_json", is_flag=True, help="Print report as JSON.")
+def report_cmd(video_file: Path, output: Path | None, as_json: bool) -> None:
+    """Generate a quality report for a rendered video file.
+
+    Probes the video with ffprobe and prints duration, resolution, codec,
+    bitrate, and file size.
+
+    Examples:
+
+      video-compose report output/video.mp4
+
+      video-compose report output/video.mp4 --json --output report.json
+    """
+    from video_compose.tools.report import generate_single_report
+
+    data = generate_single_report(video_file)
+
+    if output:
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
+        click.echo(f"Report saved: {output}")
+
+    if as_json:
+        click.echo(json.dumps(data, indent=2))
+        return
+
+    click.echo(f"\nVideo report: {video_file.name}")
+    click.echo(f"  File size   : {data.get('file_size_mb')} MB")
+    click.echo(f"  Duration    : {data.get('duration_s')} s")
+    click.echo(f"  Resolution  : {data.get('width')}×{data.get('height')}")
+    click.echo(f"  FPS         : {data.get('fps')}")
+    click.echo(f"  Codec       : {data.get('codec')}")
+    click.echo(f"  Bitrate     : {data.get('bitrate_kbps')} kbps")
+    if data.get("error"):
+        click.echo(f"  Error       : {data['error']}", err=True)
+
+
+# ---------------------------------------------------------------------------
+# social-presets — list available social format presets
+# ---------------------------------------------------------------------------
+
+@main.command("social-presets")
+def social_presets_cmd() -> None:
+    """List available social platform presets for --social-preset."""
+    from video_compose.social import SOCIAL_PRESETS
+
+    click.echo("Available social presets:\n")
+    click.echo(f"  {'PRESET':<20} {'RESOLUTION':<14} {'FPS':<6} {'LUFS':<8} {'SAFE ZONE'}")
+    click.echo("  " + "-" * 60)
+    for name, cfg in sorted(SOCIAL_PRESETS.items()):
+        res = f"{cfg['width']}×{cfg['height']}"
+        fps = str(cfg["fps"])
+        lufs = str(cfg.get("loudnorm_lufs", "—"))
+        safe = f"{cfg.get('safe_zone_pct', 0)}%" if cfg.get("safe_zone_pct") else "—"
+        click.echo(f"  {name:<20} {res:<14} {fps:<6} {lufs:<8} {safe}")
+
+    click.echo(f"\nUsage: video-compose render spec.json --social-preset reels")
+    click.echo(f"       video-compose batch ./specs/ --social-preset tiktok")
 
 
 # ---------------------------------------------------------------------------

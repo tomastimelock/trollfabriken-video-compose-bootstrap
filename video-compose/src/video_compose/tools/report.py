@@ -75,6 +75,20 @@ def load_template_meta(template_dir: Path) -> dict[str, dict]:
     return meta
 
 
+def generate_single_report(video_path: Path) -> dict:
+    """Probe a single rendered video and return quality metrics as a dict."""
+    from datetime import datetime, timezone
+    probe = probe_video(video_path)
+    size_bytes = video_path.stat().st_size
+    return {
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "file": str(video_path),
+        "file_size_mb": round(size_bytes / 1_048_576, 2),
+        "file_size_kb": round(size_bytes / 1024),
+        **probe,
+    }
+
+
 def generate_report(
     video_dir: Path,
     template_dir: Path | None,

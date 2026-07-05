@@ -78,6 +78,17 @@ def compose(
 
     output_cfg = getattr(parsed_spec, "output", None)
 
+    # Social platform loudnorm (EBU R128 to platform-specific LUFS target)
+    social_preset_name = getattr(output_cfg, "social_preset", None)
+    if social_preset_name:
+        try:
+            from video_compose.social import SOCIAL_PRESETS, loudnorm_video
+            lufs = SOCIAL_PRESETS.get(social_preset_name, {}).get("loudnorm_lufs")
+            if lufs is not None:
+                video_path = loudnorm_video(video_path, out_dir, lufs)
+        except Exception as exc:
+            vr_warnings.append(f"Social loudnorm failed ({social_preset_name}): {exc}")
+
     # Two-pass target-size encode
     target_mb = getattr(output_cfg, "target_size_mb", None)
     if target_mb:

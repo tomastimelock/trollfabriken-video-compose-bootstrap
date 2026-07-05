@@ -119,6 +119,10 @@ class OutputConfig(BaseModel):
     gif_width: int = Field(default=640, gt=0, description="Width for GIF export (height auto-scaled)")
     target_size_mb: float | None = Field(default=None, gt=0.0, description="Target output file size in MB; triggers two-pass encode")
     export_chapters: bool = Field(default=False, description="Export chapter markers as YouTube .txt and FFMETADATA .ini")
+    social_preset: str | None = Field(
+        default=None,
+        description="Social platform preset applied at render time: reels, tiktok, shorts, instagram-post, twitter, linkedin, youtube",
+    )
 
     @field_validator("formats")
     @classmethod
